@@ -1,6 +1,9 @@
-import React from 'react'
+import React,{useEffect} from 'react'
+import { getRemoteData } from '../../store/actions/categories-action';
+import { connect } from 'react-redux';
+
 // import { makeStyles } from '@material-ui/core/styles';
-import { Fab, Tooltip, Zoom, Menu, MenuItem, Badge,  InputBase, AppBar, Toolbar, Typography, IconButton, Button } from '@material-ui/core';
+import {List, Drawer, ListItem, ListItemIcon, ListItemText, Divider,  Fab, Tooltip, Zoom, Menu, MenuItem, Badge,  InputBase, AppBar, Toolbar, Typography, IconButton, Button } from '@material-ui/core';
 // import GavelRoundedIcon from '@material-ui/icons/GavelRounded';
 // import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 // import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
@@ -16,78 +19,14 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import PropTypes from 'prop-types';
 import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
+import InboxIcon from "@material-ui/icons/MoveToInbox";
+import MailIcon from "@material-ui/icons/Mail";
 
 
 
-const useStyles = makeStyles((theme) => ({
-    grow: {
-      flexGrow: 1,
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-    title: {
-      display: 'none',
-      [theme.breakpoints.up('sm')]: {
-        display: 'block',
-      },
-    },
-    search: {
-      position: 'relative',
-      borderRadius: theme.shape.borderRadius,
-      backgroundColor: fade(theme.palette.common.white, 0.15),
-      '&:hover': {
-        backgroundColor: fade(theme.palette.common.white, 0.25),
-      },
-      marginRight: theme.spacing(2),
-      marginLeft: 0,
-      width: '100%',
-      [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(3),
-        width: 'auto',
-      },
-    },
-    searchIcon: {
-      padding: theme.spacing(0, 2),
-      height: '100%',
-      position: 'absolute',
-      pointerEvents: 'none',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    inputRoot: {
-      color: 'inherit',
-    },
-    inputInput: {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-      transition: theme.transitions.create('width'),
-      width: '100%',
-      [theme.breakpoints.up('md')]: {
-        width: '20ch',
-      },
-    },
-    sectionDesktop: {
-      display: 'none',
-      [theme.breakpoints.up('md')]: {
-        display: 'flex',
-      },
-    },
-    sectionMobile: {
-      display: 'flex',
-      [theme.breakpoints.up('md')]: {
-        display: 'none',
-      },
-    },
-    root: {
-        position: 'fixed',
-        bottom: theme.spacing(2),
-        right: theme.spacing(2),
-      },
-  }));
+
   function ScrollTop(props) {
+
     const { children, window } = props;
     const classes = useStyles();
     // Note that you normally won't need to set the window ref as useScrollTrigger
@@ -123,9 +62,54 @@ const useStyles = makeStyles((theme) => ({
         window: PropTypes.func,
       };
       
+function Header(props) {
+    console.log('inside the header component', props);
 
-export default function Header(props) {
+    useEffect(()=>{
+        props.getRemoteData();
+    },[])
+
     const classes = useStyles();
+    // start of drawer
+    const [state, setState] = React.useState(false);
+
+    const toggleDrawer = (anchor, open) => (event) => {
+      if (
+        event.type === "keydown" &&
+        (event.key === "Tab" || event.key === "Shift")
+      ) {
+        return;
+      }
+  
+      setState({ ...state, [anchor]: open });
+    };
+  
+    const list = (anchor) => (
+      <div
+        className={classes.list}
+        role="presentation"
+        onClick={()=>props.getRemoteData()}
+        onClick={toggleDrawer(anchor, false)}
+        // onKeyDown={toggleDrawer(anchor, false)}
+      >
+          <Typography className={classes.title} variant="h4" noWrap>
+              Categories: 
+            </Typography>
+        <List>
+          {
+          props.categories.map((text, index) =>
+              (
+            <ListItem button key={text.category_name}>
+              
+              <ListItemText primary={text.category_name} />
+            </ListItem>
+          ))
+          }
+        </List>
+       
+      </div>
+    );
+    // end of drawer
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   
@@ -210,16 +194,18 @@ export default function Header(props) {
     return (
         
       <div className={classes.grow}>
-        <AppBar position="static">
+        <AppBar style={{backgroundColor:'#157A6E'}} position="static">
           <Toolbar>
               {/* ..................................burger view ......................................... */}
+            
             <IconButton
               edge="start"
               className={classes.menuButton}
               color="inherit"
               aria-label="open drawer"
+              onClick={toggleDrawer('left', true)}
             >
-              <MenuIcon />
+              <MenuIcon></MenuIcon>
             </IconButton>
             <Typography className={classes.title} variant="h6" noWrap>
               Sportopia
@@ -238,7 +224,19 @@ export default function Header(props) {
               />
             </div>
             <div className={classes.grow} />
-
+            <div>
+    
+    <React.Fragment key={'left'}>
+      <Drawer
+        anchor='left'
+        open={state['left']}
+        onClose={toggleDrawer('left', false)}
+      >
+        {list('left')}
+      </Drawer>
+    </React.Fragment>
+ 
+</div>
 
             {/* ................................icons on nav bar .................................... */}
             <div className={classes.sectionDesktop}>
@@ -261,7 +259,7 @@ export default function Header(props) {
                <Tooltip placement="top" arrow TransitionComponent={Zoom} title="My Cart">
               <IconButton aria-label="show 4 new mails" color="inherit">
                 <Badge badgeContent={0} color="secondary">
-                  <ShoppingCartRoundedIcon />
+                <ShoppingCartRoundedIcon />
                 </Badge>
               </IconButton>
                </Tooltip>
@@ -303,3 +301,86 @@ export default function Header(props) {
     </div>
     );
 }
+
+const useStyles = makeStyles((theme) => ({
+    grow: {
+      flexGrow: 1,
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      display: 'none',
+      [theme.breakpoints.up('sm')]: {
+        display: 'block',
+      },
+    },
+    search: {
+      position: 'relative',
+      borderRadius: theme.shape.borderRadius,
+      backgroundColor: fade(theme.palette.common.white, 0.15),
+      '&:hover': {
+        backgroundColor: fade(theme.palette.common.white, 0.25),
+      },
+      marginRight: theme.spacing(2),
+      marginLeft: 0,
+      width: '100%',
+      [theme.breakpoints.up('sm')]: {
+        marginLeft: theme.spacing(3),
+        width: 'auto',
+      },
+    },
+    searchIcon: {
+      padding: theme.spacing(0, 2),
+      height: '100%',
+      position: 'absolute',
+      pointerEvents: 'none',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    inputRoot: {
+      color: 'inherit',
+    },
+    inputInput: {
+      padding: theme.spacing(1, 1, 1, 0),
+      // vertical padding + font size from searchIcon
+      paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+      transition: theme.transitions.create('width'),
+      width: '100%',
+      [theme.breakpoints.up('md')]: {
+        width: '20ch',
+      },
+    },
+    sectionDesktop: {
+      display: 'none',
+      [theme.breakpoints.up('md')]: {
+        display: 'flex',
+      },
+    },
+    sectionMobile: {
+      display: 'flex',
+      [theme.breakpoints.up('md')]: {
+        display: 'none',
+      },
+    },
+    root: {
+        position: 'fixed',
+        bottom: theme.spacing(2),
+        right: theme.spacing(2),
+      },
+      list: {
+        width: 250,
+      },
+      fullList: {
+        width: 'auto',
+      },
+  }));
+
+const mapStateToProps = (state) => {
+    return {
+      categories: state.results,
+    };
+  };
+  const mapDispatchToProps = { getRemoteData };
+  export default connect(mapStateToProps, mapDispatchToProps)(Header);
