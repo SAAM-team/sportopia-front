@@ -2,11 +2,7 @@ import React,{useEffect} from 'react'
 import { getRemoteData } from '../../store/actions/categories-action';
 import { connect } from 'react-redux';
 
-// import { makeStyles } from '@material-ui/core/styles';
-import {List, Drawer, ListItem, ListItemIcon, ListItemText, Divider,  Fab, Tooltip, Zoom, Menu, MenuItem, Badge,  InputBase, AppBar, Toolbar, Typography, IconButton, Button } from '@material-ui/core';
-// import GavelRoundedIcon from '@material-ui/icons/GavelRounded';
-// import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
-// import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
+import {List, Divider, Drawer, ListItem, ListItemText, Fab, Tooltip, Zoom, Menu, MenuItem, Badge,  InputBase, AppBar, Toolbar, Typography, IconButton, Button } from '@material-ui/core';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
@@ -21,6 +17,10 @@ import PropTypes from 'prop-types';
 import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
+import avatar from "./avatar.gif";
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
+
 
 
 
@@ -29,9 +29,7 @@ import MailIcon from "@material-ui/icons/Mail";
 
     const { children, window } = props;
     const classes = useStyles();
-    // Note that you normally won't need to set the window ref as useScrollTrigger
-    // will default to window.
-    // This is only being set here because the demo is in an iframe.
+  
     const trigger = useScrollTrigger({
       target: window ? window() : undefined,
       disableHysteresis: true,
@@ -55,15 +53,11 @@ import MailIcon from "@material-ui/icons/Mail";
     }
     ScrollTop.propTypes = {
         children: PropTypes.element.isRequired,
-        /**
-         * Injected by the documentation to work in an iframe.
-         * You won't need it on your project.
-         */
         window: PropTypes.func,
       };
       
 function Header(props) {
-    console.log('inside the header component', props);
+
 
     useEffect(()=>{
         props.getRemoteData();
@@ -86,23 +80,29 @@ function Header(props) {
   
     const list = (anchor) => (
       <div
+      // style={{backgroundColor: '#6BAB90', height: '100%', color:'E1F0C4' }}
         className={classes.list}
         role="presentation"
         onClick={()=>props.getRemoteData()}
         onClick={toggleDrawer(anchor, false)}
-        // onKeyDown={toggleDrawer(anchor, false)}
       >
-          <Typography className={classes.title} variant="h4" noWrap>
-              Categories: 
+          <Typography style={{padding:'10px 0px 5px 10px' }} variant="h4" noWrap>
+              Categories
             </Typography>
+            <Divider />
         <List>
           {
           props.categories.map((text, index) =>
               (
+                <>
             <ListItem button key={text.category_name}>
-              
+              <ListItemAvatar>
+          <Avatar alt="Cindy Baker" src={avatar} />
+        </ListItemAvatar>
               <ListItemText primary={text.category_name} />
             </ListItem>
+             <Divider />
+ </>
           ))
           }
         </List>
@@ -294,7 +294,7 @@ function Header(props) {
         {renderMobileMenu}
         {renderMenu}
         <ScrollTop {...props}>
-        <Fab color="secondary" size="small" aria-label="scroll back to top">
+        <Fab style={{backgroundColor:'#157A6E'}} size="small" aria-label="scroll back to top">
           <KeyboardArrowUpIcon />
         </Fab>
       </ScrollTop>
@@ -371,6 +371,7 @@ const useStyles = makeStyles((theme) => ({
       },
       list: {
         width: 250,
+        backgroundColor: '#6BAB90', height: '100%', color:'E1F0C4', borderBottom:'1px solid black'
       },
       fullList: {
         width: 'auto',
@@ -379,7 +380,7 @@ const useStyles = makeStyles((theme) => ({
 
 const mapStateToProps = (state) => {
     return {
-      categories: state.results,
+      categories: state.categories.results,
     };
   };
   const mapDispatchToProps = { getRemoteData };

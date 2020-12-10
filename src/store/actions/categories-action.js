@@ -6,7 +6,7 @@ const api = 'https://sportopiav1.herokuapp.com/all/categories';
 export const getRemoteData = () => {
   return (dispatch) => {
     return superagent.get(api).then((response) => {
-        console.log('response.body ', JSON.parse(response.text) );
+      console.log(JSON.parse(response.text));
       dispatch(getAction({ results: JSON.parse(response.text).result }));
     });
   };
@@ -14,7 +14,7 @@ export const getRemoteData = () => {
 
 const getAction = (payload) => {
   return {
-    type: 'GET',
+    type: 'GET_C',
     payload: payload,
   };
 };
