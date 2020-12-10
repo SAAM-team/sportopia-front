@@ -17,9 +17,18 @@ import PropTypes from 'prop-types';
 import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
-import avatar from "./avatar.gif";
+import a1 from "./assets/11.gif";
+import a2 from "./assets/12.gif";
+import a3 from "./assets/13.gif";
+import a4 from "./assets/14.gif";
+import a5 from "./assets/15.gif";
+import a6 from "./assets/16.gif";
+import a7 from "./assets/17.gif";
+import a8 from "./assets/18.gif";
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
+
+const avatarIcons = [a1,  a2,  a3,  a4,  a5,  a6,  a7,  a8]
 
 
 
@@ -92,14 +101,14 @@ function Header(props) {
             <Divider />
         <List>
           {
-          props.categories.map((text, index) =>
+          props.categories.map((items, index) =>
               (
                 <>
-            <ListItem button key={text.category_name}>
+            <ListItem button key={items.id}>
               <ListItemAvatar>
-          <Avatar alt="Cindy Baker" src={avatar} />
+          <Avatar alt="" src={avatarIcons[index]} />
         </ListItemAvatar>
-              <ListItemText primary={text.category_name} />
+              <ListItemText primary={items.category_name} />
             </ListItem>
              <Divider />
  </>
