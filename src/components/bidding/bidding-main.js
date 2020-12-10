@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { getBiddingItems } from '../../reducers/actions';
-import { useEffect } from 'react';
+import { StateContext } from '../../context/global-state';
 import { NavLink } from 'react-router-dom';
 import {
   Card,
@@ -26,9 +26,12 @@ import {
 export function BiddingMain(props) {
   const classes = useStyles();
 
+  // Context
+  const { setProductIdBidding } = useContext(StateContext);
   //   States
   const [open, setOpen] = useState(false);
 
+  // Functions
   useEffect(() => {
     props.getBiddingItems();
   }, []);
@@ -39,6 +42,11 @@ export function BiddingMain(props) {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  // Save the product id in the cookies
+  const saveProductId = (p_id) => {
+    setProductIdBidding(p_id);
   };
 
   return (
@@ -63,8 +71,12 @@ export function BiddingMain(props) {
               </CardContent>
             </CardActionArea>
             <CardActions>
-              <NavLink to='/bidding/1'>
-                <Button size='small' color='primary'>
+              <NavLink to='/bidding/2'>
+                <Button
+                  onClick={() => saveProductId(2)}
+                  size='small'
+                  color='primary'
+                >
                   Enter Bidding Room
                 </Button>
               </NavLink>

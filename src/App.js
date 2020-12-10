@@ -1,20 +1,20 @@
 // Importing
 import BiddingMain from './components/bidding/bidding-main';
 import BiddingRoom from './components/bidding/bidding-room';
-
 import { Route, Router, Switch } from 'react-router-dom';
+import GlobalState from './context/global-state';
 
 // Component
 
 function App() {
   return (
     <>
-      <Route exact path='/bidding'>
-        <BiddingMain />
-      </Route>
-      <Route path='bidding/*'>
-        <BiddingRoom />
-      </Route>
+      <GlobalState>
+        <Switch>
+          <Route exact path='/bidding' component={BiddingMain} />
+          <Route path='/bidding/:id' component={BiddingRoom} />
+        </Switch>
+      </GlobalState>
     </>
   );
 }

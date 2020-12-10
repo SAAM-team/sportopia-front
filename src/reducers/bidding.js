@@ -16,8 +16,9 @@ export default (state = initState, action) => {
       };
 
     case 'ENTER_ROOM':
+      console.log('inside the reducer', payload);
       return {
-        biddingRoom: payload,
+        biddingRoom: payload.product,
         biddingProducts: state.biddingProducts
       };
     default:
