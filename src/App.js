@@ -6,6 +6,7 @@ import GlobalState from './context/global-state';
 import Header from './components/header/header';
 import Products from './components/products/products';
 import Carousel from './components/carousel/carousel';
+import SignIn from './components/signin';
 
 // Component
 
@@ -17,6 +18,7 @@ function App() {
         <Carousel />
         <Switch>
           <Route exact path='/' component={Products} />
+          <Route exact path='/register' component={SignIn} />
           <Route exact path='/bidding' component={BiddingMain} />
           <Route path='/bidding/:id' component={BiddingRoom} />
         </Switch>
