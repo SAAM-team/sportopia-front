@@ -1,5 +1,16 @@
+import Header from './components/header/header'
+import Products from './components/products/products'
+import Carousel from './components/carousel/carousel'
+
+
 function App() {
-  return <div></div>;
+  return(
+    <>
+    <Header />
+    <Carousel />
+    <Products />
+    </>
+  );
 }
 
 export default App;
