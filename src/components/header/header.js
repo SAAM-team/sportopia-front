@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import { getRemoteData } from '../../reducers/categories-action';
 import { connect } from 'react-redux';
-
+import { NavLink } from 'react-router-dom';
 import {
   List,
   Divider,
@@ -37,6 +37,7 @@ import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
 import avatar from './avatar.gif';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
+import Auth from '../../auth/auth';
 
 function ScrollTop(props) {
   const { children, window } = props;
@@ -120,7 +121,7 @@ function Header(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
-  const isMenuOpen = Boolean(anchorEl);
+  // const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleProfileMenuOpen = (event) => {
@@ -141,20 +142,20 @@ function Header(props) {
   };
 
   const menuId = 'primary-search-account-menu';
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-    </Menu>
-  );
+  // const renderMenu = (
+  //   <Menu
+  //     anchorEl={anchorEl}
+  //     anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+  //     id={menuId}
+  //     keepMounted
+  //     transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+  //     open={isMenuOpen}
+  //     onClose={handleMenuClose}
+  //   >
+  //     <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+  //     <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+  //   </Menu>
+  // );
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
@@ -244,6 +245,11 @@ function Header(props) {
           {/* ................................icons on nav bar .................................... */}
           <div className={classes.sectionDesktop}>
             <Button color='inherit'>Sell</Button>
+            <Auth role={'admin'}>
+              <NavLink color='inherit' to='/admin'>
+                Admin
+              </NavLink>
+            </Auth>
 
             <Tooltip
               placement='top'
@@ -290,16 +296,18 @@ function Header(props) {
               TransitionComponent={Zoom}
               title='sign in / up'
             >
-              <IconButton
-                edge='end'
-                aria-label='account of current user'
-                aria-controls={menuId}
-                aria-haspopup='true'
-                onClick={handleProfileMenuOpen}
-                color='inherit'
-              >
-                <PersonRoundedIcon />
-              </IconButton>
+              <NavLink to='/register'>
+                <IconButton
+                  edge='end'
+                  aria-label='account of current user'
+                  aria-controls={menuId}
+                  aria-haspopup='true'
+                  onClick={handleProfileMenuOpen}
+                  color='inherit'
+                >
+                  <PersonRoundedIcon />
+                </IconButton>
+              </NavLink>
             </Tooltip>
           </div>
           <div className={classes.sectionMobile}>
@@ -318,7 +326,7 @@ function Header(props) {
       <Toolbar id='back-to-top-anchor' />
 
       {renderMobileMenu}
-      {renderMenu}
+      {/* {renderMenu} */}
       <ScrollTop {...props}>
         <Fab
           style={{ backgroundColor: '#157A6E' }}

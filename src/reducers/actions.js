@@ -2,10 +2,12 @@ import superagent from 'superagent';
 
 const API_LINK_Bidding = 'https://sportopiav1.herokuapp.com/bidding';
 
+let ua1 = superagent.agent();
+
 export const getBiddingItems = () => {
   return (dispatch) => {
     return superagent.get(API_LINK_Bidding).then((res) => {
-      // console.log(res);
+      console.log(res);
     });
   };
 };

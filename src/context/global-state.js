@@ -43,9 +43,10 @@ export default function GlobalState(props) {
   const validateToken = (token) => {
     try {
       token = token.token;
+      console.log(token);
       let user = jwt.verify(token, JWT_SECRET);
-      console.log(user);
-      cookie.save('user', user, { path: '/', maxAge: 2592000 });
+      cookie.save('token', token, { path: '/', maxAge: 2592000 });
+      cookie.save('user', user.user_id, { path: '/', maxAge: 2592000 });
       setLoginState(true, token, user);
     } catch (e) {
       setError('Wrong password or username');
@@ -78,6 +79,7 @@ export default function GlobalState(props) {
   };
 
   const setLoginState = (loggedIn, token, user) => {
+    console.log('inside the state', user);
     setIsLogged(loggedIn);
     setToken(token);
     setUser(user);

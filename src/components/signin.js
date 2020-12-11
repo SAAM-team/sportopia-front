@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Avatar,
   Card,
@@ -16,8 +17,7 @@ import {
   DialogTitle,
   Radio,
   RadioGroup,
-  FormControlLabel,
-  Snackbar
+  FormControlLabel
 } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import LockOpenOutlinedIcon from '@material-ui/icons/LockOpenOutlined';
@@ -30,14 +30,9 @@ export default function SignIn() {
   // ContextState
 
   const stateContext = useContext(StateContext);
+  const history = useHistory();
 
   // States
-  const [state, setState] = React.useState({
-    openPop: false,
-    vertical: 'top',
-    horizontal: 'center'
-  });
-  const { vertical, horizontal, openPop } = state;
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [address, setAddress] = useState('');
@@ -58,14 +53,10 @@ export default function SignIn() {
 
   const handleClickOpen = () => {
     setOpen(true);
-    stateContext.setError('');
-    stateContext.setSuccess('');
   };
 
   const handleClose = () => {
     setOpen(false);
-    stateContext.setError('');
-    stateContext.setSuccess('');
   };
   const responseGoogle = (response) => {
     console.log(response);
@@ -77,6 +68,7 @@ export default function SignIn() {
   async function handleSignIn(event) {
     event.preventDefault();
     stateContext.login(username, password);
+    if (!stateContext.error) history.push('/');
   }
   async function handleSignUp(event, role) {
     event.preventDefault();

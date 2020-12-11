@@ -7,7 +7,7 @@ import Header from './components/header/header';
 import Products from './components/products/products';
 import Carousel from './components/carousel/carousel';
 import SignIn from './components/signin';
-
+import Admin from './components/admin/index';
 // Component
 
 function App() {
@@ -21,6 +21,7 @@ function App() {
           <Route exact path='/register' component={SignIn} />
           <Route exact path='/bidding' component={BiddingMain} />
           <Route path='/bidding/:id' component={BiddingRoom} />
+          <Route path='/admin' component={Admin} />
         </Switch>
       </GlobalState>
     </>
