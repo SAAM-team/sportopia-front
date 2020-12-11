@@ -1,16 +1,31 @@
 import superagent from 'superagent';
-const API_LINK_Admin = 'https://sportopiav1.herokuapp.com/';
+import cookie from 'react-cookies';
+const API_LINK_Admin = 'https://sportopiav1.herokuapp.com';
+let token = cookie.load('token');
 
 // Sellers function
 export const allSellers = () => {
   return (dispatch) => {
-    return superagent.get(`${API_LINK_Admin}/sellers`).then((res) => {});
+    return superagent
+      .get(`${API_LINK_Admin}/sellers`)
+      .set('authorization', `Basic ${token}`)
+      .then((res) => {
+        dispatch(getAllSellers(res.body.result));
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   };
 };
 
 export const allActiveSellers = () => {
   return (dispatch) => {
-    return superagent.get(`${API_LINK_Admin}/activesellers`).then((res) => {});
+    return superagent
+      .get(`${API_LINK_Admin}/activesellers`)
+      .set('authorization', `Basic ${token}`)
+      .then((res) => {
+        dispatch(getActivatedSellers(res.body.result));
+      });
   };
 };
 
@@ -18,7 +33,10 @@ export const allDeActiveSellers = () => {
   return (dispatch) => {
     return superagent
       .get(`${API_LINK_Admin}/deactivatedsellers`)
-      .then((res) => {});
+      .set('authorization', `Basic ${token}`)
+      .then((res) => {
+        dispatch(getDeactivatedSellers(res.body.result));
+      });
   };
 };
 
@@ -26,7 +44,12 @@ export const allDeActiveSellers = () => {
 
 export const allBuyers = () => {
   return (dispatch) => {
-    return superagent.get(`${API_LINK_Admin}/buyers`).then((res) => {});
+    return superagent
+      .get(`${API_LINK_Admin}/buyers`)
+      .set('authorization', `Basic ${token}`)
+      .then((res) => {
+        dispatch(getAllBuyers(res.body.result));
+      });
   };
 };
 
