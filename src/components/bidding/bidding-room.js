@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { CssBaseline, Typography, Container } from '@material-ui/core';
+import { CssBaseline, Container } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { getInsideBid } from '../../reducers/actions';
 import { StateContext } from '../../context/global-state';

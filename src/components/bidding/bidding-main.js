@@ -19,8 +19,7 @@ import {
   DialogTitle,
   Slide,
   Typography,
-  Grid,
-  Paper
+  Grid
 } from '@material-ui/core';
 
 export function BiddingMain(props) {
