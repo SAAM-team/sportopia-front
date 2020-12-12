@@ -1,4 +1,7 @@
-let initialState = { results: [] };
+let initialState = { 
+  results: [] ,
+  activeProducts : [],
+};
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state = initialState, action) => {
@@ -6,9 +9,24 @@ export default (state = initialState, action) => {
 
   switch (type) {
     case 'GET_P':
-      return payload;
+      return {
+        results : payload,
+        activeProducts : state.activeProducts
+      };
+
+      case 'ACTIVE':
+       let filterdProducts = state.results.filter(product=> product.category_id===payload);
+       console.log('this is the active products',filterdProducts);
+
+      return {
+        results : state.results,
+        activeProducts : filterdProducts,
+      };
 
     default:
-      return state;
+      return {
+        results : state.results,
+        activeProducts : state.activeProducts
+      }
   }
 };

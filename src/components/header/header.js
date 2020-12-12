@@ -1,5 +1,5 @@
 import React,{useEffect} from 'react'
-import { getRemoteData } from '../../store/actions/categories-action';
+import { getRemoteData, activeCategory } from '../../store/actions/categories-action';
 import { connect } from 'react-redux';
 
 import {List, Divider, Drawer, ListItem, ListItemText, Fab, Tooltip, Zoom, Menu, MenuItem, Badge,  InputBase, AppBar, Toolbar, Typography, IconButton, Button } from '@material-ui/core';
@@ -27,12 +27,9 @@ import a7 from "./assets/17.gif";
 import a8 from "./assets/18.gif";
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
+import { Link } from 'react-router-dom';
 
 const avatarIcons = [a1,  a2,  a3,  a4,  a5,  a6,  a7,  a8]
-
-
-
-
 
   function ScrollTop(props) {
 
@@ -67,7 +64,7 @@ const avatarIcons = [a1,  a2,  a3,  a4,  a5,  a6,  a7,  a8]
       
 function Header(props) {
 
-
+// console.log('props in header component', props);
     useEffect(()=>{
         props.getRemoteData();
     },[])
@@ -101,14 +98,17 @@ function Header(props) {
             <Divider />
         <List>
           {
-          props.categories.map((items, index) =>
+          props.categories.map((category, index) =>
               (
                 <>
-            <ListItem button key={items.id}>
+            <ListItem button key={category.id}>
               <ListItemAvatar>
           <Avatar alt="" src={avatarIcons[index]} />
         </ListItemAvatar>
-              <ListItemText primary={items.category_name} />
+              <ListItemText primary={category.category_name} onClick={() => {
+                props.activeCategory(category.id)
+                // props.getRemoteData()
+                }}/>
             </ListItem>
              <Divider />
  </>
@@ -388,9 +388,11 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const mapStateToProps = (state) => {
+  console.log('this state for header component', state);
     return {
       categories: state.categories.results,
+
     };
   };
-  const mapDispatchToProps = { getRemoteData };
+  const mapDispatchToProps = { getRemoteData, activeCategory };
   export default connect(mapStateToProps, mapDispatchToProps)(Header);

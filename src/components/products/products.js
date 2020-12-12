@@ -108,6 +108,7 @@ function Products(props) {
 
 
 const mapStateToProps = (state) => {
+    console.log('state inside the product',state);
     return {
         products: state.products.results,
     };
