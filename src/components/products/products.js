@@ -13,6 +13,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
+import Carousel from '../carousel/carousel';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,6 +41,7 @@ function Header(props) {
 
   return (
     <>
+      <Carousel />
       {/* <Typography style={{ marginLeft: '45%', marginBottom:'20px', color:'#050505' }} variant="h3" noWrap>
               Products: 
             </Typography> */}
