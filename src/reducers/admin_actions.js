@@ -4,6 +4,7 @@ const API_LINK_Admin = 'https://sportopiav1.herokuapp.com';
 let token = cookie.load('token');
 
 // Sellers function
+
 export const allSellers = () => {
   return (dispatch) => {
     return superagent
@@ -162,7 +163,18 @@ export const numberOfUsers = () => {
       .get(`${API_LINK_Admin}/numberUsers`)
       .set('authorization', `Basic ${token}`)
       .then((res) => {
-        console.log(res.body.number);
+        return res.body.number;
+      });
+  };
+};
+
+export const numberOfProducts = () => {
+  return (dispatch) => {
+    return superagent
+      .get(`${API_LINK_Admin}/numberproducts`)
+      .set('authorization', `Basic ${token}`)
+      .then((res) => {
+        return res.body.number;
       });
   };
 };

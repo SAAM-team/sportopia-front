@@ -26,10 +26,13 @@ import {
   TableHead,
   TableRow,
   Avatar,
-  Tooltip
+  Tooltip,
+  Typography,
+  TablePagination
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { connect } from 'react-redux';
+import Pagination from '@material-ui/lab/Pagination';
 
 import {
   allSellers,
@@ -44,8 +47,25 @@ import {
   allBProducts,
   allCProducts,
   addCategory,
-  numberOfUsers
+  numberOfUsers,
+  numberOfProducts,
+  everythingFunc
 } from '../../reducers/admin_actions';
+
+import {
+  sellers,
+  dSellers,
+  aSellers,
+  buyers,
+  aBuyers,
+  dBuyers,
+  products,
+  dProducts,
+  aProducts,
+  bProducts,
+  cProducts
+} from '../../reducers/admin-count-actions';
+import adminCss from './admin.css';
 
 // Table Info
 
@@ -57,12 +77,24 @@ export function Admin(props) {
   const [keys, setKeys] = useState([]);
   const [open, setOpen] = React.useState(false);
   const [category, setCategory] = useState('');
+  const [users, setUsers] = useState(0);
+  const [products, setProducts] = useState(0);
+  const [active, setActive] = useState('');
+  const [page, setPage] = useState(1);
+  const [count, setCount] = useState(0);
 
   // Effect
 
-  useEffect(() => {
-    props.numberOfUsers();
+  useEffect(async () => {
+    let number = await props.numberOfUsers();
+    let products = await props.numberOfProducts();
+    setUsers(number);
+    setProducts(products);
   }, []);
+
+  // useEffect(async () => {
+  //   let pages = await props.everythingFunc(active);
+  // }, []);
 
   useEffect(() => {
     rowsS = [];
@@ -112,61 +144,126 @@ export function Admin(props) {
 
   // Functions
 
-  const handleClickOpen = () => {
+  const handleChange = (event, value) => {
+    setPage(value);
+  };
+
+  const handleClickOpen = (e) => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (e) => {
     setOpen(false);
   };
 
-  const handleAllSellers = () => {
+  const handleAllSellers = async (e) => {
+    setActive(e.target.innerHTML);
     props.allSellers();
+    let number = await props.sellers();
+    setCount(Math.ceil(number / 10));
   };
 
-  const handleAllActiveSeller = () => {
+  const handleAllActiveSeller = async (e) => {
+    setActive(e.target.innerHTML);
     props.allActiveSellers();
+    let number = await props.aSellers();
+    setCount(Math.ceil(number / 10));
   };
 
-  const handleAllDeActiveSeller = () => {
+  const handleAllDeActiveSeller = async (e) => {
+    setActive(e.target.innerHTML);
     props.allDeActiveSellers();
+    let number = await props.dSellers();
+    setCount(Math.ceil(number / 10));
   };
 
-  const handleAllBuyers = () => {
+  const handleAllBuyers = async (e) => {
+    setActive(e.target.innerHTML);
     props.allBuyers();
+    let number = await props.buyers();
+    setCount(Math.ceil(number / 10));
   };
 
-  const handleAllActiveBuyers = () => {
+  const handleAllActiveBuyers = async (e) => {
+    setActive(e.target.innerHTML);
     props.allActiveBuyers();
+    let number = await props.aBuyers();
+    setCount(Math.ceil(number / 10));
   };
 
-  const handleAllDeActiveBuyers = () => {
+  const handleAllDeActiveBuyers = async (e) => {
+    setActive(e.target.innerHTML);
     props.allDeActiveBuyers();
+    let number = await props.dBuyers();
+    setCount(Math.ceil(number / 10));
   };
-  const handleAllProducts = () => {
+  const handleAllProducts = async (e) => {
+    setActive(e.target.innerHTML);
     props.allProducts();
+    let number = await props.products();
+    setCount(Math.ceil(number / 10));
   };
 
-  const handleDeletedProducts = () => {
+  const handleDeletedProducts = async (e) => {
+    setActive(e.target.innerHTML);
     props.allDProducts();
+    let number = await props.dProducts();
+    setCount(Math.ceil(number / 10));
   };
 
-  const handleActiveProducts = () => {
+  const handleActiveProducts = async (e) => {
+    setActive(e.target.innerHTML);
     props.allAProducts();
+    let number = await props.aProducts();
+    setCount(Math.ceil(number / 10));
   };
 
-  const handleBoughtProducts = () => {
+  const handleBoughtProducts = async (e) => {
+    setActive(e.target.innerHTML);
     props.allBProducts();
+    let number = await props.bProducts();
+    setCount(Math.ceil(number / 10));
   };
 
-  const handleCartProducts = () => {
+  const handleCartProducts = async (e) => {
+    setActive(e.target.innerHTML);
     props.allCProducts();
+    let number = await props.cProducts();
+    setCount(Math.ceil(number / 10));
   };
 
   const handleFavProducts = () => {};
 
-  const handleAddCategory = () => {
+  const handleAddCategory = async (e) => {
+    setActive(e.target.innerHTML);
     props.addCategory(category);
+  };
+
+  const cards = () => {
+    return (
+      <>
+        <Card text='dark' bg='danger' style={{ width: '18rem' }}>
+          <Card.Body>
+            <Card.Title>Number Of users</Card.Title>
+            <Card.Text className='number'>{users}</Card.Text>
+          </Card.Body>
+        </Card>
+
+        <Card text='dark' bg='warning' style={{ width: '18rem' }}>
+          <Card.Body>
+            <Card.Title>Number Of Products</Card.Title>
+            <Card.Text className='number'>{products}</Card.Text>
+          </Card.Body>
+        </Card>
+
+        <Card text='dark' bg='info' style={{ width: '18rem' }}>
+          <Card.Body>
+            <Card.Title>Card Title</Card.Title>
+            <Card.Text className='number'>{users}</Card.Text>
+          </Card.Body>
+        </Card>
+      </>
+    );
   };
 
   const generateList = () => {
@@ -177,47 +274,47 @@ export function Admin(props) {
           <ListItemText primary='Anthign' />
           <Divider />
         </ListItem>
-        <ListItem button onClick={() => handleAllSellers()}>
+        <ListItem button onClick={(e) => handleAllSellers(e)}>
           <ListItemText secondary='Sellers' />
           <Divider />
         </ListItem>
-        <ListItem button onClick={() => handleAllActiveSeller()}>
+        <ListItem button onClick={(e) => handleAllActiveSeller(e)}>
           <ListItemText secondary='Active Sellers' />
           <Divider />
         </ListItem>
-        <ListItem button onClick={() => handleAllDeActiveSeller()}>
+        <ListItem button onClick={(e) => handleAllDeActiveSeller(e)}>
           <ListItemText secondary='Deactivate Sellers' />
           <Divider />
         </ListItem>
-        <ListItem button onClick={() => handleAllBuyers()}>
+        <ListItem button onClick={(e) => handleAllBuyers(e)}>
           <ListItemText secondary='Buyers' />
           <Divider />
         </ListItem>
-        <ListItem button onClick={() => handleAllActiveBuyers()}>
+        <ListItem button onClick={(e) => handleAllActiveBuyers(e)}>
           <ListItemText secondary='Active Buyers' />
           <Divider />
         </ListItem>
-        <ListItem button onClick={() => handleAllDeActiveBuyers()}>
+        <ListItem button onClick={(e) => handleAllDeActiveBuyers(e)}>
           <ListItemText secondary='Deactivate Buyers' />
           <Divider />
         </ListItem>
-        <ListItem button onClick={() => handleAllProducts()}>
+        <ListItem button onClick={(e) => handleAllProducts(e)}>
           <ListItemText secondary='Products' />
           <Divider />
         </ListItem>
-        <ListItem button onClick={() => handleDeletedProducts()}>
+        <ListItem button onClick={(e) => handleDeletedProducts(e)}>
           <ListItemText secondary='Deleted Products' />
           <Divider />
         </ListItem>
-        <ListItem button onClick={() => handleActiveProducts()}>
+        <ListItem button onClick={(e) => handleActiveProducts(e)}>
           <ListItemText secondary='Active Products' />
           <Divider />
         </ListItem>
-        <ListItem button onClick={() => handleBoughtProducts()}>
+        <ListItem button onClick={(e) => handleBoughtProducts(e)}>
           <ListItemText secondary='Bough Products' />
           <Divider />
         </ListItem>
-        <ListItem button onClick={() => handleCartProducts()}>
+        <ListItem button onClick={(e) => handleCartProducts(e)}>
           <ListItemText secondary='In Cart/Not Bought Products' />
           <Divider />
         </ListItem>
@@ -338,7 +435,17 @@ export function Admin(props) {
                           </StyledTableCell>
                         </StyledTableRow>
                       ))}
+                      <StyledTableCell colSpan={keys.length} align='center'>
+                        <div className={classes.pagination}>
+                          <Pagination
+                            count={count}
+                            page={page}
+                            onChange={handleChange}
+                          />
+                        </div>
+                      </StyledTableCell>
                     </Then>
+
                     <Else>
                       <If condition={rowsB.length}>
                         <Then>
@@ -374,6 +481,15 @@ export function Admin(props) {
                               </StyledTableCell>
                             </StyledTableRow>
                           ))}
+                          <StyledTableCell colSpan={keys.length} align='center'>
+                            <div className={classes.pagination}>
+                              <Pagination
+                                count={count}
+                                page={page}
+                                onChange={handleChange}
+                              />
+                            </div>
+                          </StyledTableCell>
                         </Then>
                         <Else>
                           <If condition={rowP.length}>
@@ -408,6 +524,18 @@ export function Admin(props) {
                                   </StyledTableCell>
                                 </StyledTableRow>
                               ))}
+                              <StyledTableCell
+                                colSpan={keys.length}
+                                align='center'
+                              >
+                                <div className={classes.pagination}>
+                                  <Pagination
+                                    count={count}
+                                    page={page}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </StyledTableCell>
                             </Then>
                           </If>
                         </Else>
@@ -447,6 +575,15 @@ const useStyles = makeStyles((theme) => ({
   },
   list: {
     padding: 5
+  },
+  number: {
+    fontSize: 60,
+    textAlign: 'center'
+  },
+  pagination: {
+    '& > * + *': {
+      marginTop: theme.spacing(2)
+    }
   }
 }));
 
@@ -507,41 +644,6 @@ const StyledTableRow = withStyles((theme) => ({
 
 // Cards function
 
-const cards = () => {
-  return (
-    <>
-      <Card text='dark' bg='danger' style={{ width: '18rem' }}>
-        <Card.Body>
-          <Card.Title>Number Of users</Card.Title>
-          <Card.Text>
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </Card.Text>
-        </Card.Body>
-      </Card>
-
-      <Card text='dark' bg='warning' style={{ width: '18rem' }}>
-        <Card.Body>
-          <Card.Title>Number Of Products</Card.Title>
-          <Card.Text>
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </Card.Text>
-        </Card.Body>
-      </Card>
-
-      <Card text='dark' bg='info' style={{ width: '18rem' }}>
-        <Card.Body>
-          <Card.Title>Card Title</Card.Title>
-          <Card.Text>
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </Card.Text>
-        </Card.Body>
-      </Card>
-    </>
-  );
-};
 const mapStateToProps = (state) => {
   return {
     info: state.admin.information
@@ -560,7 +662,19 @@ const mapDispatchToProps = {
   allBProducts,
   allCProducts,
   addCategory,
-  numberOfUsers
+  numberOfUsers,
+  numberOfProducts,
+  sellers,
+  dSellers,
+  aSellers,
+  buyers,
+  aBuyers,
+  dBuyers,
+  products,
+  dProducts,
+  aProducts,
+  bProducts,
+  cProducts
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Admin);
