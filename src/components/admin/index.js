@@ -8,20 +8,27 @@ import { Card, Row, Col } from 'react-bootstrap';
 import {
   Grid,
   Paper,
-  List,
   ListItem,
   Divider,
+  Button,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   ListItemText,
+  Fab,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TablePagination,
   TableRow,
-  Avatar
+  Avatar,
+  Tooltip
 } from '@material-ui/core';
-import PropTypes from 'prop-types';
+import AddIcon from '@material-ui/icons/Add';
 import { connect } from 'react-redux';
 
 import {
@@ -35,7 +42,9 @@ import {
   allDProducts,
   allAProducts,
   allBProducts,
-  allCProducts
+  allCProducts,
+  addCategory,
+  numberOfUsers
 } from '../../reducers/admin_actions';
 
 // Table Info
@@ -46,9 +55,15 @@ let rowP = [];
 
 export function Admin(props) {
   const [keys, setKeys] = useState([]);
-  const [showCards, setCards] = useState(true);
+  const [open, setOpen] = React.useState(false);
+  const [category, setCategory] = useState('');
 
   // Effect
+
+  useEffect(() => {
+    props.numberOfUsers();
+  }, []);
+
   useEffect(() => {
     rowsS = [];
     rowsB = [];
@@ -97,6 +112,14 @@ export function Admin(props) {
 
   // Functions
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const handleAllSellers = () => {
     props.allSellers();
   };
@@ -142,10 +165,14 @@ export function Admin(props) {
 
   const handleFavProducts = () => {};
 
+  const handleAddCategory = () => {
+    props.addCategory(category);
+  };
+
   const generateList = () => {
     return (
       <Grid item xs={12}>
-        <ListItem button onClick={() => setCards(!showCards)}>
+        <ListItem button>
           <Avatar className={classes.purple}>A</Avatar>
           <ListItemText primary='Anthign' />
           <Divider />
@@ -199,6 +226,42 @@ export function Admin(props) {
   };
   return (
     <>
+      <Tooltip title='Add Category'>
+        <Fab
+          style={{ position: 'absolute', top: 70, right: 30 }}
+          color='primary'
+          aria-label='add'
+        >
+          <AddIcon onClick={handleClickOpen} />
+        </Fab>
+      </Tooltip>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby='form-dialog-title'
+      >
+        <DialogTitle id='form-dialog-title'>Adding Category</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Adding New Category</DialogContentText>
+          <TextField
+            autoFocus
+            margin='dense'
+            id='name'
+            label='Category Name'
+            type='email'
+            fullWidth
+            onChange={(e) => setCategory(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color='primary'>
+            Cancel
+          </Button>
+          <Button onClick={() => handleAddCategory()} color='primary'>
+            Add
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Grid
         xs={12}
         container
@@ -495,7 +558,9 @@ const mapDispatchToProps = {
   allDProducts,
   allAProducts,
   allBProducts,
-  allCProducts
+  allCProducts,
+  addCategory,
+  numberOfUsers
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Admin);

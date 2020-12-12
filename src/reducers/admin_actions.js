@@ -139,8 +139,30 @@ export const allFProducts = () => {
       .get(`${API_LINK_Admin}/incartproducts`)
       .set('authorization', `Basic ${token}`)
       .then((res) => {
-        // console.log(res);
         dispatch(getAllFavProducts(res.body.result));
+      });
+  };
+};
+
+export const addCategory = (category) => {
+  return (dispatch) => {
+    return superagent
+      .post(`${API_LINK_Admin}/category`)
+      .set('authorization', `Basic ${token}`)
+      .send({ name: category })
+      .then((res) => {
+        console.log(res);
+      });
+  };
+};
+
+export const numberOfUsers = () => {
+  return (dispatch) => {
+    return superagent
+      .get(`${API_LINK_Admin}/numberUsers`)
+      .set('authorization', `Basic ${token}`)
+      .then((res) => {
+        console.log(res.body.number);
       });
   };
 };
