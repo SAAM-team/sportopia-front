@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import {
   getRemoteData,
-  activeCategory
+  activeCategory,
 } from '../../reducers/categories-action';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
@@ -111,8 +111,7 @@ function Header(props) {
     <div
       // style={{backgroundColor: '#6BAB90', height: '100%', color:'E1F0C4' }}
       className={classes.list}
-
-      role='presentation'
+      role="presentation"
       onClick={() => props.getRemoteData()}
       onClick={toggleDrawer(anchor, false)}
     >
@@ -125,7 +124,7 @@ function Header(props) {
           <>
             <ListItem button key={category.id}>
               <ListItemAvatar>
-                <Avatar alt='' src={avatarIcons[index]} />
+                <Avatar alt="" src={avatarIcons[index]} />
               </ListItemAvatar>
               <ListItemText
                 primary={category.category_name}
@@ -446,7 +445,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const mapStateToProps = (state) => {
-  console.log('this state for header component', state);
   return {
     categories: state.categories.results,
   };

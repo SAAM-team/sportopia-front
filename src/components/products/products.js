@@ -1,6 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useContext } from 'react';
-import { getRemoteData } from '../../reducers/product-action ';
+import {
+  getRemoteData,
+  getProductDetails,
+} from '../../reducers/product-action ';
 import { connect } from 'react-redux';
 import { StateContext } from '../../context/global-state';
 import './products.css';
@@ -39,7 +42,7 @@ function Products(props) {
   const classes = useStyles();
   const { setSingleProductId } = useContext(StateContext);
   const selectedProductId = (p_id) => {};
-  
+
   useEffect(() => {
     props.getRemoteData();
   }, []);
@@ -100,7 +103,11 @@ function Products(props) {
                   </IconButton>
                 </Tooltip>
                 <NavLink to={() => `/product/${product.id}`}>
-                  <Button variant="contained" color="secondary">
+                  <Button
+                    onClick={() => props.getProductDetails(product.id)}
+                    variant="contained"
+                    color="secondary"
+                  >
                     Details
                   </Button>
                 </NavLink>
@@ -118,6 +125,6 @@ const mapStateToProps = (state) => {
     products: state.products.results,
   };
 };
-const mapDispatchToProps = { getRemoteData };
+const mapDispatchToProps = { getRemoteData, getProductDetails };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Products);

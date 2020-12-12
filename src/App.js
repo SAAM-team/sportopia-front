@@ -18,17 +18,16 @@ function App() {
         <GlobalState>
           <Header />
           <Switch>
-            <Route exact path='/' component={Products} />
-            <Route exact path='/register' component={SignIn} />
-            <Route exact path='/bidding' component={BiddingMain} />
-            <Route path='/bidding/:id' component={BiddingRoom} />
-            <Route path='/admin' component={Admin} />
-            <Route path='/circle'>
+            <Route exact path="/" component={Products} />
+            <Route exact path="/register" component={SignIn} />
+            <Route exact path="/bidding" component={BiddingMain} />
+            <Route path="/bidding/:id" component={BiddingRoom} />
+            <Route path="/admin" component={Admin} />
+            <Route path="/product/:id" component={SingleProduct} />
+            <Route path="/circle">
               <EachCategory />
             </Route>
-            <Route path='/:id' component={CategoryProds} />
-             <Route path="/product/:id" component={SingleProduct} />
-
+            <Route path="/:id" component={CategoryProds} />
           </Switch>
         </GlobalState>
       </BrowserRouter>

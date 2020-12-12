@@ -1,17 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useContext, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { CssBaseline, Container } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { getProductDetails } from '../../reducers/product-action ';
-import { StateContext } from '../../context/global-state';
-import CardMedia from '@material-ui/core/CardMedia';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import IconButton from '@material-ui/core/IconButton';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
-// import tileData from './tileData';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
 
 export function ProductDetails(props) {
   const classes = useStyles();
@@ -19,12 +18,15 @@ export function ProductDetails(props) {
   // Context
 
   // State
-
+  const [maniImage, setMainImage] = useState('');
   // Functions
 
+  // setMainImage(props.selectedProduct.main_img);
+  // props.selectedProduct.main_img
+
   useEffect(() => {
-    props.getProductDetails();
-  }, []);
+    props.selectedProduct.map((item) => setMainImage(item.main_img));
+  }, [props.selectedProduct]);
 
   return (
     <>
@@ -33,16 +35,28 @@ export function ProductDetails(props) {
           <>
             <div className={classes.root}>
               <GridListTile className={classes.mainImage} key={product.id}>
-                <img src={product.main_img} alt={product.name} />
+                <img src={maniImage} alt={product.name} />
               </GridListTile>
             </div>
             <div className={classes.root}>
               <GridList className={classes.gridList} cols={1.5}>
+                <GridListTile key={'main'}>
+                  <img
+                    className={classes.smallImg}
+                    onClick={(e) => setMainImage(e.target.src)}
+                    src={product.main_img}
+                    alt={'main'}
+                  />
+                </GridListTile>
                 {product.images.map((tile) => (
                   <GridListTile key={tile}>
-                    <img src={tile} alt={tile} />
+                    <img
+                      className={classes.smallImg}
+                      onClick={() => setMainImage(tile)}
+                      src={tile}
+                      alt={tile}
+                    />
                     <GridListTileBar
-                      title={tile}
                       classes={{
                         root: classes.titleBar,
                         title: classes.title,
@@ -55,6 +69,13 @@ export function ProductDetails(props) {
                     />
                   </GridListTile>
                 ))}
+                <CssBaseline />
+                <Container maxWidth="sm">
+                  <Typography
+                    component="div"
+                    style={{ backgroundColor: '#cfe8fc', height: '100vh' }}
+                  />
+                </Container>
               </GridList>
             </div>
           </>
@@ -72,6 +93,11 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     height: 400,
     width: 400,
+    margin: 20,
+  },
+  smallImg: {
+    height: 100,
+    width: 100,
   },
   root: {
     display: 'flex',
@@ -95,6 +121,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const mapStateToProps = (state) => {
+  console.log(state);
   return {
     selectedProduct: state.products.selectedProduct,
   };
