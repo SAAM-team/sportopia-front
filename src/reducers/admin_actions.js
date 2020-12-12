@@ -55,7 +55,12 @@ export const allBuyers = () => {
 
 export const allActiveBuyers = () => {
   return (dispatch) => {
-    return superagent.get(`${API_LINK_Admin}/activebuyers`).then((res) => {});
+    return superagent
+      .get(`${API_LINK_Admin}/activebuyers`)
+      .set('authorization', `Basic ${token}`)
+      .then((res) => {
+        dispatch(getActivatedBuyers(res.body.result));
+      });
   };
 };
 
@@ -63,14 +68,22 @@ export const allDeActiveBuyers = () => {
   return (dispatch) => {
     return superagent
       .get(`${API_LINK_Admin}/deactivatedbuyers`)
-      .then((res) => {});
+      .set('authorization', `Basic ${token}`)
+      .then((res) => {
+        dispatch(getDeactivatedBuyers(res.body.result));
+      });
   };
 };
 
 // Products
 export const allProducts = () => {
   return (dispatch) => {
-    return superagent.get(`${API_LINK_Admin}/allproducts`).then((res) => {});
+    return superagent
+      .get(`${API_LINK_Admin}/allproducts`)
+      .set('authorization', `Basic ${token}`)
+      .then((res) => {
+        dispatch(getAllProducts(res.body.result));
+      });
   };
 };
 

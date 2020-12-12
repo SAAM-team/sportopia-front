@@ -16,6 +16,8 @@ export default function Auth(props) {
     console.log('wow');
   }
 
+  console.log(okToRender);
+
   return (
     <div>
       <If condition={okToRender}>

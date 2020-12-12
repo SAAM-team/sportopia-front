@@ -18,7 +18,6 @@ export default (state = initState, action) => {
         information: payload
       };
     case 'GET_A_SELLERS':
-      console.log('inside the reducer', payload);
       return {
         information: payload
       };
