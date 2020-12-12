@@ -1,102 +1,566 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from 'react';
 import { StateContext } from '../../context/global-state';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { If, Then, Else } from '../../if/if';
+import { deepPurple } from '@material-ui/core/colors';
+import { Card, Row, Col } from 'react-bootstrap';
+import {
+  Grid,
+  Paper,
+  ListItem,
+  Divider,
+  Button,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  ListItemText,
+  Fab,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Avatar,
+  Tooltip
+} from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import { connect } from 'react-redux';
 
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import { Tabs, Tab, Typography, Box } from '@material-ui/core';
+import {
+  allSellers,
+  allActiveSellers,
+  allDeActiveSellers,
+  allBuyers,
+  allActiveBuyers,
+  allDeActiveBuyers,
+  allProducts,
+  allDProducts,
+  allAProducts,
+  allBProducts,
+  allCProducts,
+  addCategory,
+  numberOfUsers
+} from '../../reducers/admin_actions';
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+// Table Info
 
-  return (
-    <div
-      role='tabpanel'
-      hidden={value !== index}
-      id={`vertical-tabpanel-${index}`}
-      aria-labelledby={`vertical-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
+let rowsS = [];
+let rowsB = [];
+let rowP = [];
 
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired
-};
+export function Admin(props) {
+  const [keys, setKeys] = useState([]);
+  const [open, setOpen] = React.useState(false);
+  const [category, setCategory] = useState('');
 
-function a11yProps(index) {
-  return {
-    id: `vertical-tab-${index}`,
-    'aria-controls': `vertical-tabpanel-${index}`
+  // Effect
+
+  useEffect(() => {
+    props.numberOfUsers();
+  }, []);
+
+  useEffect(() => {
+    rowsS = [];
+    rowsB = [];
+    rowP = [];
+    setKeys(props.info.length ? Object.keys(props.info[0]) : []);
+    props.info.forEach((item) => {
+      if (item.user_role === 'seller') {
+        rowsS.push(
+          createSData(
+            item.user_name,
+            item.user_role,
+            item.company_name,
+            item.adress,
+            item.telephone
+          )
+        );
+      } else if (item.user_role === 'buyer') {
+        rowsB.push(
+          createBData(
+            item.user_name,
+            item.user_role,
+            item.first_name,
+            item.last_name,
+            item.adress,
+            item.telephone,
+            item.gender,
+            item.card_number ? 'XXXXXXXXXXX' : 'Not Inserted'
+          )
+        );
+      } else {
+        rowP.push(
+          createPData(
+            item.name,
+            item.description,
+            item.main_img,
+            item.price,
+            item.category_name,
+            item.company_name
+          )
+        );
+      }
+    });
+  }, [props.info]);
+
+  const classes = useStyles();
+
+  // Functions
+
+  const handleClickOpen = () => {
+    setOpen(true);
   };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleAllSellers = () => {
+    props.allSellers();
+  };
+
+  const handleAllActiveSeller = () => {
+    props.allActiveSellers();
+  };
+
+  const handleAllDeActiveSeller = () => {
+    props.allDeActiveSellers();
+  };
+
+  const handleAllBuyers = () => {
+    props.allBuyers();
+  };
+
+  const handleAllActiveBuyers = () => {
+    props.allActiveBuyers();
+  };
+
+  const handleAllDeActiveBuyers = () => {
+    props.allDeActiveBuyers();
+  };
+  const handleAllProducts = () => {
+    props.allProducts();
+  };
+
+  const handleDeletedProducts = () => {
+    props.allDProducts();
+  };
+
+  const handleActiveProducts = () => {
+    props.allAProducts();
+  };
+
+  const handleBoughtProducts = () => {
+    props.allBProducts();
+  };
+
+  const handleCartProducts = () => {
+    props.allCProducts();
+  };
+
+  const handleFavProducts = () => {};
+
+  const handleAddCategory = () => {
+    props.addCategory(category);
+  };
+
+  const generateList = () => {
+    return (
+      <Grid item xs={12}>
+        <ListItem button>
+          <Avatar className={classes.purple}>A</Avatar>
+          <ListItemText primary='Anthign' />
+          <Divider />
+        </ListItem>
+        <ListItem button onClick={() => handleAllSellers()}>
+          <ListItemText secondary='Sellers' />
+          <Divider />
+        </ListItem>
+        <ListItem button onClick={() => handleAllActiveSeller()}>
+          <ListItemText secondary='Active Sellers' />
+          <Divider />
+        </ListItem>
+        <ListItem button onClick={() => handleAllDeActiveSeller()}>
+          <ListItemText secondary='Deactivate Sellers' />
+          <Divider />
+        </ListItem>
+        <ListItem button onClick={() => handleAllBuyers()}>
+          <ListItemText secondary='Buyers' />
+          <Divider />
+        </ListItem>
+        <ListItem button onClick={() => handleAllActiveBuyers()}>
+          <ListItemText secondary='Active Buyers' />
+          <Divider />
+        </ListItem>
+        <ListItem button onClick={() => handleAllDeActiveBuyers()}>
+          <ListItemText secondary='Deactivate Buyers' />
+          <Divider />
+        </ListItem>
+        <ListItem button onClick={() => handleAllProducts()}>
+          <ListItemText secondary='Products' />
+          <Divider />
+        </ListItem>
+        <ListItem button onClick={() => handleDeletedProducts()}>
+          <ListItemText secondary='Deleted Products' />
+          <Divider />
+        </ListItem>
+        <ListItem button onClick={() => handleActiveProducts()}>
+          <ListItemText secondary='Active Products' />
+          <Divider />
+        </ListItem>
+        <ListItem button onClick={() => handleBoughtProducts()}>
+          <ListItemText secondary='Bough Products' />
+          <Divider />
+        </ListItem>
+        <ListItem button onClick={() => handleCartProducts()}>
+          <ListItemText secondary='In Cart/Not Bought Products' />
+          <Divider />
+        </ListItem>
+      </Grid>
+    );
+  };
+  return (
+    <>
+      <Tooltip title='Add Category'>
+        <Fab
+          style={{ position: 'absolute', top: 70, right: 30 }}
+          color='primary'
+          aria-label='add'
+        >
+          <AddIcon onClick={handleClickOpen} />
+        </Fab>
+      </Tooltip>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby='form-dialog-title'
+      >
+        <DialogTitle id='form-dialog-title'>Adding Category</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Adding New Category</DialogContentText>
+          <TextField
+            autoFocus
+            margin='dense'
+            id='name'
+            label='Category Name'
+            type='email'
+            fullWidth
+            onChange={(e) => setCategory(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color='primary'>
+            Cancel
+          </Button>
+          <Button onClick={() => handleAddCategory()} color='primary'>
+            Add
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Grid
+        xs={12}
+        container
+        direction='row'
+        justify='space-between'
+        alignItems='flex-start'
+      >
+        <Grid
+          lg={2}
+          xs={12}
+          container
+          direction='column'
+          justify='space-between'
+          alignItems='flex-start'
+        >
+          {generateList()}
+        </Grid>
+        <Grid
+          lg={10}
+          xs={12}
+          container
+          direction='column'
+          justify='space-between'
+          alignItems='flex-start'
+        >
+          <Grid
+            xs={12}
+            container
+            direction='row'
+            justify='space-around'
+            alignItems='center'
+            style={{ marginBottom: 20 }}
+          >
+            {cards()}
+          </Grid>
+
+          <Grid item xs={12} container direction='row'>
+            <TableContainer style={{ marginRight: 15 }} component={Paper}>
+              <Table className={classes.table} aria-label='customized table'>
+                <TableHead>
+                  <TableRow>
+                    {keys.map((key) => {
+                      return (
+                        <StyledTableCell align='center' key={key}>
+                          {key}
+                        </StyledTableCell>
+                      );
+                    })}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <If condition={rowsS.length}>
+                    <Then>
+                      {rowsS.map((row) => (
+                        <StyledTableRow key={row.name}>
+                          <StyledTableCell
+                            align='center'
+                            component='th'
+                            scope='row'
+                          >
+                            {row.name}
+                          </StyledTableCell>
+                          <StyledTableCell align='center'>
+                            {row.role}
+                          </StyledTableCell>
+                          <StyledTableCell align='center'>
+                            {row.company}
+                          </StyledTableCell>
+                          <StyledTableCell align='center'>
+                            {row.address}
+                          </StyledTableCell>
+                          <StyledTableCell align='center'>
+                            {row.telephone}
+                          </StyledTableCell>
+                        </StyledTableRow>
+                      ))}
+                    </Then>
+                    <Else>
+                      <If condition={rowsB.length}>
+                        <Then>
+                          {rowsB.map((row) => (
+                            <StyledTableRow key={row.name}>
+                              <StyledTableCell
+                                align='center'
+                                component='th'
+                                scope='row'
+                              >
+                                {row.name}
+                              </StyledTableCell>
+                              <StyledTableCell align='center'>
+                                {row.role}
+                              </StyledTableCell>
+                              <StyledTableCell align='center'>
+                                {row.first_name}
+                              </StyledTableCell>
+                              <StyledTableCell align='center'>
+                                {row.last_name}
+                              </StyledTableCell>
+                              <StyledTableCell align='center'>
+                                {row.address}
+                              </StyledTableCell>
+                              <StyledTableCell align='center'>
+                                {row.telephone}
+                              </StyledTableCell>
+                              <StyledTableCell align='center'>
+                                {row.gender}
+                              </StyledTableCell>
+                              <StyledTableCell align='center'>
+                                {row.card_number}
+                              </StyledTableCell>
+                            </StyledTableRow>
+                          ))}
+                        </Then>
+                        <Else>
+                          <If condition={rowP.length}>
+                            <Then>
+                              {rowP.map((row) => (
+                                <StyledTableRow key={row.name}>
+                                  <StyledTableCell
+                                    align='center'
+                                    component='th'
+                                    scope='row'
+                                  >
+                                    {row.name}
+                                  </StyledTableCell>
+                                  <StyledTableCell align='center'>
+                                    {row.description}
+                                  </StyledTableCell>
+                                  <StyledTableCell align='center'>
+                                    <Avatar
+                                      alt='Product Image'
+                                      src={row.main_img}
+                                      className={classes.large}
+                                    />
+                                  </StyledTableCell>
+                                  <StyledTableCell align='center'>
+                                    {row.price} $
+                                  </StyledTableCell>
+                                  <StyledTableCell align='center'>
+                                    {row.category_name}
+                                  </StyledTableCell>
+                                  <StyledTableCell align='center'>
+                                    {row.company_name}
+                                  </StyledTableCell>
+                                </StyledTableRow>
+                              ))}
+                            </Then>
+                          </If>
+                        </Else>
+                      </If>
+                    </Else>
+                  </If>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Grid>
+        </Grid>
+      </Grid>
+    </>
+  );
 }
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-    display: 'flex',
-    height: 224
+    flexGrow: 1
   },
-  tabs: {
-    borderRight: `1px solid ${theme.palette.divider}`
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary
+  },
+  table: {
+    minWidth: 700
+  },
+  large: {
+    width: theme.spacing(7),
+    height: theme.spacing(7)
+  },
+  purple: {
+    color: theme.palette.getContrastText(deepPurple[500]),
+    backgroundColor: deepPurple[500],
+    marginRight: 5
+  },
+  list: {
+    padding: 5
   }
 }));
 
-export default function Admin() {
-  const classes = useStyles();
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  return (
-    <div className={classes.root}>
-      <Tabs
-        orientation='vertical'
-        variant='scrollable'
-        value={value}
-        onChange={handleChange}
-        aria-label='Vertical tabs example'
-        className={classes.tabs}
-      >
-        <Tab label='Item One' {...a11yProps(0)} />
-        <Tab label='Item Two' {...a11yProps(1)} />
-        <Tab label='Item Three' {...a11yProps(2)} />
-        <Tab label='Item Four' {...a11yProps(3)} />
-        <Tab label='Item Five' {...a11yProps(4)} />
-        <Tab label='Item Six' {...a11yProps(5)} />
-        <Tab label='Item Seven' {...a11yProps(6)} />
-      </Tabs>
-      <TabPanel value={value} index={0}>
-        Item One
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        Item Two
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Item Three
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        Item Four
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-        Item Five
-      </TabPanel>
-      <TabPanel value={value} index={5}>
-        Item Six
-      </TabPanel>
-      <TabPanel value={value} index={6}>
-        Item Seven
-      </TabPanel>
-    </div>
-  );
+// Table Functions
+function createSData(name, role, company, address, telephone) {
+  return { name, role, company, address, telephone };
 }
+
+function createPData(
+  name,
+  description,
+  main_img,
+  price,
+  category_name,
+  company_name
+) {
+  return { name, description, main_img, price, category_name, company_name };
+}
+
+function createBData(
+  name,
+  role,
+  first_name,
+  last_name,
+  address,
+  telephone,
+  gender,
+  card_number
+) {
+  return {
+    name,
+    role,
+    first_name,
+    last_name,
+    address,
+    telephone,
+    gender,
+    card_number
+  };
+}
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white
+  },
+  body: {
+    fontSize: 14
+  }
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover
+    }
+  }
+}))(TableRow);
+
+// Cards function
+
+const cards = () => {
+  return (
+    <>
+      <Card text='dark' bg='danger' style={{ width: '18rem' }}>
+        <Card.Body>
+          <Card.Title>Number Of users</Card.Title>
+          <Card.Text>
+            Some quick example text to build on the card title and make up the
+            bulk of the card's content.
+          </Card.Text>
+        </Card.Body>
+      </Card>
+
+      <Card text='dark' bg='warning' style={{ width: '18rem' }}>
+        <Card.Body>
+          <Card.Title>Number Of Products</Card.Title>
+          <Card.Text>
+            Some quick example text to build on the card title and make up the
+            bulk of the card's content.
+          </Card.Text>
+        </Card.Body>
+      </Card>
+
+      <Card text='dark' bg='info' style={{ width: '18rem' }}>
+        <Card.Body>
+          <Card.Title>Card Title</Card.Title>
+          <Card.Text>
+            Some quick example text to build on the card title and make up the
+            bulk of the card's content.
+          </Card.Text>
+        </Card.Body>
+      </Card>
+    </>
+  );
+};
+const mapStateToProps = (state) => {
+  return {
+    info: state.admin.information
+  };
+};
+const mapDispatchToProps = {
+  allSellers,
+  allActiveSellers,
+  allDeActiveSellers,
+  allBuyers,
+  allActiveBuyers,
+  allDeActiveBuyers,
+  allProducts,
+  allDProducts,
+  allAProducts,
+  allBProducts,
+  allCProducts,
+  addCategory,
+  numberOfUsers
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Admin);

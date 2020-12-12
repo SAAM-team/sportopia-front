@@ -1,6 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { getRemoteData } from '../../reducers/categories-action';
+import {
+  getRemoteData,
+  activeCategory
+} from '../../reducers/categories-action';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import {
@@ -34,10 +37,23 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import PropTypes from 'prop-types';
 import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
-import avatar from './avatar.gif';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
+import a1 from './assets/11.gif';
+import a2 from './assets/12.gif';
+import a3 from './assets/13.gif';
+import a4 from './assets/14.gif';
+import a5 from './assets/15.gif';
+import a6 from './assets/16.gif';
+import a7 from './assets/17.gif';
+import a8 from './assets/18.gif';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
+import { Link } from 'react-router-dom';
+import avatar from './avatar.gif';
 import Auth from '../../auth/auth';
+
+const avatarIcons = [a1, a2, a3, a4, a5, a6, a7, a8];
 
 function ScrollTop(props) {
   const { children, window } = props;
@@ -95,7 +111,9 @@ function Header(props) {
     <div
       // style={{backgroundColor: '#6BAB90', height: '100%', color:'E1F0C4' }}
       className={classes.list}
-      role="presentation"
+
+      role='presentation'
+      onClick={() => props.getRemoteData()}
       onClick={toggleDrawer(anchor, false)}
     >
       <Typography style={{ padding: '10px 0px 5px 10px' }} variant="h4" noWrap>
@@ -103,13 +121,19 @@ function Header(props) {
       </Typography>
       <Divider />
       <List>
-        {props.categories.map((text, index) => (
+        {props.categories.map((category, index) => (
           <>
-            <ListItem button key={text.category_name}>
+            <ListItem button key={category.id}>
               <ListItemAvatar>
-                <Avatar alt="Cindy Baker" src={avatar} />
+                <Avatar alt='' src={avatarIcons[index]} />
               </ListItemAvatar>
-              <ListItemText primary={text.category_name} />
+              <ListItemText
+                primary={category.category_name}
+                onClick={() => {
+                  props.activeCategory(category.id);
+                  // props.getRemoteData()
+                }}
+              />
             </ListItem>
             <Divider />
           </>
@@ -422,9 +446,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const mapStateToProps = (state) => {
+  console.log('this state for header component', state);
   return {
     categories: state.categories.results,
   };
 };
-const mapDispatchToProps = { getRemoteData };
+const mapDispatchToProps = { getRemoteData, activeCategory };
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -16,6 +16,7 @@ import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 import Button from '@material-ui/core/Button';
 import { NavLink } from 'react-router-dom';
+import Carousel from '../carousel/carousel';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,17 +35,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Header(props) {
+function Products(props) {
   const classes = useStyles();
   const { setSingleProductId } = useContext(StateContext);
   const selectedProductId = (p_id) => {};
-
+  
   useEffect(() => {
     props.getRemoteData();
   }, []);
 
   return (
     <>
+      <Carousel />
       {/* <Typography style={{ marginLeft: '45%', marginBottom:'20px', color:'#050505' }} variant="h3" noWrap>
               Products: 
             </Typography> */}
@@ -118,4 +120,4 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = { getRemoteData };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Products);
