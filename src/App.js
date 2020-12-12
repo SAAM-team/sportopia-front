@@ -8,6 +8,7 @@ import Products from './components/products/products';
 import Carousel from './components/carousel/carousel';
 import SignIn from './components/signin';
 import Admin from './components/admin/index';
+import SingleProduct from './components/singleProduct/singleProduct';
 // Component
 
 function App() {
@@ -17,11 +18,12 @@ function App() {
         <Header />
         <Carousel />
         <Switch>
-          <Route exact path='/' component={Products} />
-          <Route exact path='/register' component={SignIn} />
-          <Route exact path='/bidding' component={BiddingMain} />
-          <Route path='/bidding/:id' component={BiddingRoom} />
-          <Route path='/admin' component={Admin} />
+          <Route exact path="/" component={Products} />
+          <Route exact path="/register" component={SignIn} />
+          <Route exact path="/bidding" component={BiddingMain} />
+          <Route path="/bidding/:id" component={BiddingRoom} />
+          <Route path="/admin" component={Admin} />
+          <Route path="/product/:id" component={SingleProduct} />
         </Switch>
       </GlobalState>
     </>

@@ -14,6 +14,7 @@ export default function GlobalState(props) {
   const [token, setToken] = useState('');
   const [user, setUser] = useState({});
   const [productId, setProductId] = useState('');
+  const [singleProductId, setSingleProductId] = useState('');
   const [productIdBidding, setProductIdBidding] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -91,15 +92,17 @@ export default function GlobalState(props) {
     user,
     setUser,
     productId,
+    singleProductId,
     setProductId,
     productIdBidding,
     setProductIdBidding,
+    setSingleProductId,
     login,
     register,
     error,
     success,
     setSuccess,
-    setError
+    setError,
   };
   return (
     <StateContext.Provider value={state}>
