@@ -31,7 +31,11 @@ import {
   allBuyers,
   allActiveBuyers,
   allDeActiveBuyers,
-  allProducts
+  allProducts,
+  allDProducts,
+  allAProducts,
+  allBProducts,
+  allCProducts
 } from '../../reducers/admin_actions';
 
 // Table Info
@@ -120,6 +124,24 @@ export function Admin(props) {
     props.allProducts();
   };
 
+  const handleDeletedProducts = () => {
+    props.allDProducts();
+  };
+
+  const handleActiveProducts = () => {
+    props.allAProducts();
+  };
+
+  const handleBoughtProducts = () => {
+    props.allBProducts();
+  };
+
+  const handleCartProducts = () => {
+    props.allCProducts();
+  };
+
+  const handleFavProducts = () => {};
+
   const generateList = () => {
     return (
       <Grid item xs={12}>
@@ -129,31 +151,47 @@ export function Admin(props) {
           <Divider />
         </ListItem>
         <ListItem button onClick={() => handleAllSellers()}>
-          <ListItemText secondary='All Sellers' />
+          <ListItemText secondary='Sellers' />
           <Divider />
         </ListItem>
         <ListItem button onClick={() => handleAllActiveSeller()}>
-          <ListItemText secondary='All Active Sellers' />
+          <ListItemText secondary='Active Sellers' />
           <Divider />
         </ListItem>
         <ListItem button onClick={() => handleAllDeActiveSeller()}>
-          <ListItemText secondary='All Deactivate Sellers' />
+          <ListItemText secondary='Deactivate Sellers' />
           <Divider />
         </ListItem>
         <ListItem button onClick={() => handleAllBuyers()}>
-          <ListItemText secondary='All Buyers' />
+          <ListItemText secondary='Buyers' />
           <Divider />
         </ListItem>
         <ListItem button onClick={() => handleAllActiveBuyers()}>
-          <ListItemText secondary='All Active Buyers' />
+          <ListItemText secondary='Active Buyers' />
           <Divider />
         </ListItem>
         <ListItem button onClick={() => handleAllDeActiveBuyers()}>
-          <ListItemText secondary='All Deactivate Buyers' />
+          <ListItemText secondary='Deactivate Buyers' />
           <Divider />
         </ListItem>
         <ListItem button onClick={() => handleAllProducts()}>
-          <ListItemText secondary='All Products' />
+          <ListItemText secondary='Products' />
+          <Divider />
+        </ListItem>
+        <ListItem button onClick={() => handleDeletedProducts()}>
+          <ListItemText secondary='Deleted Products' />
+          <Divider />
+        </ListItem>
+        <ListItem button onClick={() => handleActiveProducts()}>
+          <ListItemText secondary='Active Products' />
+          <Divider />
+        </ListItem>
+        <ListItem button onClick={() => handleBoughtProducts()}>
+          <ListItemText secondary='Bough Products' />
+          <Divider />
+        </ListItem>
+        <ListItem button onClick={() => handleCartProducts()}>
+          <ListItemText secondary='In Cart/Not Bought Products' />
           <Divider />
         </ListItem>
       </Grid>
@@ -190,9 +228,9 @@ export function Admin(props) {
             xs={12}
             container
             direction='row'
-            justify='space-between'
+            justify='space-around'
             alignItems='center'
-            style={{ marginBottom: 15 }}
+            style={{ marginBottom: 20 }}
           >
             {cards()}
           </Grid>
@@ -453,7 +491,11 @@ const mapDispatchToProps = {
   allBuyers,
   allActiveBuyers,
   allDeActiveBuyers,
-  allProducts
+  allProducts,
+  allDProducts,
+  allAProducts,
+  allBProducts,
+  allCProducts
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Admin);

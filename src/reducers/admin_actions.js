@@ -87,6 +87,64 @@ export const allProducts = () => {
   };
 };
 
+export const allDProducts = () => {
+  return (dispatch) => {
+    return superagent
+      .get(`${API_LINK_Admin}/deletedproducts`)
+      .set('authorization', `Basic ${token}`)
+      .then((res) => {
+        dispatch(getAllDeactivatedProducts(res.body.result));
+      });
+  };
+};
+
+export const allAProducts = () => {
+  return (dispatch) => {
+    return superagent
+      .get(`${API_LINK_Admin}/activeproducts`)
+      .set('authorization', `Basic ${token}`)
+      .then((res) => {
+        dispatch(getAllActiveProducts(res.body.result));
+      });
+  };
+};
+
+export const allBProducts = () => {
+  return (dispatch) => {
+    return superagent
+      .get(`${API_LINK_Admin}/boughtproducts`)
+      .set('authorization', `Basic ${token}`)
+      .then((res) => {
+        // console.log(res);
+        dispatch(getAllBoughtProducts(res.body.result));
+      });
+  };
+};
+
+export const allCProducts = () => {
+  return (dispatch) => {
+    return superagent
+      .get(`${API_LINK_Admin}/incartproducts`)
+      .set('authorization', `Basic ${token}`)
+      .then((res) => {
+        // console.log(res);
+        dispatch(getAllCartProducts(res.body.result));
+      });
+  };
+};
+
+export const allFProducts = () => {
+  return (dispatch) => {
+    return superagent
+      .get(`${API_LINK_Admin}/incartproducts`)
+      .set('authorization', `Basic ${token}`)
+      .then((res) => {
+        // console.log(res);
+        dispatch(getAllFavProducts(res.body.result));
+      });
+  };
+};
+
 // Functions
 
 export const getAllSellers = (payload) => {
