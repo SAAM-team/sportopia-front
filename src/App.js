@@ -1,7 +1,11 @@
-// Importing
+import Header from './components/header/header'
+import Products from './components/products/products'
+import Carousel from './components/carousel/carousel'
+import { EachCategory } from './components/circle/circle';
+import { BrowserRouter, Route, Switch,Router } from 'react-router-dom';
+import CategoryProds from './components/category-prods/category-prods';
 import BiddingMain from './components/bidding/bidding-main';
 import BiddingRoom from './components/bidding/bidding-room';
-import { Route, Switch, Router } from 'react-router-dom';
 import GlobalState from './context/global-state';
 import Header from './components/header/header';
 import Products from './components/products/products';
@@ -12,6 +16,7 @@ import Admin from './components/admin/index';
 function App() {
   return (
     <>
+<BrowserRouter>
       <GlobalState>
         <Header />
         <Switch>
@@ -20,8 +25,13 @@ function App() {
           <Route exact path='/bidding' component={BiddingMain} />
           <Route path='/bidding/:id' component={BiddingRoom} />
           <Route path='/admin' component={Admin} />
+          <Route path='/circle'>
+            <EachCategory />
+          </Route>
+          <Route path='/:id' component={CategoryProds} />
         </Switch>
       </GlobalState>
+      </BrowserRouter>
     </>
   );
 }

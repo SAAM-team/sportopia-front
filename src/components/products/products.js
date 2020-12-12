@@ -32,8 +32,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function Header(props) {
-  const classes = useStyles();
+
+function Products(props) {
+    const classes = useStyles();
 
   useEffect(() => {
     props.getRemoteData();
@@ -110,4 +111,4 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = { getRemoteData };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Products);
