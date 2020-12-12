@@ -8,6 +8,7 @@ import BiddingRoom from './components/bidding/bidding-room';
 import GlobalState from './context/global-state';
 import SignIn from './components/signin';
 import Admin from './components/admin/index';
+import SingleProduct from './components/singleProduct/singleProduct';
 // Component
 
 function App() {
@@ -26,6 +27,8 @@ function App() {
               <EachCategory />
             </Route>
             <Route path='/:id' component={CategoryProds} />
+             <Route path="/product/:id" component={SingleProduct} />
+
           </Switch>
         </GlobalState>
       </BrowserRouter>
