@@ -9,6 +9,7 @@ import GlobalState from './context/global-state';
 import SignIn from './components/signin';
 import Admin from './components/admin/index';
 import SingleProduct from './components/singleProduct/singleProduct';
+import PayPal from './components/paypal/paypal';
 // Component
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route path="/bidding/:id" component={BiddingRoom} />
             <Route path="/admin" component={Admin} />
             <Route path="/product/:id" component={SingleProduct} />
+            <Route path="/paypal/:id" component={PayPal} />
             <Route path="/circle">
               <EachCategory />
             </Route>
