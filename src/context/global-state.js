@@ -57,7 +57,7 @@ export default function GlobalState(props) {
   const register = async (obj) => {
     try {
       const response = await superagent.post(`${API_LINK}/signup`).send(obj);
-      console.log(response);
+      console.log('we are here', response.body);
       if (response.body.message === 'This username already used') {
         setError(response.body.message);
       } else {
@@ -75,6 +75,7 @@ export default function GlobalState(props) {
       setError(
         'Something Went Bad, Please try again later!! Thank you for understanding'
       );
+      console.log('baaaaad');
     }
   };
 

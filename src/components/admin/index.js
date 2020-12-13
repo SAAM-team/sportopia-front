@@ -4,7 +4,7 @@ import { StateContext } from '../../context/global-state';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { If, Then, Else } from '../../if/if';
 import { deepPurple } from '@material-ui/core/colors';
-import { Card, Row, Col } from 'react-bootstrap';
+import { Card, Row, Col, PageItem } from 'react-bootstrap';
 import {
   Grid,
   Paper,
@@ -80,7 +80,7 @@ export function Admin(props) {
   const [users, setUsers] = useState(0);
   const [products, setProducts] = useState(0);
   const [active, setActive] = useState('');
-  const [page, setPage] = useState(1);
+  const [page1, setPage] = useState(1);
   const [count, setCount] = useState(0);
 
   // Effect
@@ -146,6 +146,53 @@ export function Admin(props) {
 
   const handleChange = (event, value) => {
     setPage(value);
+    renderAgain(value);
+  };
+
+  const renderAgain = (pageNumber) => {
+    let obj = {
+      target: {
+        innerHTML: active
+      }
+    };
+    switch (active) {
+      case 'Sellers':
+        handleAllSellers(obj, pageNumber);
+        break;
+      case 'Active Sellers':
+        handleAllActiveSeller(obj, pageNumber);
+        break;
+      case 'Deactivate Sellers':
+        handleAllDeActiveSeller(obj, pageNumber);
+        break;
+      case 'Buyers':
+        handleAllBuyers(obj, pageNumber);
+        break;
+      case 'Active Buyers':
+        handleAllActiveBuyers(obj, pageNumber);
+        break;
+      case 'Deactivate Buyers':
+        handleAllDeActiveBuyers(obj, pageNumber);
+        break;
+      case 'Products':
+        handleAllProducts(obj, pageNumber);
+        break;
+      case 'Deleted Products':
+        handleDeletedProducts(obj, pageNumber);
+        break;
+      case 'Active Products':
+        handleActiveProducts(obj, pageNumber);
+        break;
+      case 'Bough Products':
+        handleBoughtProducts(obj, pageNumber);
+        break;
+      case 'In Cart/Not Bought Products':
+        handleCartProducts(obj, pageNumber);
+        break;
+
+      default:
+        break;
+    }
   };
 
   const handleClickOpen = (e) => {
@@ -156,85 +203,92 @@ export function Admin(props) {
     setOpen(false);
   };
 
-  const handleAllSellers = async (e) => {
+  const handleStates = (number, name) => {
+    setCount(Math.ceil(number / 10));
+    if (name !== active) {
+      setPage(1);
+    }
+  };
+
+  const handleAllSellers = async (e, page = 1) => {
     setActive(e.target.innerHTML);
-    props.allSellers();
+    props.allSellers(page);
     let number = await props.sellers();
-    setCount(Math.ceil(number / 10));
+    handleStates(number, e.target.innerHTML);
   };
 
-  const handleAllActiveSeller = async (e) => {
+  const handleAllActiveSeller = async (e, page = 1) => {
     setActive(e.target.innerHTML);
-    props.allActiveSellers();
+    props.allActiveSellers(page);
     let number = await props.aSellers();
-    setCount(Math.ceil(number / 10));
+    handleStates(number, e.target.innerHTML);
   };
 
-  const handleAllDeActiveSeller = async (e) => {
+  const handleAllDeActiveSeller = async (e, page = 1) => {
     setActive(e.target.innerHTML);
-    props.allDeActiveSellers();
+    props.allDeActiveSellers(page);
     let number = await props.dSellers();
-    setCount(Math.ceil(number / 10));
+    handleStates(number, e.target.innerHTML);
   };
 
-  const handleAllBuyers = async (e) => {
+  const handleAllBuyers = async (e, page = 1) => {
     setActive(e.target.innerHTML);
-    props.allBuyers();
+    props.allBuyers(page);
     let number = await props.buyers();
-    setCount(Math.ceil(number / 10));
+    handleStates(number, e.target.innerHTML);
   };
 
-  const handleAllActiveBuyers = async (e) => {
+  const handleAllActiveBuyers = async (e, page = 1) => {
     setActive(e.target.innerHTML);
-    props.allActiveBuyers();
+    props.allActiveBuyers(page);
     let number = await props.aBuyers();
-    setCount(Math.ceil(number / 10));
+    handleStates(number, e.target.innerHTML);
   };
 
-  const handleAllDeActiveBuyers = async (e) => {
+  const handleAllDeActiveBuyers = async (e, page = 1) => {
     setActive(e.target.innerHTML);
-    props.allDeActiveBuyers();
+    props.allDeActiveBuyers(page);
     let number = await props.dBuyers();
-    setCount(Math.ceil(number / 10));
+    handleStates(number, e.target.innerHTML);
   };
-  const handleAllProducts = async (e) => {
+  const handleAllProducts = async (e, page = 1) => {
     setActive(e.target.innerHTML);
-    props.allProducts();
+    props.allProducts(page);
     let number = await props.products();
-    setCount(Math.ceil(number / 10));
+    handleStates(number, e.target.innerHTML);
   };
 
-  const handleDeletedProducts = async (e) => {
+  const handleDeletedProducts = async (e, page = 1) => {
     setActive(e.target.innerHTML);
-    props.allDProducts();
+    props.allDProducts(page);
     let number = await props.dProducts();
-    setCount(Math.ceil(number / 10));
+    handleStates(number, e.target.innerHTML);
   };
 
-  const handleActiveProducts = async (e) => {
+  const handleActiveProducts = async (e, page = 1) => {
     setActive(e.target.innerHTML);
-    props.allAProducts();
+    props.allAProducts(page);
     let number = await props.aProducts();
-    setCount(Math.ceil(number / 10));
+    handleStates(number, e.target.innerHTML);
   };
 
-  const handleBoughtProducts = async (e) => {
+  const handleBoughtProducts = async (e, page = 1) => {
     setActive(e.target.innerHTML);
-    props.allBProducts();
+    props.allBProducts(page);
     let number = await props.bProducts();
-    setCount(Math.ceil(number / 10));
+    handleStates(number, e.target.innerHTML);
   };
 
-  const handleCartProducts = async (e) => {
+  const handleCartProducts = async (e, page = 1) => {
     setActive(e.target.innerHTML);
-    props.allCProducts();
+    props.allCProducts(page);
     let number = await props.cProducts();
-    setCount(Math.ceil(number / 10));
+    handleStates(number, e.target.innerHTML);
   };
 
   const handleFavProducts = () => {};
 
-  const handleAddCategory = async (e) => {
+  const handleAddCategory = async (e, page = 1) => {
     setActive(e.target.innerHTML);
     props.addCategory(category);
   };
@@ -439,7 +493,7 @@ export function Admin(props) {
                         <div className={classes.pagination}>
                           <Pagination
                             count={count}
-                            page={page}
+                            page={page1}
                             onChange={handleChange}
                           />
                         </div>
@@ -485,7 +539,7 @@ export function Admin(props) {
                             <div className={classes.pagination}>
                               <Pagination
                                 count={count}
-                                page={page}
+                                page={page1}
                                 onChange={handleChange}
                               />
                             </div>
@@ -531,7 +585,7 @@ export function Admin(props) {
                                 <div className={classes.pagination}>
                                   <Pagination
                                     count={count}
-                                    page={page}
+                                    page={page1}
                                     onChange={handleChange}
                                   />
                                 </div>
