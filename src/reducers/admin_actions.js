@@ -3,6 +3,36 @@ import cookie from 'react-cookies';
 const API_LINK_Admin = 'https://sportopiav1.herokuapp.com';
 let token = cookie.load('token');
 
+// Active and Deductive
+
+export const toggleUser = (id) => {
+  return (dispatch) => {
+    return superagent
+      .post(`${API_LINK_Admin}/toggle/${id}`)
+      .set('authorization', `Basic ${token}`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+};
+
+export const toggleProduct = (id) => {
+  return (dispatch) => {
+    return superagent
+      .post(`${API_LINK_Admin}/delete/products/${id}`)
+      .set('authorization', `Basic ${token}`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+};
+
 // Sellers function
 
 export const allSellers = (pageNumber) => {

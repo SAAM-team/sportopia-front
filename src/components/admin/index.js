@@ -30,6 +30,8 @@ import {
   Tooltip
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { connect } from 'react-redux';
 import Pagination from '@material-ui/lab/Pagination';
 
@@ -47,7 +49,9 @@ import {
   allCProducts,
   addCategory,
   numberOfUsers,
-  numberOfProducts
+  numberOfProducts,
+  toggleUser,
+  toggleProduct
 } from '../../reducers/admin_actions';
 
 import {
@@ -73,13 +77,17 @@ let rowP = [];
 
 export function Admin(props) {
   const [keys, setKeys] = useState([]);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [openU, setOpenU] = useState(false);
+  const [openP, setOpenP] = useState(false);
   const [category, setCategory] = useState('');
   const [users, setUsers] = useState(0);
   const [products, setProducts] = useState(0);
   const [active, setActive] = useState('');
   const [page1, setPage] = useState(1);
   const [count, setCount] = useState(0);
+  const [userId, setUserId] = useState(0);
+  const [productId, setProductId] = useState(0);
 
   // Effect
 
@@ -148,8 +156,6 @@ export function Admin(props) {
 
   // Functions
 
-  const editState = () => {};
-
   const handleChange = (event, value) => {
     setPage(value);
     renderAgain(value);
@@ -204,9 +210,17 @@ export function Admin(props) {
   const handleClickOpen = (e) => {
     setOpen(true);
   };
+  const handleClickOpenP = (e) => {
+    setOpenP(true);
+  };
+  const handleClickOpenU = (e) => {
+    setOpenU(true);
+  };
 
   const handleClose = (e) => {
     setOpen(false);
+    setOpenU(false);
+    setOpenP(false);
   };
 
   const handleStates = (number, name) => {
@@ -299,6 +313,14 @@ export function Admin(props) {
     props.addCategory(category);
   };
 
+  const handleToggleProduct = () => {
+    props.toggleProduct(productId);
+  };
+
+  const handleToggleUser = () => {
+    props.toggleUser(userId);
+  };
+
   const cards = () => {
     return (
       <>
@@ -383,15 +405,23 @@ export function Admin(props) {
   };
   return (
     <>
-      <Tooltip title='Add Category'>
-        <Fab
-          style={{ position: 'absolute', top: 70, right: 30 }}
-          color='primary'
-          aria-label='add'
-        >
-          <AddIcon onClick={handleClickOpen} />
-        </Fab>
-      </Tooltip>
+      <div style={{ position: 'absolute', top: 70, right: 30 }}>
+        <Tooltip title='Add Category'>
+          <Fab color='primary' aria-label='add'>
+            <AddIcon onClick={handleClickOpen} />
+          </Fab>
+        </Tooltip>
+        <Tooltip title='Toggle User'>
+          <Fab color='primary' aria-label='add'>
+            <AccountCircleIcon onClick={handleClickOpenU} />
+          </Fab>
+        </Tooltip>
+        <Tooltip title='Toggle Product'>
+          <Fab color='primary' aria-label='add'>
+            <EditIcon onClick={handleClickOpenP} />
+          </Fab>
+        </Tooltip>
+      </div>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -419,6 +449,66 @@ export function Admin(props) {
           </Button>
         </DialogActions>
       </Dialog>
+      <Dialog
+        open={openU}
+        onClose={handleClose}
+        aria-labelledby='form-dialog-title'
+      >
+        <DialogTitle id='form-dialog-title'>Toggle Users</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please get the user id from the table to change it's status
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin='dense'
+            id='name'
+            label='User ID'
+            type='email'
+            fullWidth
+            onChange={(e) => setUserId(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color='primary'>
+            Cancel
+          </Button>
+          <Button onClick={() => handleToggleUser()} color='primary'>
+            Toggle
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={openP}
+        onClose={handleClose}
+        aria-labelledby='form-dialog-title'
+      >
+        <DialogTitle id='form-dialog-title'>Toggle Products</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please get the product id from the table to change it's status
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin='dense'
+            id='name'
+            label='Product ID'
+            type='email'
+            fullWidth
+            onChange={(e) => setProductId(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color='primary'>
+            Cancel
+          </Button>
+          <Button onClick={() => handleToggleProduct()} color='primary'>
+            Toggle
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <Grid
         xs={12}
         container
@@ -467,9 +557,6 @@ export function Admin(props) {
                         </StyledTableCell>
                       );
                     })}
-                    <StyledTableCell align='center' key='toggle'>
-                      TOGGLE
-                    </StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -501,12 +588,6 @@ export function Admin(props) {
                           </StyledTableCell>
                           <StyledTableCell align='center'>
                             {row.id}
-                          </StyledTableCell>
-                          <StyledTableCell align='center'>
-                            <Fab color='primary' aria-label='toggle'>
-                              <CreateIcon onClick={editState} />
-                              {/* <AddIcon onClick={handleClickOpen} /> */}
-                            </Fab>
                           </StyledTableCell>
                         </StyledTableRow>
                       ))}
@@ -560,12 +641,6 @@ export function Admin(props) {
                               <StyledTableCell align='center'>
                                 {row.id}
                               </StyledTableCell>
-                              <StyledTableCell align='center'>
-                                <Fab color='primary' aria-label='toggle'>
-                                  <CreateIcon onClick={editState} />
-                                  {/* <AddIcon onClick={handleClickOpen} /> */}
-                                </Fab>
-                              </StyledTableCell>
                             </StyledTableRow>
                           ))}
                           <StyledTableCell colSpan={keys.length} align='center'>
@@ -614,12 +689,6 @@ export function Admin(props) {
                                   </StyledTableCell>
                                   <StyledTableCell align='center'>
                                     {row.id}
-                                  </StyledTableCell>
-                                  <StyledTableCell align='center'>
-                                    <Fab color='primary' aria-label='toggle'>
-                                      <CreateIcon onClick={editState} />
-                                      {/* <AddIcon onClick={handleClickOpen} /> */}
-                                    </Fab>
                                   </StyledTableCell>
                                 </StyledTableRow>
                               ))}
@@ -778,6 +847,8 @@ const mapDispatchToProps = {
   addCategory,
   numberOfUsers,
   numberOfProducts,
+  toggleUser,
+  toggleProduct,
   sellers,
   dSellers,
   aSellers,
