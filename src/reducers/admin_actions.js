@@ -12,7 +12,7 @@ export const allSellers = (pageNumber) => {
       .get(`${API_LINK_Admin}/sellers/${pageNumber}`)
       .set('authorization', `Basic ${token}`)
       .then((res) => {
-        console.log(res.body);
+        console.log(res.body.result);
         dispatch(getAllSellers(res.body.result));
       })
       .catch((e) => {

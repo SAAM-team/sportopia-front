@@ -5,6 +5,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { If, Then, Else } from '../../if/if';
 import { deepPurple } from '@material-ui/core/colors';
 import { Card, Row, Col, PageItem } from 'react-bootstrap';
+import CreateIcon from '@material-ui/icons/Create';
 import {
   Grid,
   Paper,
@@ -26,9 +27,7 @@ import {
   TableHead,
   TableRow,
   Avatar,
-  Tooltip,
-  Typography,
-  TablePagination
+  Tooltip
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { connect } from 'react-redux';
@@ -48,8 +47,7 @@ import {
   allCProducts,
   addCategory,
   numberOfUsers,
-  numberOfProducts,
-  everythingFunc
+  numberOfProducts
 } from '../../reducers/admin_actions';
 
 import {
@@ -109,7 +107,8 @@ export function Admin(props) {
             item.user_role,
             item.company_name,
             item.adress,
-            item.telephone
+            item.telephone,
+            item.is_activated
           )
         );
       } else if (item.user_role === 'buyer') {
@@ -122,7 +121,8 @@ export function Admin(props) {
             item.adress,
             item.telephone,
             item.gender,
-            item.card_number ? 'XXXXXXXXXXX' : 'Not Inserted'
+            item.card_number ? 'XXXXXXXXXXX' : 'Not Inserted',
+            item.is_activated
           )
         );
       } else {
@@ -133,7 +133,8 @@ export function Admin(props) {
             item.main_img,
             item.price,
             item.category_name,
-            item.company_name
+            item.company_name,
+            item.is_deleted
           )
         );
       }
@@ -143,6 +144,8 @@ export function Admin(props) {
   const classes = useStyles();
 
   // Functions
+
+  const editState = () => {};
 
   const handleChange = (event, value) => {
     setPage(value);
@@ -457,10 +460,13 @@ export function Admin(props) {
                     {keys.map((key) => {
                       return (
                         <StyledTableCell align='center' key={key}>
-                          {key}
+                          {key.toUpperCase()}
                         </StyledTableCell>
                       );
                     })}
+                    <StyledTableCell align='center' key='toggle'>
+                      TOGGLE
+                    </StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -486,6 +492,15 @@ export function Admin(props) {
                           </StyledTableCell>
                           <StyledTableCell align='center'>
                             {row.telephone}
+                          </StyledTableCell>
+                          <StyledTableCell align='center'>
+                            {row.active ? 'Activated' : 'Deactivated'}
+                          </StyledTableCell>
+                          <StyledTableCell align='center'>
+                            <Fab color='primary' aria-label='toggle'>
+                              <CreateIcon onClick={editState} />
+                              {/* <AddIcon onClick={handleClickOpen} /> */}
+                            </Fab>
                           </StyledTableCell>
                         </StyledTableRow>
                       ))}
@@ -533,6 +548,15 @@ export function Admin(props) {
                               <StyledTableCell align='center'>
                                 {row.card_number}
                               </StyledTableCell>
+                              <StyledTableCell align='center'>
+                                {row.active ? 'Activated' : 'Deactivated'}
+                              </StyledTableCell>
+                              <StyledTableCell align='center'>
+                                <Fab color='primary' aria-label='toggle'>
+                                  <CreateIcon onClick={editState} />
+                                  {/* <AddIcon onClick={handleClickOpen} /> */}
+                                </Fab>
+                              </StyledTableCell>
                             </StyledTableRow>
                           ))}
                           <StyledTableCell colSpan={keys.length} align='center'>
@@ -575,6 +599,15 @@ export function Admin(props) {
                                   </StyledTableCell>
                                   <StyledTableCell align='center'>
                                     {row.company_name}
+                                  </StyledTableCell>
+                                  <StyledTableCell align='center'>
+                                    {row.deleted ? 'Deactivated' : 'Activated'}
+                                  </StyledTableCell>
+                                  <StyledTableCell align='center'>
+                                    <Fab color='primary' aria-label='toggle'>
+                                      <CreateIcon onClick={editState} />
+                                      {/* <AddIcon onClick={handleClickOpen} /> */}
+                                    </Fab>
                                   </StyledTableCell>
                                 </StyledTableRow>
                               ))}
@@ -642,8 +675,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // Table Functions
-function createSData(name, role, company, address, telephone) {
-  return { name, role, company, address, telephone };
+function createSData(name, role, company, address, telephone, active) {
+  return { name, role, company, address, telephone, active };
 }
 
 function createPData(
@@ -652,9 +685,18 @@ function createPData(
   main_img,
   price,
   category_name,
-  company_name
+  company_name,
+  deleted
 ) {
-  return { name, description, main_img, price, category_name, company_name };
+  return {
+    name,
+    description,
+    main_img,
+    price,
+    category_name,
+    company_name,
+    deleted
+  };
 }
 
 function createBData(
@@ -665,7 +707,8 @@ function createBData(
   address,
   telephone,
   gender,
-  card_number
+  card_number,
+  active
 ) {
   return {
     name,
@@ -675,7 +718,8 @@ function createBData(
     address,
     telephone,
     gender,
-    card_number
+    card_number,
+    active
   };
 }
 const StyledTableCell = withStyles((theme) => ({
