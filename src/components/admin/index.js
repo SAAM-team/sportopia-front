@@ -108,7 +108,8 @@ export function Admin(props) {
             item.company_name,
             item.adress,
             item.telephone,
-            item.is_activated
+            item.is_activated,
+            item.u_id
           )
         );
       } else if (item.user_role === 'buyer') {
@@ -122,7 +123,8 @@ export function Admin(props) {
             item.telephone,
             item.gender,
             item.card_number ? 'XXXXXXXXXXX' : 'Not Inserted',
-            item.is_activated
+            item.is_activated,
+            item.u_id
           )
         );
       } else {
@@ -134,7 +136,8 @@ export function Admin(props) {
             item.price,
             item.category_name,
             item.company_name,
-            item.is_deleted
+            item.is_deleted,
+            item.id
           )
         );
       }
@@ -497,6 +500,9 @@ export function Admin(props) {
                             {row.active ? 'Activated' : 'Deactivated'}
                           </StyledTableCell>
                           <StyledTableCell align='center'>
+                            {row.id}
+                          </StyledTableCell>
+                          <StyledTableCell align='center'>
                             <Fab color='primary' aria-label='toggle'>
                               <CreateIcon onClick={editState} />
                               {/* <AddIcon onClick={handleClickOpen} /> */}
@@ -552,6 +558,9 @@ export function Admin(props) {
                                 {row.active ? 'Activated' : 'Deactivated'}
                               </StyledTableCell>
                               <StyledTableCell align='center'>
+                                {row.id}
+                              </StyledTableCell>
+                              <StyledTableCell align='center'>
                                 <Fab color='primary' aria-label='toggle'>
                                   <CreateIcon onClick={editState} />
                                   {/* <AddIcon onClick={handleClickOpen} /> */}
@@ -602,6 +611,9 @@ export function Admin(props) {
                                   </StyledTableCell>
                                   <StyledTableCell align='center'>
                                     {row.deleted ? 'Deactivated' : 'Activated'}
+                                  </StyledTableCell>
+                                  <StyledTableCell align='center'>
+                                    {row.id}
                                   </StyledTableCell>
                                   <StyledTableCell align='center'>
                                     <Fab color='primary' aria-label='toggle'>
@@ -675,8 +687,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // Table Functions
-function createSData(name, role, company, address, telephone, active) {
-  return { name, role, company, address, telephone, active };
+function createSData(name, role, company, address, telephone, active, id) {
+  return { name, role, company, address, telephone, active, id };
 }
 
 function createPData(
@@ -686,7 +698,8 @@ function createPData(
   price,
   category_name,
   company_name,
-  deleted
+  deleted,
+  id
 ) {
   return {
     name,
@@ -695,7 +708,8 @@ function createPData(
     price,
     category_name,
     company_name,
-    deleted
+    deleted,
+    id
   };
 }
 
@@ -708,7 +722,8 @@ function createBData(
   telephone,
   gender,
   card_number,
-  active
+  active,
+  id
 ) {
   return {
     name,
@@ -719,7 +734,8 @@ function createBData(
     telephone,
     gender,
     card_number,
-    active
+    active,
+    id
   };
 }
 const StyledTableCell = withStyles((theme) => ({

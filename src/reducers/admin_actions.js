@@ -12,7 +12,6 @@ export const allSellers = (pageNumber) => {
       .get(`${API_LINK_Admin}/sellers/${pageNumber}`)
       .set('authorization', `Basic ${token}`)
       .then((res) => {
-        console.log(res.body.result);
         dispatch(getAllSellers(res.body.result));
       })
       .catch((e) => {
@@ -54,7 +53,6 @@ export const allBuyers = (pageNumber) => {
       .get(`${API_LINK_Admin}/buyers/${pageNumber}`)
       .set('authorization', `Basic ${token}`)
       .then((res) => {
-        console.log(res.body);
         dispatch(getAllBuyers(res.body.result));
       });
   };
@@ -92,6 +90,7 @@ export const allProducts = (pageNumber) => {
       .get(`${API_LINK_Admin}/allproducts/${pageNumber}`)
       .set('authorization', `Basic ${token}`)
       .then((res) => {
+        console.log(res.body.result);
         dispatch(getAllProducts(res.body.result));
       });
   };
