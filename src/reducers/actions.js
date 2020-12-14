@@ -1,14 +1,36 @@
 import superagent from 'superagent';
+import cookie from 'react-cookies';
+import jwt from 'jsonwebtoken';
 
 const API_LINK_Bidding = 'https://sportopiav1.herokuapp.com/bidding';
+const JWT_SECRET = 'thebestsecrett';
 
-let ua1 = superagent.agent();
+let ui = superagent.agent();
+
+let token = cookie.load('token');
+const validateToken = (token) => {
+  try {
+    let user = jwt.verify(token, JWT_SECRET);
+    return user;
+  } catch (e) {
+    console.log('You have to register100');
+  }
+};
+let user = validateToken(token);
 
 export const getBiddingItems = () => {
+  console.log(user.user_id);
   return (dispatch) => {
-    return superagent.get(API_LINK_Bidding).then((res) => {
-      console.log(res);
-    });
+    return ui
+      .get(API_LINK_Bidding)
+      .send('authorization', `${user.user_id}`)
+      .set('Access-Control-Allow-Origin', 'https://sportopiav1.herokuapp.com/')
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.error(e.message);
+      });
   };
 };
 

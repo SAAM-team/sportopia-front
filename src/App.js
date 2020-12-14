@@ -9,6 +9,7 @@ import GlobalState from './context/global-state';
 import SignIn from './components/signin';
 import Admin from './components/admin/index';
 import SingleProduct from './components/singleProduct/singleProduct';
+import Seller from './components/seller/seller';
 // Component
 
 function App() {
@@ -27,8 +28,8 @@ function App() {
               <EachCategory />
             </Route>
             <Route path='/:id' component={CategoryProds} />
-             <Route path="/product/:id" component={SingleProduct} />
-
+            <Route path='/product/:id' component={SingleProduct} />
+            <Route path='/seller' component={Seller} />
           </Switch>
         </GlobalState>
       </BrowserRouter>
