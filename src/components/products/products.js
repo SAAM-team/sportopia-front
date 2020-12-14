@@ -14,6 +14,14 @@ import Typography from '@material-ui/core/Typography';
 import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 import Carousel from '../carousel/carousel';
+import {
+  createCart,
+  addToCart,
+} from '../../reducers/cart-action';
+import {
+  createFav,
+  addToFav,
+} from '../../reducers/favorit-action';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,7 +47,7 @@ function Products(props) {
   useEffect(() => {
     props.getRemoteData();
   }, []);
-
+  
   return (
     <>
       <Carousel />
@@ -49,7 +57,7 @@ function Products(props) {
       <section className='container'>
         {props.products.map((product) => {
           return (
-            <Card className={classes.root}>
+            <Card className={classes.root} key={product.id} >
               <CardMedia
                 className={classes.media}
                 image={product.main_img}
@@ -67,7 +75,14 @@ function Products(props) {
                     color='textSecondary'
                     component='p'
                   >
-                    price: {product.price} $
+                    price: {product.price}$
+                  </Typography>
+                  <Typography
+                    variant='body2'
+                    color='textSecondary'
+                    component='p'
+                  >
+                    Qty: {product.quantity}
                   </Typography>
                 </CardContent>
                 <Tooltip
@@ -75,6 +90,12 @@ function Products(props) {
                   arrow
                   TransitionComponent={Zoom}
                   title='add to favorite'
+                  onClick={() => {
+                    props.createFav(product);
+                    props.addToFav(product)
+                    // prop(product)
+
+                  }}
                 >
                   <IconButton aria-label='show 4 new mails' color='inherit'>
                     <Badge badgeContent={0} color='secondary'>
@@ -88,8 +109,16 @@ function Products(props) {
                   arrow
                   TransitionComponent={Zoom}
                   title='add to cart'
+                  onClick={() => {
+                    props.createCart(product);
+                    props.addToCart(product)
+                    // prop(product)
+
+                  }}
                 >
-                  <IconButton aria-label='show 4 new mails' color='inherit'>
+                  <IconButton 
+                  aria-label='show 4 new mails' color='inherit'
+                  >
                     <Badge badgeContent={0} color='secondary'>
                       <ShoppingCartRoundedIcon />
                     </Badge>
@@ -105,10 +134,13 @@ function Products(props) {
 }
 
 const mapStateToProps = (state) => {
+  console.log('sssssssssss',state);
   return {
-    products: state.products.results
+    products: state.products.activeProducts,
+
   };
 };
-const mapDispatchToProps = { getRemoteData };
+const mapDispatchToProps = { getRemoteData, createCart, addToCart,  createFav, addToFav };
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Products);

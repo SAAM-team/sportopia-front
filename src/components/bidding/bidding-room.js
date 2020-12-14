@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useContext } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { CssBaseline, Container } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { getInsideBid } from '../../reducers/actions';
@@ -76,13 +75,6 @@ export function BiddingRoom(props) {
   );
 }
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    flexGrow: 1,
-    display: 'flex',
-    alignItems: 'space-between'
-  }
-}));
 
 const mapStateToProps = (state) => {
   console.log('state inside the room', state);

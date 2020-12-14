@@ -1,27 +1,48 @@
+import cookies from 'react-cookies';
+
 let initialState = { 
   results: [] ,
   activeProducts : [],
 };
-
+let cId = cookies.load('cId');
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
     case 'GET_P':
-      return {
-        results : payload,
-        activeProducts : state.activeProducts
-      };
+      // if(cId){
+      //   let filterdData = payload.filter(product=> product.category_id == cId);
+      //  return {
+      //    results : payload,
+      //    activeProducts : filterdData,
+      //  };
+      // }else{
+        return {
+          results : payload,
+          activeProducts : payload
+        // };
+      }
 
       case 'ACTIVE':
        let filterdProducts = state.results.filter(product=> product.category_id===payload);
-       console.log('this is the active products',filterdProducts);
 
       return {
         results : state.results,
         activeProducts : filterdProducts,
       };
+      case 'DEC-Stock':
+        state.results.forEach((item) => {
+          console.log('DEC_STOCK',item);
+            if (item.name === payload.name) item.inStock--;
+        });
+        return { ...state };
+
+    case 'INC-Stock':
+        state.results.forEach((item) => {
+            if (item.name === payload.name) item.inStock++;
+        });
+        return { ...state };
 
     default:
       return {

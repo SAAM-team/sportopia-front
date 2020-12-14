@@ -37,8 +37,6 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import PropTypes from 'prop-types';
 import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import a1 from './assets/11.gif';
 import a2 from './assets/12.gif';
 import a3 from './assets/13.gif';
@@ -49,9 +47,14 @@ import a7 from './assets/17.gif';
 import a8 from './assets/18.gif';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import { Link } from 'react-router-dom';
-import avatar from './avatar.gif';
 import Auth from '../../auth/auth';
+import cookies from 'react-cookies';
+import {
+  getCartAPI
+} from '../../reducers/cart-action';
+import {
+  getFavAPI
+} from '../../reducers/favorit-action';
 
 const avatarIcons = [a1, a2, a3, a4, a5, a6, a7, a8];
 
@@ -86,15 +89,30 @@ ScrollTop.propTypes = {
   children: PropTypes.element.isRequired,
   window: PropTypes.func
 };
-
+let notDeletedCart =[];
 function Header(props) {
+// props.cart.map((item)=>{
+//   if (item.is_deleted === false){
+//    return notDeletedCart.push(item)
+//   }
+// })
+  console.log('prrrrrrrrr', props);
+  // console.log('nnnnnn', notDeletedCart);
+
   useEffect(() => {
     props.getRemoteData();
+    props.getCartAPI();
+    props.getFavAPI();
   }, []);
 
   const classes = useStyles();
   // start of drawer
   const [state, setState] = React.useState(false);
+
+  const saveCategoryId = (id) => {
+    cookies.save('cId', id);
+    props.activeCategory(id);
+  }
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -106,13 +124,11 @@ function Header(props) {
 
     setState({ ...state, [anchor]: open });
   };
-
   const list = (anchor) => (
     <div
       // style={{backgroundColor: '#6BAB90', height: '100%', color:'E1F0C4' }}
       className={classes.list}
       role='presentation'
-      onClick={() => props.getRemoteData()}
       onClick={toggleDrawer(anchor, false)}
     >
       <Typography style={{ padding: '10px 0px 5px 10px' }} variant='h4' noWrap>
@@ -122,18 +138,24 @@ function Header(props) {
       <List>
         {props.categories.map((category, index) => (
           <>
-            <ListItem button key={category.id}>
-              <ListItemAvatar>
-                <Avatar alt='' src={avatarIcons[index]} />
-              </ListItemAvatar>
-              <ListItemText
-                primary={category.category_name}
-                onClick={() => {
-                  props.activeCategory(category.id);
-                  // props.getRemoteData()
-                }}
-              />
-            </ListItem>
+            <NavLink color='inherit' to={`/category/${category.id}`}
+              onClick={() => {
+                saveCategoryId(category.id);
+                // props.getRemoteData()
+              }}>
+
+              <ListItem
+                button key={category.id}
+              >
+                <ListItemAvatar>
+                  <Avatar alt='' src={avatarIcons[index]} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={category.category_name}
+
+                />
+              </ListItem>
+            </NavLink>
             <Divider />
           </>
         ))}
@@ -144,7 +166,7 @@ function Header(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
-  // const isMenuOpen = Boolean(anchorEl);
+  const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleProfileMenuOpen = (event) => {
@@ -165,20 +187,20 @@ function Header(props) {
   };
 
   const menuId = 'primary-search-account-menu';
-  // const renderMenu = (
-  //   <Menu
-  //     anchorEl={anchorEl}
-  //     anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-  //     id={menuId}
-  //     keepMounted
-  //     transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-  //     open={isMenuOpen}
-  //     onClose={handleMenuClose}
-  //   >
-  //     <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-  //     <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-  //   </Menu>
-  // );
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+    </Menu>
+  );
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
@@ -191,23 +213,29 @@ function Header(props) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
+            <NavLink color='white' to={'/favorite'}>
       <MenuItem>
         <IconButton aria-label='show 4 new mails' color='inherit'>
-          <Badge badgeContent={0} color='secondary'>
+          <Badge badgeContent={props.favLength} color='secondary'>
             <FavoriteRoundedIcon />
           </Badge>
         </IconButton>
         <p>My Favorite</p>
       </MenuItem>
-      <MenuItem>
-        <IconButton aria-label='show 11 new notifications' color='inherit'>
-          <Badge badgeContent={11} color='secondary'>
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
+      </NavLink>
+      <NavLink color='white' to={'/cart'}>
+        <MenuItem>
+          <IconButton aria-label='show 11 new notifications' color='inherit'>
+            {/* <Badge badgeContent={0} color='secondary'> */}
+            <Badge badgeContent={props.cartLength} color='secondary'>
+
+              <ShoppingCartRoundedIcon />
+            </Badge>
+          </IconButton>
+          <p>My Cart</p>
+        </MenuItem>
+      </NavLink>
+      {/* <MenuItem >
         <IconButton
           aria-label='account of current user'
           aria-controls='primary-search-account-menu'
@@ -217,7 +245,7 @@ function Header(props) {
           <PersonRoundedIcon />
         </IconButton>
         <p>Profile</p>
-      </MenuItem>
+      </MenuItem> */}
     </Menu>
   );
 
@@ -236,9 +264,11 @@ function Header(props) {
           >
             <MenuIcon></MenuIcon>
           </IconButton>
-          <Typography className={classes.title} variant='h6' noWrap>
-            Sportopia
+          <NavLink color='inherit' to='/'>
+            <Typography className={classes.title} variant='h6' noWrap>
+              Sportopia
           </Typography>
+          </NavLink>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -289,6 +319,7 @@ function Header(props) {
                 </Badge>
               </IconButton>
             </Tooltip>
+            <NavLink color='white' to={'/favorite'}>
             <Tooltip
               placement='top'
               arrow
@@ -296,23 +327,28 @@ function Header(props) {
               title='My Favorite'
             >
               <IconButton aria-label='show 4 new mails' color='inherit'>
-                <Badge badgeContent={0} color='secondary'>
+                <Badge badgeContent={props.favLength} color='secondary'>
                   <FavoriteRoundedIcon />
                 </Badge>
               </IconButton>
             </Tooltip>
-            <Tooltip
-              placement='top'
-              arrow
-              TransitionComponent={Zoom}
-              title='My Cart'
-            >
-              <IconButton aria-label='show 4 new mails' color='inherit'>
-                <Badge badgeContent={0} color='secondary'>
-                  <ShoppingCartRoundedIcon />
-                </Badge>
-              </IconButton>
-            </Tooltip>
+            </NavLink>
+            <NavLink color='white' to={'/cart'}>
+
+              <Tooltip
+                placement='top'
+                arrow
+                TransitionComponent={Zoom}
+                title='My Cart'
+              >
+                <IconButton aria-label='show 4 new mails' color='inherit'>
+                  {/* <Badge badgeContent={0} color='secondary'> */}
+                  <Badge badgeContent={props.cartLength} color='secondary'>
+                    <ShoppingCartRoundedIcon />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
+            </NavLink>
             <Tooltip
               placement='top'
               arrow
@@ -325,7 +361,7 @@ function Header(props) {
                   aria-label='account of current user'
                   aria-controls={menuId}
                   aria-haspopup='true'
-                  onClick={handleProfileMenuOpen}
+                  // onClick={handleProfileMenuOpen}
                   color='inherit'
                 >
                   <PersonRoundedIcon />
@@ -443,10 +479,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const mapStateToProps = (state) => {
-  console.log('this state for header component', state);
+  // console.log('state',state.cartData.cartItem.length);
   return {
-    categories: state.categories.results
+    categories: state.categories.results,
+    cartLength: state.cartData.cartItem.length,
+    favLength: state.favoriteData.favoriteItem.length
   };
 };
-const mapDispatchToProps = { getRemoteData, activeCategory };
+const mapDispatchToProps = { getRemoteData, activeCategory, getCartAPI, getFavAPI };
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

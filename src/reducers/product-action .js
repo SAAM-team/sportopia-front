@@ -17,3 +17,17 @@ const getAction = (payload) => {
     payload: payload,
   };
 };
+export const decreaseInStock = (name) => {
+  console.log('decrease name');
+  return {
+      type: 'DEC-Stock',
+      payload: name
+  }
+}
+
+export const increaseInStock = (name) => {
+  return {
+      type: 'INC-Stock',
+      payload: name
+  }
+}
