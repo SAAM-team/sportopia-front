@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { getBiddingItems } from '../../reducers/actions';
 import { StateContext } from '../../context/global-state';
-import { NavLink, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   Card,
   CardMedia,
