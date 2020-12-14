@@ -6,9 +6,10 @@ import bidding from '../reducers/bidding';
 import admin from '../reducers/admin_reducer';
 import cartData from '../reducers/cart-reducer';
 import favoriteData from '../reducers/favorite-reducer';
+import seller from '../reducers/seller-reducer';
 
+let reducers = combineReducers({ categories, products, bidding, admin, cartData,favoriteData,seller });
 
-let reducers = combineReducers({ categories, products, bidding, admin, cartData,favoriteData });
 
 const store = () => {
   return createStore(reducers, applyMiddleware(thunk));

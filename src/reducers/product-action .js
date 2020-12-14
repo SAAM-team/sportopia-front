@@ -1,13 +1,31 @@
 import superagent from 'superagent';
 import dotenv from 'dotenv';
+import cookie from 'react-cookies';
+let token = cookie.load('token');
 dotenv.config();
 const api = 'https://sportopiav1.herokuapp.com/all/products';
+const api_details = 'https://sportopiav1.herokuapp.com/buyer/product';
+let url = window.location.href.split('/');
+let productId = url[url.length - 1];
 
 export const getRemoteData = () => {
   return (dispatch) => {
     return superagent.get(api).then((response) => {
-      dispatch(getAction( JSON.parse(response.text).result ));
+      dispatch(getAction(JSON.parse(response.text).result));
     });
+  };
+};
+
+export const getProductDetails = () => {
+  console.log(productId);
+  return (dispatch) => {
+    return superagent
+      .get(`${api_details}/${productId}`)
+      .set('authorization', `Basic ${token}`)
+      .then((response) => {
+        console.log(response.body);
+        dispatch(singleProductAction(response.body.productInfo));
+      });
   };
 };
 
@@ -17,17 +35,12 @@ const getAction = (payload) => {
     payload: payload,
   };
 };
-export const decreaseInStock = (name) => {
-  console.log('decrease name');
-  return {
-      type: 'DEC-Stock',
-      payload: name
-  }
-}
 
-export const increaseInStock = (name) => {
+const singleProductAction = (payload) => {
+  let array = [];
+  array.push(payload);
   return {
-      type: 'INC-Stock',
-      payload: name
-  }
-}
+    type: 'GetSingleProductID',
+    payload: array,
+  };
+};

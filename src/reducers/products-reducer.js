@@ -5,28 +5,19 @@ let initialState = {
   activeProducts : [],
 };
 let cId = cookies.load('cId');
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
     case 'GET_P':
-      // if(cId){
-      //   let filterdData = payload.filter(product=> product.category_id == cId);
-      //  return {
-      //    results : payload,
-      //    activeProducts : filterdData,
-      //  };
-      // }else{
         return {
           results : payload,
           activeProducts : payload
-        // };
       }
-
       case 'ACTIVE':
        let filterdProducts = state.results.filter(product=> product.category_id===payload);
-
       return {
         results : state.results,
         activeProducts : filterdProducts,
@@ -46,8 +37,9 @@ export default (state = initialState, action) => {
 
     default:
       return {
-        results : state.results,
-        activeProducts : state.activeProducts
+        results: state.results,
+        selectedProduct: state.selectedProduct,
+        activeProducts : state.activeProducts,
       }
   }
 };
