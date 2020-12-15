@@ -475,12 +475,12 @@ textarea.input {
 }
 
 .header-search form .input {
-  width: calc(100% - 260px);
+  width: calc(100% - 120px);
   margin-right: -4px;
 }
 
 .header-search form .search-btn {
-  height: 40px;
+  height: 42px;
   width: 100px;
   background: #157A6E;
   color: #FFF;
@@ -494,7 +494,7 @@ textarea.input {
 \*----------------------------*/
 
 .header-ctn {
-  float: right;
+  float: left;
   padding: 15px 0px;
 }
 
