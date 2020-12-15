@@ -17,7 +17,7 @@ export default (state = initState, action) => {
 
     case 'ENTER_ROOM':
       return {
-        biddingRoom: payload.product,
+        biddingRoom: payload,
         biddingProducts: state.biddingProducts
       };
     default:

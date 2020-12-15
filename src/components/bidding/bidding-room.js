@@ -1,6 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useContext } from 'react';
-import { CssBaseline, Container } from '@material-ui/core';
+import React, { useEffect, useContext, useState } from 'react';
+import {
+  CssBaseline,
+  Container,
+  TextField,
+  Typography
+} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { getInsideBid } from '../../reducers/actions';
 import { StateContext } from '../../context/global-state';
@@ -21,61 +27,50 @@ const validateToken = (token) => {
     console.log('You have to register100');
   }
 };
-
+let renderDiv = document.getElementById('something');
 // get information
 
-let proURL = window.location.href.split('/');
-let productId = [proURL.length - 1];
 let user = validateToken(token);
 
-const data = [
-  {
-    id: '1',
-    src:
-      'https://media.mfbproject.co.za/repos/2017_alfa-romeo_stelvio_leaked_02.jpg'
-  },
-  {
-    id: '2',
-    src:
-      'https://media.mfbproject.co.za/repos/2017_alfa_romeo_stelvioquadrifoglio_official_09.jpg'
-  },
-  {
-    id: '3',
-    src:
-      'https://media.mfbproject.co.za/repos/2018-alfa-romeo-stelvio-quadrifoglio-specs-photos-speed-2.jpg'
-  },
-  {
-    id: '4',
-    src:
-      'https://media.mfbproject.co.za/repos/alfa-romeo-giulia-quadrifoglio-2017-us-wallpapers-and-hd-images-13.jpg'
-  },
-  {
-    id: '5',
-    src:
-      'https://media.mfbproject.co.za/repos/ARWP_Infra_Desk_1920_1080_Quad.png'
-  }
-];
-
 export function BiddingRoom(props) {
-  console.log('props inside the biiding room', props.product);
+  let array = props.location.pathname.split('/');
+  let productId = array[array.length - 1];
+  const classes = useStyles();
   // Context
-  const { productIdBidding } = useContext(StateContext);
+  const [message, setMessages] = useState([]);
 
   // State
 
   // Functions
 
   let socket = io('https://sportopiav1.herokuapp.com/bidding');
+  // let socket = io('http://localhost:8000/bidding');
   useEffect(() => {
-    props.getProductDetails(productId);
+    props.getInsideBid(productId);
     socket.emit('join', {
       user: user.user_id,
-      productId: productId
+      productId: parseInt(productId)
     });
     socket.on('username', (payload) => {
       console.log('this is the name', payload);
     });
   }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    socket.emit('chat', {
+      message: e.target.elements[0].value,
+      handle: user.user_name,
+      productId: parseInt(productId)
+    });
+    socket.on('chat', function (data) {
+      console.log('this is the data now', data);
+      // message.push(data.message);
+      setMessages([...message, data.message]);
+      // console.log(message);
+    });
+    e.target.elements[0].value = '';
+  };
 
   // useEffect(() => {
   //   data.push({
@@ -91,24 +86,34 @@ export function BiddingRoom(props) {
   // }, [props]);
 
   return (
-    <React.Fragment>
-      <CssBaseline />
-      <Container maxWidth='sm'>
-        <SwiftSlider
-          data={data}
-          interval={3000}
-          showDots={false}
-          enableNextAndPrev={false}
-        />
-      </Container>
-    </React.Fragment>
+    <>
+      <form onSubmit={(e) => handleSubmit(e)}>
+        <input type='text' />
+        <input type='submit' value='Click' />
+      </form>
+      {message.map((mess, index) => {
+        return (
+          <Typography key={index} variant='h1' component='h2'>
+            {mess}
+          </Typography>
+        );
+      })}
+    </>
   );
 }
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '25ch'
+    }
+  }
+}));
+
 const mapStateToProps = (state) => {
   return {
-    productUB: state.bidding.biddingRoom,
-    product: state.products.selectedProduct
+    productUB: state.bidding.biddingRoom
   };
 };
 

@@ -3,6 +3,7 @@ import cookie from 'react-cookies';
 import jwt from 'jsonwebtoken';
 
 const API_LINK_Bidding = 'https://sportopiav1.herokuapp.com/bidding';
+// const API_LINK_Bidding = 'http://localhost:8000/bidding';
 const JWT_SECRET = 'thebestsecrett';
 
 let token = cookie.load('token');
@@ -30,17 +31,18 @@ export const getBiddingItems = () => {
 };
 
 export const getInsideBid = (product_id) => {
-  console.log('inside the actions', product_id);
+  console.log(product_id);
   return (dispatch) => {
-    return superagent.get(`${API_LINK_Bidding}/${product_id}`).then((res) => {
-      let product = JSON.parse(res.text).product;
-      dispatch(enterRoom({ product }));
-    });
+    return superagent
+      .get(`${API_LINK_Bidding}/product/${product_id}`)
+      .then((res) => {
+        console.log('here my fried', res);
+        dispatch(enterRoom(res.body.product));
+      });
   };
 };
 
 export const getBid = (payload) => {
-  console.log(payload);
   return {
     type: 'GET_UNDER_BID',
     payload: payload
