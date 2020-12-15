@@ -1,11 +1,32 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useContext } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { CssBaseline, Container } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { getInsideBid } from '../../reducers/actions';
 import { StateContext } from '../../context/global-state';
 import SwiftSlider from 'react-swift-slider';
+import io from 'socket.io-client';
+import cookie from 'react-cookies';
+import jwt from 'jsonwebtoken';
+import { getProductDetails } from '../../reducers/product-action ';
+
+const JWT_SECRET = 'thebestsecrett';
+
+let token = cookie.load('token');
+const validateToken = (token) => {
+  try {
+    let user = jwt.verify(token, JWT_SECRET);
+    return user;
+  } catch (e) {
+    console.log('You have to register100');
+  }
+};
+
+// get information
+
+let proURL = window.location.href.split('/');
+let productId = [proURL.length - 1];
+let user = validateToken(token);
 
 const data = [
   {
@@ -36,7 +57,7 @@ const data = [
 ];
 
 export function BiddingRoom(props) {
-  console.log('props inside the biiding room', props.productUB);
+  console.log('props inside the biiding room', props.product);
   // Context
   const { productIdBidding } = useContext(StateContext);
 
@@ -44,8 +65,16 @@ export function BiddingRoom(props) {
 
   // Functions
 
+  let socket = io('https://sportopiav1.herokuapp.com/bidding');
   useEffect(() => {
-    props.getInsideBid(productIdBidding);
+    props.getProductDetails(productId);
+    socket.emit('join', {
+      user: user.user_id,
+      productId: productId
+    });
+    socket.on('username', (payload) => {
+      console.log('this is the name', payload);
+    });
   }, []);
 
   // useEffect(() => {
@@ -76,21 +105,13 @@ export function BiddingRoom(props) {
   );
 }
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    flexGrow: 1,
-    display: 'flex',
-    alignItems: 'space-between'
-  }
-}));
-
 const mapStateToProps = (state) => {
-  console.log('state inside the room', state);
   return {
-    productUB: state.bidding.biddingRoom
+    productUB: state.bidding.biddingRoom,
+    product: state.products.selectedProduct
   };
 };
 
-const mapDispatchToProps = { getInsideBid };
+const mapDispatchToProps = { getInsideBid, getProductDetails };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BiddingRoom);

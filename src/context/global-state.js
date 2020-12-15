@@ -14,6 +14,7 @@ export default function GlobalState(props) {
   const [token, setToken] = useState('');
   const [user, setUser] = useState({});
   const [productId, setProductId] = useState('');
+  const [singleProductId, setSingleProductId] = useState('');
   const [productIdBidding, setProductIdBidding] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -57,7 +58,7 @@ export default function GlobalState(props) {
   const register = async (obj) => {
     try {
       const response = await superagent.post(`${API_LINK}/signup`).send(obj);
-      console.log(response);
+      console.log('we are here', response.body);
       if (response.body.message === 'This username already used') {
         setError(response.body.message);
       } else {
@@ -75,6 +76,7 @@ export default function GlobalState(props) {
       setError(
         'Something Went Bad, Please try again later!! Thank you for understanding'
       );
+      console.log('baaaaad');
     }
   };
 
@@ -91,15 +93,17 @@ export default function GlobalState(props) {
     user,
     setUser,
     productId,
+    singleProductId,
     setProductId,
     productIdBidding,
     setProductIdBidding,
+    setSingleProductId,
     login,
     register,
     error,
     success,
     setSuccess,
-    setError
+    setError,
   };
   return (
     <StateContext.Provider value={state}>
