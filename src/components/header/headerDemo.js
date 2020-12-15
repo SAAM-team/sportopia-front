@@ -6,6 +6,7 @@ import {
 } from '../../reducers/categories-action';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { fade, makeStyles } from '@material-ui/core/styles';
 import {
   List,
   Divider,
@@ -55,25 +56,92 @@ import './css/font-awesome.min.css';
 import './css/nouislider.min.css';
 import './css/nouislider.min.css';
 import './css/slick.css';
+import a1 from './assets/11.gif';
+import a2 from './assets/12.gif';
+import a3 from './assets/13.gif';
+import a4 from './assets/14.gif';
+import a5 from './assets/15.gif';
+import a6 from './assets/16.gif';
+import a7 from './assets/17.gif';
+import a8 from './assets/18.gif';
+const avatarIcons = [a1, a2, a3, a4, a5, a6, a7, a8];
+
 
 function Header(props) {
+  const classes = useStyles();
 
   useEffect(() => {
     props.getRemoteData();
     props.getCartAPI();
     props.getFavAPI();
   }, []);
+  const [state, setState] = React.useState(false);
+
+  const saveCategoryId = (id) => {
+    cookies.save('cId', id);
+    props.activeCategory(id);
+  }
+
 
   const menuId = 'primary-search-account-menu';
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
 
+    setState({ ...state, [anchor]: open });
+  };
+  const list = (anchor) => (
+    <div
+      // style={{backgroundColor: '#6BAB90', height: '100%', color:'E1F0C4' }}
+      className={classes.list}
+
+      role='presentation'
+      onClick={toggleDrawer(anchor, false)}
+    >
+      <Typography style={{ padding: '10px 0px 5px 10px' }} variant="h4" noWrap>
+        Categories
+      </Typography>
+      <Divider />
+      <List>
+        {props.categories.map((category, index) => (
+          <>
+            <NavLink color='inherit' to={`/category/${category.id}`}
+              onClick={() => {
+                saveCategoryId(category.id);
+                // props.getRemoteData()
+              }}>
+
+              <ListItem
+                button key={category.id}
+              >
+                <ListItemAvatar>
+                  <Avatar alt='' src={avatarIcons[index]} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={category.category_name}
+
+                />
+              </ListItem>
+            </NavLink>
+            <Divider />
+          </>
+        ))}
+      </List>
+    </div>
+  );
 
   // end of drawer
 
   return (
     <>
+
       <header>
         <div id="top-header">
-          <div className="container">
+          <div className="container" style={{ height: 'fit-content' }}>
             <ul className="header-links pull-left">
               <li><a href="#"><i className="fa fa-phone"></i> +962781409518</a></li>
               <li><a href="#"><i className="fa fa-envelope-o"></i> saamteam@hotmail.com</a></li>
@@ -82,19 +150,25 @@ function Header(props) {
             <ul className="header-links pull-right">
               {/* <li><a href="#"><i className="fa fa-dollar"></i> USD</a></li> */}
               <li>
-                <NavLink to="/register">
-                  <Tooltip
-                    placement="top"
-                    arrow
-                    TransitionComponent={Zoom}
-                    title="sign in / up"
-                  >
-                    <i className="fa fa-user-o">
-
-                    </i>
-                  </Tooltip>
-                  <strong style={{ color: '#fff', textDecoration: 'none' }}>Hello user</strong>
-                </NavLink>
+                <Tooltip
+                  placement="top"
+                  arrow
+                  TransitionComponent={Zoom}
+                  title="sign in / up"
+                >
+                  <NavLink to="/register" style={{ color: '#157A6E' }}>
+                    <IconButton
+                      edge="end"
+                      aria-label="account of current user"
+                      aria-controls={menuId}
+                      aria-haspopup="true"
+                      color="inherit"
+                    >
+                      <PersonRoundedIcon style={{ fontSize: 25 }} />
+                    </IconButton>
+                  </NavLink>
+                </Tooltip>
+                <strong style={{ color: '#fff', textDecoration: 'none' }}>Hello user</strong>
 
 
               </li>
@@ -102,10 +176,33 @@ function Header(props) {
           </div>
         </div>
 
-        <div id="header">
+        <div id="header"style={{justifyContent: 'space-between' }}>
           <div className="container">
-            <div className="row">
-              <div style={{ marginTop: '-10px' }} className="col-md-3">
+            <div className="row" >
+              <div style={{ marginTop: '-10px' }} className="col-md-3 gridBar">
+                <div className='drawer'>
+                <IconButton
+                  edge="start"
+                  className={classes.menuButton}
+                  color="inherit"
+                  aria-label="open drawer"
+                  onClick={toggleDrawer('left', true)}
+                >
+                  <MenuIcon style={{ color: 'white', fontSize: '35px' }}></MenuIcon>
+                </IconButton>
+                <div className={classes.grow} />
+                <div>
+                  <React.Fragment key={'left'}>
+                    <Drawer
+                      anchor="left"
+                      open={state['left']}
+                      onClose={toggleDrawer('left', false)}
+                    >
+                      {list('left')}
+                    </Drawer>
+                  </React.Fragment>
+                </div>
+                </div>
                 <div className="header-logo">
                   <NavLink to="/">
                     <ListItem>
@@ -130,32 +227,66 @@ function Header(props) {
                   </form>
                 </div>
               </div>
-
-              <div className="col-md-3 clearfix">
-                <div className="header-ctn">
-                  
-
+              {/* ................................icons........................................ */}
+              <div className="col-md-3 ">
+                <div className=" headerGrid">
                   <div >
-                    {/* <a className="dropdown-toggle" > */}
-                      <NavLink to={'/cart'} style={{color:'white'}}>
-                        <Tooltip
-                          placement='top'
-                          arrow
-                          TransitionComponent={Zoom}
-                          title='My Cart'
-                        >
-                          <IconButton aria-label='show 4 new mails' color='inherit'>
-                            {/* <Badge badgeContent={0} color='secondary'> */}
-                            <Badge badgeContent={props.cartLength} color='secondary' style={{ fontSize: 10 }}>
-                              <ShoppingCartRoundedIcon style={{ fontSize: 25 }}/>
-                            </Badge>
-                          </IconButton>
-                        </Tooltip>
-                        
-                      </NavLink>
+                    <Auth role={'admin'}>
+                      <NavLink color="inherit" to="/admin" style={{ color: 'white' }}>
+                        Admin
+              </NavLink>
+                    </Auth>
+                  </div>
+                  <div >
+                    <Tooltip
+                      placement="top"
+                      arrow
+                      TransitionComponent={Zoom}
+                      title="bids list"
+                    >
+                      <IconButton
+                        aria-label="show 17 new notifications"
+                        color="inherit"
+                        style={{ color: 'white' }}
+                      >
+                        <Badge badgeContent={17} color="secondary">
+                          <GavelRoundedIcon style={{ fontSize: 25 }} />
+                        </Badge>
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+                  <div >
+                    <NavLink to={'/favorite'} style={{ color: 'white' }}>
+                      <Tooltip
+                        placement="top"
+                        arrow
+                        TransitionComponent={Zoom}
+                        title="My Favorite"
+                      >
+                        <IconButton aria-label='show 4 new mails' color='inherit'>
+                          <Badge badgeContent={props.favLength} color='secondary'>
+                            <FavoriteRoundedIcon style={{ fontSize: 25 }} />
+                          </Badge>
+                        </IconButton>
+                      </Tooltip>
+                    </NavLink>
+                  </div>
+                  <div >
+                    <NavLink to={'/cart'} style={{ color: 'white' }}>
+                      <Tooltip
+                        placement='top'
+                        arrow
+                        TransitionComponent={Zoom}
+                        title='My Cart'
+                      >
+                        <IconButton aria-label='show 4 new mails' color='inherit'>
+                          <Badge badgeContent={props.cartLength} color='secondary' style={{ fontSize: 10 }}>
+                            <ShoppingCartRoundedIcon style={{ fontSize: 25 }} />
+                          </Badge>
+                        </IconButton>
+                      </Tooltip>
 
-                    {/* </a> */}
-                   
+                    </NavLink>
                   </div>
                 </div>
               </div>
@@ -168,7 +299,84 @@ function Header(props) {
 
 }
 
-
+const useStyles = makeStyles((theme) => ({
+  grow: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    display: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
+    },
+  },
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(3),
+      width: 'auto',
+    },
+  },
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputRoot: {
+    color: 'inherit',
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
+    },
+  },
+  sectionDesktop: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
+    },
+  },
+  sectionMobile: {
+    display: 'flex',
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
+  },
+  root: {
+    position: 'fixed',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
+  },
+  list: {
+    width: 250,
+    backgroundColor: '#6BAB90',
+    height: '100%',
+    color: 'E1F0C4',
+    borderBottom: '1px solid black',
+  },
+  fullList: {
+    width: 'auto',
+  },
+}));
 
 const mapStateToProps = (state) => {
   // console.log('state',state.cartData.cartItem.length);

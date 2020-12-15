@@ -1,3 +1,13 @@
+.headerGrid{
+  display: grid ;
+  grid-template-columns: auto auto auto auto;
+
+}
+.gridBar{
+   display: grid ;
+  grid-template-columns: 20% auto ;
+  align-items: center;
+}
 /*
 Template Name: Electro - HTML Ecommerce Template
 Author: yaminncco
