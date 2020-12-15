@@ -27,7 +27,6 @@ const validateToken = (token) => {
     console.log('You have to register100');
   }
 };
-let renderDiv = document.getElementById('something');
 // get information
 
 let user = validateToken(token);
@@ -49,7 +48,7 @@ export function BiddingRoom(props) {
     props.getInsideBid(productId);
     socket.emit('join', {
       user: user.user_id,
-      productId: parseInt(productId)
+      productId: productId
     });
     socket.on('username', (payload) => {
       console.log('this is the name', payload);
