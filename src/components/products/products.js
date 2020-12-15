@@ -16,7 +16,7 @@ import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 import Button from '@material-ui/core/Button';
 import { NavLink } from 'react-router-dom';
-import Carousel from '../carousel/carousel';
+// import Carousel from '../carousel/carousel';
 import {
   createCart,
   addToCart,
@@ -54,7 +54,7 @@ function Products(props) {
   
   return (
     <>
-      <Carousel />
+      {/* <Carousel /> */}
       {/* <Typography style={{ marginLeft: '45%', marginBottom:'20px', color:'#050505' }} variant="h3" noWrap>
               Products: 
             </Typography> */}

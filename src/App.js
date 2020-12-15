@@ -1,4 +1,4 @@
-import Header from './components/header/header';
+import Header from './components/header/headerDemo';
 import Products from './components/products/products';
 import { EachCategory } from './components/circle/circle';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';

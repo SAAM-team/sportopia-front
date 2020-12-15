@@ -7,7 +7,6 @@ import {
     removeFromCart
 } from '../../reducers/cart-action';
 
-import { decreaseInStock, increaseInStock } from '../../reducers/product-action ';
 
 import { CardMedia, Container, Grid, Card, CardContent, CardActions, Button, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -138,8 +137,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     getCartAPI,
-    removeFromCart,
-    increaseInStock,
+    removeFromCart
 };
 
 

@@ -55,7 +55,7 @@ import {
 import {
   getFavAPI
 } from '../../reducers/favorit-action';
-
+import logo from './assets/sportopia-logo.png'
 const avatarIcons = [a1, a2, a3, a4, a5, a6, a7, a8];
 
 function ScrollTop(props) {
@@ -266,9 +266,16 @@ function Header(props) {
             <MenuIcon></MenuIcon>
           </IconButton>
           <NavLink to="/">
-            <Typography className={classes.title} variant="h6" noWrap>
-              Sportopia
-            </Typography>
+            <ListItem>
+                <ListItemAvatar>
+            <Avatar alt='' src={logo} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary='Sportopia'
+
+                />
+              </ListItem>
+            
           </NavLink>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
