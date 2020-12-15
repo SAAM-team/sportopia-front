@@ -138,8 +138,8 @@ function Header(props) {
 
   return (
     <>
-
       <header>
+
         <div id="top-header">
           <div className="container" style={{ height: 'fit-content' }}>
             <ul className="header-links pull-left">
@@ -149,7 +149,7 @@ function Header(props) {
             </ul>
             <ul className="header-links pull-right">
               {/* <li><a href="#"><i className="fa fa-dollar"></i> USD</a></li> */}
-              <li>
+              <li style={{height:'5px'}}>
                 <Tooltip
                   placement="top"
                   arrow
@@ -157,7 +157,7 @@ function Header(props) {
                   title="sign in / up"
                 >
                   <NavLink to="/register" style={{ color: '#157A6E' }}>
-                    <IconButton
+                    {/* <IconButton
                       edge="end"
                       aria-label="account of current user"
                       aria-controls={menuId}
@@ -165,7 +165,8 @@ function Header(props) {
                       color="inherit"
                     >
                       <PersonRoundedIcon style={{ fontSize: 25 }} />
-                    </IconButton>
+                    </IconButton> */}
+                    <i class="fa fa-user-o"></i>
                   </NavLink>
                 </Tooltip>
                 <strong style={{ color: '#fff', textDecoration: 'none' }}>Hello user</strong>
@@ -176,7 +177,7 @@ function Header(props) {
           </div>
         </div>
 
-        <div id="header"style={{justifyContent: 'space-between' }}>
+        <div id="header"style={{justifyContent: 'space-between', borderBottom: '3px solid #157A6E' }}>
           <div className="container">
             <div className="row" >
               <div style={{ marginTop: '-10px' }} className="col-md-3 gridBar">
@@ -285,7 +286,6 @@ function Header(props) {
                           </Badge>
                         </IconButton>
                       </Tooltip>
-
                     </NavLink>
                   </div>
                 </div>
@@ -294,6 +294,8 @@ function Header(props) {
           </div>
         </div>
       </header>
+     
+      
     </>
   )
 

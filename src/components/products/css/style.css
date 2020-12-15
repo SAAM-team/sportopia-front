@@ -7,16 +7,6 @@
    display: grid ;
   grid-template-columns: 20% auto ;
   align-items: center;
-  gap:2px
-}
-#gridMain{
-  display: grid ;
-  grid-template-columns: auto auto ;
-  align-items: center;
-  justify-content: space-between;    
-  gap:2px;
-  background-color: #1E1F29;
-
 }
 /*
 Template Name: Electro - HTML Ecommerce Template
@@ -972,7 +962,7 @@ textarea.input {
 }
 
 .product .product-body .product-rating>i.fa-star {
-  color: #157A6E;
+  color: #ef233c;
 }
 
 .product .product-body .product-rating:after {
@@ -1061,7 +1051,7 @@ textarea.input {
   border: 2px solid transparent;
   height: 40px;
   padding: 0 30px;
-  background-color: #157A6E;
+  background-color: #ef233c;
   color: #FFF;
   text-transform: uppercase;
   font-weight: 700;
@@ -1555,7 +1545,7 @@ textarea.input {
   border: 2px solid transparent;
   height: 40px;
   padding: 0 30px;
-  background-color: #157A6E;
+  background-color: #ef233c;
   color: #FFF;
   text-transform: uppercase;
   font-weight: 700;
