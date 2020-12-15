@@ -8,7 +8,7 @@ import BiddingRoom from './components/bidding/bidding-room';
 import GlobalState from './context/global-state';
 import SignIn from './components/signin';
 import Admin from './components/admin/index';
-import SingleProduct from './components/singleProduct/singleProduct';
+import SingleProduct from './components/singleProduct/single';
 import PayPal from './components/paypal/paypal';
 // Component
 
