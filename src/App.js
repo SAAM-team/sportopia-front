@@ -1,10 +1,9 @@
 import Header from './components/header/headerDemo';
 import Products from './components/products/productsDemo';
-import { EachCategory } from './components/circle/circle';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import CategoryProds from './components/category-prods/category-prodsDemo';
-import BiddingMain from './components/bidding/bidding-main';
-import BiddingRoom from './components/bidding/bidding-room';
+import BiddingMain from './components/bidding/bidding-mainDemo';
+import BiddingRoom from './components/bidding/bidding-roomDemo';
 import GlobalState from './context/global-state';
 import SignIn from './components/signin';
 import Admin from './components/admin/index';
@@ -23,7 +22,8 @@ function App() {
         <GlobalState>
           <Header />
           <Switch>
-            <Route path='/paypal/:id' component={PayPal} />
+
+            <Route path="/paypal/:id" component={PayPal} />
             <Route path='/cart' component={Cart} />
             <Route exact path='/' component={Products} />
             <Route exact path='/register' component={SignIn} />

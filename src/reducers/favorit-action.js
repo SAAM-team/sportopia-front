@@ -48,7 +48,7 @@ export const removeFromFav = (productID) => {
       .set('Content-Type', 'application/json; charset=utf-8')
       .then((res) => {
         console.log('Here is the deleted fav item: ', res.body.product[0]);
-        dispatch(removeFromFavDispatch(res.body.product[0]))
+        removeFromFavDispatch(res.body.product[0])
         // dispatch(removeFromFavDispatch(res.body.product))
       });
   // };
