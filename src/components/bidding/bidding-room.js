@@ -96,9 +96,9 @@ export function BiddingRoom(props) {
     });
   }, []);
 
-  // useEffect(() => {
-  //   props.productUB.map((item) => setPrice(item.price));
-  // }, [props.productUB]);
+  useEffect(() => {
+    props.productUB.map((item) => setPrice(item.price));
+  }, [props.productUB]);
 
   socket.on('typing', function (data) {
     let para = document.getElementById('feedback');
