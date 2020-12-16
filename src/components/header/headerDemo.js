@@ -2,20 +2,11 @@
 import React, { useEffect } from 'react';
 import {
   getRemoteData,
-<<<<<<< Updated upstream
-  activeCategory,
-} from "../../reducers/categories-action";
-import { connect } from "react-redux";
-import { NavLink,Redirect } from "react-router-dom";
-
-import { fade, makeStyles } from "@material-ui/core/styles";
-=======
   activeCategory
 } from '../../reducers/categories-action';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import { fade, makeStyles } from '@material-ui/core/styles';
->>>>>>> Stashed changes
 import {
   List,
   Divider,
@@ -261,20 +252,20 @@ function Header(props) {
                         Admin
                       </NavLink>
                     </Auth>
-                    <Auth role={"seller"}>
+                    <Auth role={'seller'}>
                       <NavLink
-                        color="inherit"
-                        to="/seller"
-                        style={{ color: "white" }}
+                        color='inherit'
+                        to='/seller'
+                        style={{ color: 'white' }}
                       >
                         Seller
                       </NavLink>
                     </Auth>
-                    <Auth role={"buyer"}>
+                    <Auth role={'buyer'}>
                       <NavLink
-                        color="inherit"
-                        to="/buyer"
-                        style={{ color: "white" }}
+                        color='inherit'
+                        to='/buyer'
+                        style={{ color: 'white' }}
                       >
                         Buyer
                       </NavLink>
@@ -285,11 +276,7 @@ function Header(props) {
                       placement='top'
                       arrow
                       TransitionComponent={Zoom}
-<<<<<<< Updated upstream
-                      title="Bids list"
-=======
-                      title='bids list'
->>>>>>> Stashed changes
+                      title='Bids list'
                     >
                       <IconButton
                         aria-label='show 17 new notifications'
