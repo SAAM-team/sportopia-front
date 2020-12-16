@@ -1,8 +1,8 @@
-import Header from './components/header/header';
-import Products from './components/products/products';
+import Header from './components/header/headerDemo';
+import Products from './components/products/productsDemo';
 import { EachCategory } from './components/circle/circle';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import CategoryProds from './components/category-prods/category-prods';
+import CategoryProds from './components/category-prods/category-prodsDemo';
 import BiddingMain from './components/bidding/bidding-main';
 import BiddingRoom from './components/bidding/bidding-room';
 import GlobalState from './context/global-state';
@@ -14,6 +14,7 @@ import Cart from './components/cart/cart';
 import Favorite from './components/favorite/favorite';
 import SingleProduct from './components/singleProduct/singleProduct';
 import Seller from './components/seller/seller';
+import Footer from './components/footer/footer';
 // Component
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
             <Route path='/product/:id' component={SingleProduct} />
             <Route path='/seller' component={Seller} />
           </Switch>
+          <Footer />
         </GlobalState>
       </BrowserRouter>
     </>

@@ -7,7 +7,7 @@ import {
     removeFromFav
 } from '../../reducers/favorit-action';
 
-import { Container, Grid, Card, CardContent, CardActions, Button, Typography } from '@material-ui/core';
+import { Container, Grid, Card, CardMedia, CardContent, CardActions, Button, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 
@@ -64,8 +64,8 @@ console.log('favvvvvvvv', props);
     const classes = useStyles();
     return (
         <>
-            <Typography style={{ padding: '10px 0px 5px 10px' }} variant='h4' noWrap>
-                Favorite Items
+            <Typography style={{ padding: '10px 0px 5px 10px', marginTop:'50px' }} variant='h3' align='center' noWrap>
+                Favorite List
       </Typography>
             {props.favoriteData.favoriteItem.map((item, idx) => {
                 console.log('props',props.favoriteData.favoriteItem[idx].is_deleted);
@@ -77,6 +77,11 @@ console.log('favvvvvvvv', props);
                             <Grid className={classes.grid1} container spacing={0} direction="row" justify="center" alignItems="center">
                                 <Grid className={classes.grid2} container item xs={6} sm={6} lg={6} >
                                     <Card key={idx} className={classes.card}>
+                                    <CardMedia
+                className={classes.media}
+                image={item.main_img}
+                title={item.id}
+              />
                                         <CardContent >
                                             <Typography variant="h5" color="textPrimary">
                                                 {item.name}

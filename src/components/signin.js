@@ -25,7 +25,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
 import { StateContext } from '../context/global-state';
-
+import '../components/signin.css'
 export default function SignIn() {
   // ContextState
 
@@ -88,7 +88,7 @@ export default function SignIn() {
 
   return (
     <>
-      <Container component='main' maxWidth='xs'>
+      <Container style={{marginTop:'50px'}} component='main' maxWidth='xs'>
         {register ? (
           <Card>
             <CardContent>
@@ -118,7 +118,7 @@ export default function SignIn() {
                         type='button'
                         fullWidth
                         variant='contained'
-                        color='secondary'
+                        color='#157A6E'
                         className={classes.submit}
                         onClick={() => {
                           setRegisterBuyer(true);
@@ -374,7 +374,7 @@ export default function SignIn() {
                         type='button'
                         fullWidth
                         variant='contained'
-                        color='secondary'
+                        color='#157A6E'
                         className={classes.submit}
                         onClick={() => {
                           setRegisterBuyer(false);
@@ -401,6 +401,7 @@ export default function SignIn() {
                 <Typography component='h1' variant='h4'>
                   Sign In
                 </Typography>
+                
                 <Link
                   component='button'
                   onClick={() => {
@@ -487,6 +488,8 @@ export default function SignIn() {
           </Card>
         )}
       </Container>
+
+     
     </>
   );
 }
@@ -500,7 +503,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: '#157A6E'
   },
   form: {
     width: '100%', // Fix IE 11 issue.

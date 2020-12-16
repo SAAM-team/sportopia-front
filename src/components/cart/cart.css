@@ -1,4 +1,4 @@
-.container {
+.containing {
     display: flex;
     flex-wrap: wrap;
     row-gap: 40px;
