@@ -46,12 +46,12 @@ const useStyles = makeStyles((theme) => ({
 function Products(props) {
   const classes = useStyles();
   const { setSingleProductId } = useContext(StateContext);
-  const selectedProductId = (p_id) => {};
-  
+  const selectedProductId = (p_id) => { };
+
   useEffect(() => {
     props.getRemoteData();
   }, []);
-  
+
   return (
     <>
       <Carousel />
@@ -60,82 +60,86 @@ function Products(props) {
             </Typography> */}
       <section className="container">
         {props.products.map((product) => {
-          return (
-            <Card className={classes.root} key={product.id} >
-              <CardMedia
-                className={classes.media}
-                image={product.main_img}
-                title={product.id}
-              />
-              <CardHeader
-                className={classes.header}
-                title={product.name}
-                subheader={product.description}
-              />
-              <CardActions disableSpacing>
-                <CardContent>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                  >
-                    price: {product.price}$
+          if (product.quantity) {
+
+            return (
+              <Card className={classes.root} key={product.id} >
+                <CardMedia
+                  className={classes.media}
+                  image={product.main_img}
+                  title={product.id}
+                />
+                <CardHeader
+                  className={classes.header}
+                  title={product.name}
+                  subheader={product.description}
+                />
+                <CardActions disableSpacing>
+                  <CardContent>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      price: {product.price}$
                   </Typography>
-                  <Typography
-                    variant='body2'
-                    color='textSecondary'
-                    component='p'
+                    <Typography
+                      variant='body2'
+                      color='textSecondary'
+                      component='p'
+                    >
+                      Qty: {product.quantity}
+                    </Typography>
+                  </CardContent>
+                  <Tooltip
+                    placement="top"
+                    arrow
+                    TransitionComponent={Zoom}
+                    title='add to favorite'
+                    onClick={() => {
+                      props.createFav(product);
+                      props.addToFav(product)
+                      // prop(product)
+
+                    }}
                   >
-                    Qty: {product.quantity}
-                  </Typography>
-                </CardContent>
-                <Tooltip
-                  placement="top"
-                  arrow
-                  TransitionComponent={Zoom}
-                  title='add to favorite'
-                  onClick={() => {
-                    props.createFav(product);
-                    props.addToFav(product)
-                    // prop(product)
+                    <IconButton aria-label="show 4 new mails" color="inherit">
+                      <Badge badgeContent={0} color="secondary">
+                        <FavoriteRoundedIcon />
 
-                  }}
-                >
-                  <IconButton aria-label="show 4 new mails" color="inherit">
-                    <Badge badgeContent={0} color="secondary">
-                      <FavoriteRoundedIcon />
-                    </Badge>
-                  </IconButton>
-                </Tooltip>
+                      </Badge>
+                    </IconButton>
+                  </Tooltip>
 
-                <Tooltip
-                  placement="top"
-                  arrow
-                  TransitionComponent={Zoom}
-                  title='add to cart'
-                  onClick={() => {
-                    props.createCart(product);
-                    props.addToCart(product)
-                    // prop(product)
+                  <Tooltip
+                    placement="top"
+                    arrow
+                    TransitionComponent={Zoom}
+                    title='add to cart'
+                    onClick={() => {
+                      props.createCart(product);
+                      props.addToCart(product)
+                      // prop(product)
 
-                  }}
-                >
-                  <IconButton 
-                  aria-label='show 4 new mails' color='inherit'
+                    }}
                   >
-                    <Badge badgeContent={0} color='secondary'>
-                      <ShoppingCartRoundedIcon />
-                    </Badge>
-                  </IconButton>
-                </Tooltip>
-                <NavLink to={() => `/product/${product.id}`}>
-                  <Button variant="contained" color="secondary">
-                    Details
+                    <IconButton
+                      aria-label='show 4 new mails' color='inherit'
+                    >
+                      <Badge badgeContent={0} color='secondary'>
+                        <ShoppingCartRoundedIcon />
+                      </Badge>
+                    </IconButton>
+                  </Tooltip>
+                  <NavLink to={() => `/product/${product.id}`}>
+                    <Button variant="contained" color="secondary">
+                      Details
                   </Button>
-                </NavLink>
-              </CardActions>
-            </Card>
-          );
+                  </NavLink>
+                </CardActions>
+              </Card>
+            );
+          }
         })}
       </section>
     </>
@@ -143,12 +147,12 @@ function Products(props) {
 }
 
 const mapStateToProps = (state) => {
-  console.log('sssssssssss',state);
+  console.log('sssssssssss', state);
   return {
     products: state.products.activeProducts,
   };
 };
-const mapDispatchToProps = { getRemoteData, createCart, addToCart,  createFav, addToFav };
+const mapDispatchToProps = { getRemoteData, createCart, addToCart, createFav, addToFav };
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Products);

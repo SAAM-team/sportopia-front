@@ -289,7 +289,6 @@ function Header(props) {
 
           {/* ................................icons on nav bar .................................... */}
           <div className={classes.sectionDesktop}>
-            <Button color='inherit'>Sell</Button>
             <Auth role={'admin'}>
               <NavLink color='inherit' to='/admin'>
                 Admin

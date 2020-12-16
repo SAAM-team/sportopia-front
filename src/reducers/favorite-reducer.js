@@ -17,10 +17,11 @@ export default (state = initialState, action) => {
 
          state.favoriteItem.push(payload);
          state.payload ++;
-            return { ...state };
+            return { ...state }
 
         case 'REMOVE-FAV':
-            let filtered = state.favoriteItem.filter(product => product !== payload);
+            let filtered = state.favoriteItem.filter(product => product.p_id !== payload.p_id);
+            console.log(filtered);
             return {
                 favoriteItem: filtered,
                 count: state.count--

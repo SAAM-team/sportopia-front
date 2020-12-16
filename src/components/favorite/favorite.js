@@ -61,6 +61,9 @@ const Favorite = props => {
         props.getFavAPI();
     }, []);
 
+    const removeHandler = (p_id) => {
+        removeFromFav(p_id);
+    }
     const classes = useStyles();
     return (
         <>
@@ -93,7 +96,7 @@ const Favorite = props => {
                                                 </Typography>
                                             </CardContent>
                                             <CardActions>
-                                                <Button key={idx} style={{ fontSize: '0.9rem' }} color="secondary" onClick={() => removeFromFav(item.p_id)} >Remove</Button>
+                                                <Button key={idx} style={{ fontSize: '0.9rem' }} color="secondary" onClick={() => removeHandler(item.p_id)} >Remove</Button>
                                             </CardActions>
                                         </Card>
                                     </Grid>

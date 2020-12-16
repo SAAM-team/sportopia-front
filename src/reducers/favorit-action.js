@@ -1,5 +1,6 @@
 import superagent from 'superagent';
 import cookie from 'react-cookies';
+import axios from 'axios';
 let api = 'https://sportopiav1.herokuapp.com';
 let token = cookie.load('token');
 
@@ -26,39 +27,32 @@ export const createFav = (product) => {
       .send({ name: product })
       .then((res) => {
         console.log('Here is the new fav item: ', res.body);
-        dispatch(addToFav(res.body.product))
+        if (res.body.product) {
+          dispatch(addToFav(res.body.product))
+        }
+        else {
+          alert('You already have this');
+        }
       });
   };
 };
 
+// Doesn't refresh, dispatch doesn't work
 export const removeFromFav = (productID) => {
-  console.log('Removing: ', `${api}/favorite/delete/${productID}`);
-  return (dispatch) => {
+  // return (dispatch) => {
+    console.log('Removing: ', `${api}/favorite/delete/${productID}`);
     return superagent
       .patch(`${api}/favorite/delete/${productID}`)
-      .send({ name: productID })
+      .set('authorization', `Basic ${token}`)
+      .set('Access-Control-Allow-Origin', '*')
+      .set('Content-Type', 'application/json; charset=utf-8')
       .then((res) => {
-        console.log('Here is the deleted fav item: ', res.body);
-        dispatch(removeFromFavDispatch(res.body.product))
-
+        console.log('Here is the deleted fav item: ', res.body.product[0]);
+        dispatch(removeFromFavDispatch(res.body.product[0]))
+        // dispatch(removeFromFavDispatch(res.body.product))
       });
-  };
-  // const requestOptions = {
-  //   method: 'PATCH',
-  //   headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${token}` },
-  //   body: JSON.stringify({ productID: productID })
   // };
-  // return (dispatch) => {
-
-  //   fetch(`${api}/favorite/delete/${productID}`, requestOptions)
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       console.log('Here is the deleted fav item: ', data.body);
-  //       dispatch(removeFromFavDispatch(data.body.product))
-  //     }
-  //     );
-  // }
-};
+}
 
 
 export const getFav = (items) => {
