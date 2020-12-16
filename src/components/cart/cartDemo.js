@@ -38,10 +38,6 @@ const Cart = (props) => {
                 <div class="product">
                   <div class="product-img">
                     <img src={item.main_img} alt=""></img>
-                    <div class="product-label">
-                      <span class="sale">-30%</span>
-                      <span class="new">NEW</span>
-                    </div>
                   </div>
                   <div class="product-body">
                     <h3 class="product-name">

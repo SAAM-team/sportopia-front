@@ -173,7 +173,7 @@ export default function SignIn() {
                                 />
                               </Grid>
                               <Grid item xs={1} sm={4}>
-                                <FacebookLogin style={{    borderRadius:' 5px'}}
+                                <FacebookLogin
                                   appId='562118384400275'
                                   fields='name,username,picture'
                                   scope='public_profile,user_friends'
