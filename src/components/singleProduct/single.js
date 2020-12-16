@@ -47,7 +47,7 @@ export function ProductDetails(props) {
 
   // Functions
 let releated =[];
-// console.log(props.selectedProduct,'props.selectedProduct');
+console.log(props.selectedProduct,'props.selectedProduct');
  props.allProducts.map((product)=>{
   if(props.selectedProduct[0].category_id === product.category_id){
 releated.push(product)
@@ -90,7 +90,7 @@ console.log(releated);
         src="./js/jquery.min.js"
       />
       
-        <div className="section">
+        <div className="section" style={{fontSize:'20px'}}>
           {props.selectedProduct.map((product) => {
             return (
               <div className="container" key={product.name}>
@@ -558,7 +558,7 @@ console.log(releated);
         </div>
 
         <div className="section">
-          <div className="container">
+          <div  className="container">
             <div className="row" style={{ justifyContent: "center"}}>
               <div className="col-md-12">
                 <div className="section-title text-center">
@@ -570,7 +570,7 @@ console.log(releated);
                 if(index<4){
 
                 return(
-              <div key={item.name} className="col-md-3 col-xs-6">
+              <div  key={item.name} className="col-md-3 col-xs-6">
 
                 <div className="product">
                   <div className="product-img">
@@ -584,7 +584,7 @@ console.log(releated);
                       <a href="#">{item.name}</a>
                     </h3>
                     <h4 className="product-price">
-                      {item.price+50}$ <del className="product-old-price">{item.price+50}$</del>
+                      {item.price}$ <del className="product-old-price">{item.price+50}$</del>
                     </h4>
                     <div className="product-rating"></div>
                     <div className="product-btns">
@@ -626,210 +626,7 @@ console.log(releated);
               })}
             </div>
           </div>
-        </div>
-
-        {/* <div id="newsletter" className="section">
-          <div className="container">
-            <div className="row">
-              <div className="col-md-12">
-                <div className="newsletter">
-                  <p>
-                    Sign Up for the <strong>NEWSLETTER</strong>
-                  </p>
-                  <form>
-                    <input
-                      className="input"
-                      type="email"
-                      placeholder="Enter Your Email"
-                    />
-                    <button className="newsletter-btn">
-                      <i className="fa fa-envelope"></i> Subscribe
-                    </button>
-                  </form>
-                  <ul className="newsletter-follow">
-                    <li>
-                      <a href="#">
-                        <i className="fa fa-facebook"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i className="fa fa-twitter"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i className="fa fa-instagram"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i className="fa fa-pinterest"></i>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
-
-        <footer id="footer">
-          <div className="section">
-            <div className="container">
-              <div className="row">
-                <div className="col-md-3 col-xs-6">
-                  <div className="footer">
-                    <h3 className="footer-title">About Us</h3>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                      sed do eiusmod tempor incididunt ut.
-                    </p>
-                    <ul className="footer-links">
-                      <li>
-                        <a href="#">
-                          <i className="fa fa-map-marker"></i>1734 Stonecoal
-                          Road
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <i className="fa fa-phone"></i>+021-95-51-84
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <i className="fa fa-envelope-o"></i>email@email.com
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="col-md-3 col-xs-6">
-                  <div className="footer">
-                    <h3 className="footer-title">Categories</h3>
-                    <ul className="footer-links">
-                      <li>
-                        <a href="#">Hot deals</a>
-                      </li>
-                      <li>
-                        <a href="#">Laptops</a>
-                      </li>
-                      <li>
-                        <a href="#">Smartphones</a>
-                      </li>
-                      <li>
-                        <a href="#">Cameras</a>
-                      </li>
-                      <li>
-                        <a href="#">Accessories</a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="clearfix visible-xs"></div>
-
-                <div className="col-md-3 col-xs-6">
-                  <div className="footer">
-                    <h3 className="footer-title">Information</h3>
-                    <ul className="footer-links">
-                      <li>
-                        <a href="#">About Us</a>
-                      </li>
-                      <li>
-                        <a href="#">Contact Us</a>
-                      </li>
-                      <li>
-                        <a href="#">Privacy Policy</a>
-                      </li>
-                      <li>
-                        <a href="#">Orders and Returns</a>
-                      </li>
-                      <li>
-                        <a href="#">Terms & Conditions</a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="col-md-3 col-xs-6">
-                  <div className="footer">
-                    <h3 className="footer-title">Service</h3>
-                    <ul className="footer-links">
-                      <li>
-                        <a href="#">My Account</a>
-                      </li>
-                      <li>
-                        <a href="#">View Cart</a>
-                      </li>
-                      <li>
-                        <a href="#">Wishlist</a>
-                      </li>
-                      <li>
-                        <a href="#">Track My Order</a>
-                      </li>
-                      <li>
-                        <a href="#">Help</a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div id="bottom-footer" className="section">
-            <div className="container">
-              <div className="row">
-                <div className="col-md-12 text-center">
-                  <ul className="footer-payments">
-                    <li>
-                      <a href="#">
-                        <i className="fa fa-cc-visa"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i className="fa fa-credit-card"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i className="fa fa-cc-paypal"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i className="fa fa-cc-mastercard"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i className="fa fa-cc-discover"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i className="fa fa-cc-amex"></i>
-                      </a>
-                    </li>
-                  </ul>
-                  <span className="copyright">
-                    Copyright &copy;
-                    <script>document.write(new Date().getFullYear());</script>
-                    All rights reserved | This template is made with
-                    <i className="fa fa-heart-o" aria-hidden="true"></i> by
-                    <a href="https://colorlib.com" target="_blank">
-                      Colorlib
-                    </a>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </footer>
+        </div>      
     </>
   );
 }
