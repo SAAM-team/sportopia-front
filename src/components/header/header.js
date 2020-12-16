@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import {
   getRemoteData,
-  activeCategory
+  activeCategory,
 } from '../../reducers/categories-action';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
@@ -470,7 +470,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const mapStateToProps = (state) => {
-  // console.log('state',state.cartData.cartItem.length);
   return {
     categories: state.categories.results,
     cartLength: state.cartData.cartItem.length,
