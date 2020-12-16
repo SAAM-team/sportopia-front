@@ -5,7 +5,6 @@ let initialState = {
   buyProduct: [],
   redirectURL: {},
 };
-// let pId = cookies.load('pId');
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state = initialState, action) => {
   const { type, payload } = action;
@@ -47,6 +46,18 @@ export default (state = initialState, action) => {
         buyProduct: state.buyProduct,
         redirectURL: payload,
       };
+    case 'DEC-Stock':
+      state.results.forEach((item) => {
+        console.log('DEC_STOCK', item);
+        if (item.name === payload.name) item.inStock--;
+      });
+      return { ...state };
+
+    case 'INC-Stock':
+      state.results.forEach((item) => {
+        if (item.name === payload.name) item.inStock++;
+      });
+      return { ...state };
     default:
       return {
         results: state.results,

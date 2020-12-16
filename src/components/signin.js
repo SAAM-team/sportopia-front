@@ -325,7 +325,9 @@ export default function SignIn() {
                                   fullWidth
                                   id='companyName'
                                   label='Company Name'
-                                  onChange={(e) => setFirstName(e.target.value)}
+                                  onChange={(e) =>
+                                    setComapnyName(e.target.value)
+                                  }
                                   autoFocus
                                 />
                               </Grid>

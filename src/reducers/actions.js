@@ -1,24 +1,43 @@
 import superagent from 'superagent';
+import cookie from 'react-cookies';
+import jwt from 'jsonwebtoken';
 
 const API_LINK_Bidding = 'https://sportopiav1.herokuapp.com/bidding';
+// const API_LINK_Bidding = 'http://localhost:8000/bidding';
+const JWT_SECRET = 'thebestsecrett';
 
-let ua1 = superagent.agent();
-
+let token = cookie.load('token');
+const validateToken = (token) => {
+  try {
+    let user = jwt.verify(token, JWT_SECRET);
+    return user;
+  } catch (e) {
+    console.log('You have to register100');
+  }
+};
+let user = validateToken(token);
 export const getBiddingItems = () => {
   return (dispatch) => {
-    return superagent.get(API_LINK_Bidding).then((res) => {
-      console.log(res);
-    });
+    return superagent
+      .get(`${API_LINK_Bidding}/${user.user_id}`)
+      .set('Content-Type', 'application/json')
+      .then((res) => {
+        dispatch(getBid(res.body.allProducts));
+      })
+      .catch((e) => {
+        console.error(e.message);
+      });
   };
 };
 
 export const getInsideBid = (product_id) => {
-  console.log('inside the actions', product_id);
   return (dispatch) => {
-    return superagent.get(`${API_LINK_Bidding}/${product_id}`).then((res) => {
-      let product = JSON.parse(res.text).product;
-      dispatch(enterRoom({ product }));
-    });
+    return superagent
+      .get(`${API_LINK_Bidding}/product/${product_id}`)
+      .then((res) => {
+        console.log('here my fried', res);
+        dispatch(enterRoom([res.body.product]));
+      });
   };
 };
 
@@ -32,6 +51,20 @@ export const getBid = (payload) => {
 export const enterRoom = (payload) => {
   return {
     type: 'ENTER_ROOM',
+    payload: payload
+  };
+};
+
+export const addMessage = (payload) => {
+  return {
+    type: 'MESSAGE',
+    payload: payload
+  };
+};
+
+export const typing = (payload) => {
+  return {
+    type: 'TYPING',
     payload: payload
   };
 };

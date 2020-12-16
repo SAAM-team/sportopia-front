@@ -23,7 +23,7 @@ import {
   Toolbar,
   Typography,
   IconButton,
-  Button,
+  Button
 } from '@material-ui/core';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -37,8 +37,6 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import PropTypes from 'prop-types';
 import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import a1 from './assets/11.gif';
 import a2 from './assets/12.gif';
 import a3 from './assets/13.gif';
@@ -49,9 +47,10 @@ import a7 from './assets/17.gif';
 import a8 from './assets/18.gif';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import { Link } from 'react-router-dom';
-import avatar from './avatar.gif';
 import Auth from '../../auth/auth';
+import cookies from 'react-cookies';
+import { getCartAPI } from '../../reducers/cart-action';
+import { getFavAPI } from '../../reducers/favorit-action';
 
 const avatarIcons = [a1, a2, a3, a4, a5, a6, a7, a8];
 
@@ -62,7 +61,7 @@ function ScrollTop(props) {
   const trigger = useScrollTrigger({
     target: window ? window() : undefined,
     disableHysteresis: true,
-    threshold: 100,
+    threshold: 100
   });
 
   const handleClick = (event) => {
@@ -76,7 +75,7 @@ function ScrollTop(props) {
   };
   return (
     <Zoom in={trigger}>
-      <div onClick={handleClick} role="presentation" className={classes.root}>
+      <div onClick={handleClick} role='presentation' className={classes.root}>
         {children}
       </div>
     </Zoom>
@@ -84,17 +83,32 @@ function ScrollTop(props) {
 }
 ScrollTop.propTypes = {
   children: PropTypes.element.isRequired,
-  window: PropTypes.func,
+  window: PropTypes.func
 };
-
+let notDeletedCart = [];
 function Header(props) {
+  // props.cart.map((item)=>{
+  //   if (item.is_deleted === false){
+  //    return notDeletedCart.push(item)
+  //   }
+  // })
+  console.log('prrrrrrrrr', props);
+  // console.log('nnnnnn', notDeletedCart);
+
   useEffect(() => {
     props.getRemoteData();
+    // props.getCartAPI();
+    // props.getFavAPI();
   }, []);
 
   const classes = useStyles();
   // start of drawer
   const [state, setState] = React.useState(false);
+
+  const saveCategoryId = (id) => {
+    cookies.save('cId', id);
+    props.activeCategory(id);
+  };
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -106,34 +120,35 @@ function Header(props) {
 
     setState({ ...state, [anchor]: open });
   };
-
   const list = (anchor) => (
     <div
       // style={{backgroundColor: '#6BAB90', height: '100%', color:'E1F0C4' }}
       className={classes.list}
-      role="presentation"
-      onClick={() => props.getRemoteData()}
+      role='presentation'
       onClick={toggleDrawer(anchor, false)}
     >
-      <Typography style={{ padding: '10px 0px 5px 10px' }} variant="h4" noWrap>
+      <Typography style={{ padding: '10px 0px 5px 10px' }} variant='h4' noWrap>
         Categories
       </Typography>
       <Divider />
       <List>
         {props.categories.map((category, index) => (
           <>
-            <ListItem button key={category.id}>
-              <ListItemAvatar>
-                <Avatar alt="" src={avatarIcons[index]} />
-              </ListItemAvatar>
-              <ListItemText
-                primary={category.category_name}
-                onClick={() => {
-                  props.activeCategory(category.id);
-                  // props.getRemoteData()
-                }}
-              />
-            </ListItem>
+            <NavLink
+              color='inherit'
+              to={`/category/${category.id}`}
+              onClick={() => {
+                saveCategoryId(category.id);
+                // props.getRemoteData()
+              }}
+            >
+              <ListItem button key={category.id}>
+                <ListItemAvatar>
+                  <Avatar alt='' src={avatarIcons[index]} />
+                </ListItemAvatar>
+                <ListItemText primary={category.category_name} />
+              </ListItem>
+            </NavLink>
             <Divider />
           </>
         ))}
@@ -144,7 +159,7 @@ function Header(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
-  // const isMenuOpen = Boolean(anchorEl);
+  const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleProfileMenuOpen = (event) => {
@@ -165,20 +180,20 @@ function Header(props) {
   };
 
   const menuId = 'primary-search-account-menu';
-  // const renderMenu = (
-  //   <Menu
-  //     anchorEl={anchorEl}
-  //     anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-  //     id={menuId}
-  //     keepMounted
-  //     transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-  //     open={isMenuOpen}
-  //     onClose={handleMenuClose}
-  //   >
-  //     <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-  //     <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-  //   </Menu>
-  // );
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+    </Menu>
+  );
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
@@ -191,23 +206,28 @@ function Header(props) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={0} color="secondary">
-            <FavoriteRoundedIcon />
-          </Badge>
-        </IconButton>
-        <p>My Favorite</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
+      <NavLink color='white' to={'/favorite'}>
+        <MenuItem>
+          <IconButton aria-label='show 4 new mails' color='inherit'>
+            <Badge badgeContent={props.favLength} color='secondary'>
+              <FavoriteRoundedIcon />
+            </Badge>
+          </IconButton>
+          <p>My Favorite</p>
+        </MenuItem>
+      </NavLink>
+      <NavLink color='white' to={'/cart'}>
+        <MenuItem>
+          <IconButton aria-label='show 11 new notifications' color='inherit'>
+            {/* <Badge badgeContent={0} color='secondary'> */}
+            <Badge badgeContent={props.cartLength} color='secondary'>
+              <ShoppingCartRoundedIcon />
+            </Badge>
+          </IconButton>
+          <p>My Cart</p>
+        </MenuItem>
+      </NavLink>
+      {/* <MenuItem >
         <IconButton
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
@@ -217,27 +237,27 @@ function Header(props) {
           <PersonRoundedIcon />
         </IconButton>
         <p>Profile</p>
-      </MenuItem>
+      </MenuItem> */}
     </Menu>
   );
 
   return (
     <div className={classes.grow}>
-      <AppBar style={{ backgroundColor: '#157A6E' }} position="static">
+      <AppBar style={{ backgroundColor: '#157A6E' }} position='static'>
         <Toolbar>
           {/* ..................................burger view ......................................... */}
 
           <IconButton
-            edge="start"
+            edge='start'
             className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
+            color='inherit'
+            aria-label='open drawer'
             onClick={toggleDrawer('left', true)}
           >
             <MenuIcon></MenuIcon>
           </IconButton>
-          <NavLink to="/">
-            <Typography className={classes.title} variant="h6" noWrap>
+          <NavLink to='/'>
+            <Typography className={classes.title} variant='h6' noWrap>
               Sportopia
             </Typography>
           </NavLink>
@@ -246,10 +266,10 @@ function Header(props) {
               <SearchIcon />
             </div>
             <InputBase
-              placeholder="Search…"
+              placeholder='Search…'
               classes={{
                 root: classes.inputRoot,
-                input: classes.inputInput,
+                input: classes.inputInput
               }}
               inputProps={{ 'aria-label': 'search' }}
             />
@@ -258,7 +278,7 @@ function Header(props) {
           <div>
             <React.Fragment key={'left'}>
               <Drawer
-                anchor="left"
+                anchor='left'
                 open={state['left']}
                 onClose={toggleDrawer('left', false)}
               >
@@ -269,66 +289,71 @@ function Header(props) {
 
           {/* ................................icons on nav bar .................................... */}
           <div className={classes.sectionDesktop}>
-            <Button color="inherit">Sell</Button>
+            <Button color='inherit'>Sell</Button>
             <Auth role={'admin'}>
-              <NavLink color="inherit" to="/admin">
+              <NavLink color='inherit' to='/admin'>
                 Admin
               </NavLink>
             </Auth>
 
             <Tooltip
-              placement="top"
+              placement='top'
               arrow
               TransitionComponent={Zoom}
-              title="bids list"
+              title='bids list'
             >
               <IconButton
-                aria-label="show 17 new notifications"
-                color="inherit"
+                aria-label='show 17 new notifications'
+                color='inherit'
               >
-                <Badge badgeContent={17} color="secondary">
+                <Badge badgeContent={17} color='secondary'>
                   <GavelRoundedIcon />
                 </Badge>
               </IconButton>
             </Tooltip>
+            <NavLink color='white' to={'/favorite'}>
+              <Tooltip
+                placement='top'
+                arrow
+                TransitionComponent={Zoom}
+                title='My Favorite'
+              >
+                <IconButton aria-label='show 4 new mails' color='inherit'>
+                  <Badge badgeContent={props.favLength} color='secondary'>
+                    <FavoriteRoundedIcon />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
+            </NavLink>
+            <NavLink color='white' to={'/cart'}>
+              <Tooltip
+                placement='top'
+                arrow
+                TransitionComponent={Zoom}
+                title='My Cart'
+              >
+                <IconButton aria-label='show 4 new mails' color='inherit'>
+                  {/* <Badge badgeContent={0} color='secondary'> */}
+                  <Badge badgeContent={props.cartLength} color='secondary'>
+                    <ShoppingCartRoundedIcon />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
+            </NavLink>
             <Tooltip
-              placement="top"
+              placement='top'
               arrow
               TransitionComponent={Zoom}
-              title="My Favorite"
+              title='sign in / up'
             >
-              <IconButton aria-label="show 4 new mails" color="inherit">
-                <Badge badgeContent={0} color="secondary">
-                  <FavoriteRoundedIcon />
-                </Badge>
-              </IconButton>
-            </Tooltip>
-            <Tooltip
-              placement="top"
-              arrow
-              TransitionComponent={Zoom}
-              title="My Cart"
-            >
-              <IconButton aria-label="show 4 new mails" color="inherit">
-                <Badge badgeContent={0} color="secondary">
-                  <ShoppingCartRoundedIcon />
-                </Badge>
-              </IconButton>
-            </Tooltip>
-            <Tooltip
-              placement="top"
-              arrow
-              TransitionComponent={Zoom}
-              title="sign in / up"
-            >
-              <NavLink to="/register">
+              <NavLink to='/register'>
                 <IconButton
-                  edge="end"
-                  aria-label="account of current user"
+                  edge='end'
+                  aria-label='account of current user'
                   aria-controls={menuId}
-                  aria-haspopup="true"
+                  aria-haspopup='true'
                   onClick={handleProfileMenuOpen}
-                  color="inherit"
+                  color='inherit'
                 >
                   <PersonRoundedIcon />
                 </IconButton>
@@ -337,26 +362,26 @@ function Header(props) {
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
-              aria-label="show more"
+              aria-label='show more'
               aria-controls={mobileMenuId}
-              aria-haspopup="true"
+              aria-haspopup='true'
               onClick={handleMobileMenuOpen}
-              color="inherit"
+              color='inherit'
             >
               <MoreIcon />
             </IconButton>
           </div>
         </Toolbar>
       </AppBar>
-      <Toolbar id="back-to-top-anchor" />
+      <Toolbar id='back-to-top-anchor' />
 
       {renderMobileMenu}
       {/* {renderMenu} */}
       <ScrollTop {...props}>
         <Fab
           style={{ backgroundColor: '#157A6E' }}
-          size="small"
-          aria-label="scroll back to top"
+          size='small'
+          aria-label='scroll back to top'
         >
           <KeyboardArrowUpIcon />
         </Fab>
@@ -367,31 +392,31 @@ function Header(props) {
 
 const useStyles = makeStyles((theme) => ({
   grow: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(2)
   },
   title: {
     display: 'none',
     [theme.breakpoints.up('sm')]: {
-      display: 'block',
-    },
+      display: 'block'
+    }
   },
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.white, 0.15),
     '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
+      backgroundColor: fade(theme.palette.common.white, 0.25)
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(3),
-      width: 'auto',
-    },
+      width: 'auto'
+    }
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
@@ -400,10 +425,10 @@ const useStyles = makeStyles((theme) => ({
     pointerEvents: 'none',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   inputRoot: {
-    color: 'inherit',
+    color: 'inherit'
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
@@ -412,42 +437,49 @@ const useStyles = makeStyles((theme) => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
+      width: '20ch'
+    }
   },
   sectionDesktop: {
     display: 'none',
     [theme.breakpoints.up('md')]: {
-      display: 'flex',
-    },
+      display: 'flex'
+    }
   },
   sectionMobile: {
     display: 'flex',
     [theme.breakpoints.up('md')]: {
-      display: 'none',
-    },
+      display: 'none'
+    }
   },
   root: {
     position: 'fixed',
     bottom: theme.spacing(2),
-    right: theme.spacing(2),
+    right: theme.spacing(2)
   },
   list: {
     width: 250,
     backgroundColor: '#6BAB90',
     height: '100%',
     color: 'E1F0C4',
-    borderBottom: '1px solid black',
+    borderBottom: '1px solid black'
   },
   fullList: {
-    width: 'auto',
-  },
+    width: 'auto'
+  }
 }));
 
 const mapStateToProps = (state) => {
   return {
     categories: state.categories.results,
+    cartLength: state.cartData.cartItem.length,
+    favLength: state.favoriteData.favoriteItem.length
   };
 };
-const mapDispatchToProps = { getRemoteData, activeCategory };
+const mapDispatchToProps = {
+  getRemoteData,
+  activeCategory,
+  getCartAPI,
+  getFavAPI
+};
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

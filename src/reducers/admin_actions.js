@@ -3,11 +3,43 @@ import cookie from 'react-cookies';
 const API_LINK_Admin = 'https://sportopiav1.herokuapp.com';
 let token = cookie.load('token');
 
-// Sellers function
-export const allSellers = () => {
+// Active and Deductive
+
+export const toggleUser = (id) => {
   return (dispatch) => {
     return superagent
-      .get(`${API_LINK_Admin}/sellers`)
+      .post(`${API_LINK_Admin}/toggle/${id}`)
+      .set('authorization', `Basic ${token}`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+};
+
+export const toggleProduct = (id) => {
+  return (dispatch) => {
+    return superagent
+      .post(`${API_LINK_Admin}/delete/products/${id}`)
+      .set('authorization', `Basic ${token}`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+};
+
+// Sellers function
+
+export const allSellers = (pageNumber) => {
+  pageNumber = pageNumber - 1;
+  return (dispatch) => {
+    return superagent
+      .get(`${API_LINK_Admin}/sellers/${pageNumber}`)
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         dispatch(getAllSellers(res.body.result));
@@ -18,10 +50,11 @@ export const allSellers = () => {
   };
 };
 
-export const allActiveSellers = () => {
+export const allActiveSellers = (pageNumber) => {
+  pageNumber = pageNumber - 1;
   return (dispatch) => {
     return superagent
-      .get(`${API_LINK_Admin}/activesellers`)
+      .get(`${API_LINK_Admin}/activesellers/${pageNumber}`)
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         dispatch(getActivatedSellers(res.body.result));
@@ -29,10 +62,11 @@ export const allActiveSellers = () => {
   };
 };
 
-export const allDeActiveSellers = () => {
+export const allDeActiveSellers = (pageNumber) => {
+  pageNumber = pageNumber - 1;
   return (dispatch) => {
     return superagent
-      .get(`${API_LINK_Admin}/deactivatedsellers`)
+      .get(`${API_LINK_Admin}/deactivatedsellers/${pageNumber}`)
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         dispatch(getDeactivatedSellers(res.body.result));
@@ -42,10 +76,11 @@ export const allDeActiveSellers = () => {
 
 // Buyers
 
-export const allBuyers = () => {
+export const allBuyers = (pageNumber) => {
+  pageNumber = pageNumber - 1;
   return (dispatch) => {
     return superagent
-      .get(`${API_LINK_Admin}/buyers`)
+      .get(`${API_LINK_Admin}/buyers/${pageNumber}`)
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         dispatch(getAllBuyers(res.body.result));
@@ -53,10 +88,11 @@ export const allBuyers = () => {
   };
 };
 
-export const allActiveBuyers = () => {
+export const allActiveBuyers = (pageNumber) => {
+  pageNumber = pageNumber - 1;
   return (dispatch) => {
     return superagent
-      .get(`${API_LINK_Admin}/activebuyers`)
+      .get(`${API_LINK_Admin}/activebuyers/${pageNumber}`)
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         dispatch(getActivatedBuyers(res.body.result));
@@ -64,10 +100,11 @@ export const allActiveBuyers = () => {
   };
 };
 
-export const allDeActiveBuyers = () => {
+export const allDeActiveBuyers = (pageNumber) => {
+  pageNumber = pageNumber - 1;
   return (dispatch) => {
     return superagent
-      .get(`${API_LINK_Admin}/deactivatedbuyers`)
+      .get(`${API_LINK_Admin}/deactivatedbuyers/${pageNumber}`)
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         dispatch(getDeactivatedBuyers(res.body.result));
@@ -76,21 +113,24 @@ export const allDeActiveBuyers = () => {
 };
 
 // Products
-export const allProducts = () => {
+export const allProducts = (pageNumber) => {
+  pageNumber = pageNumber - 1;
   return (dispatch) => {
     return superagent
-      .get(`${API_LINK_Admin}/allproducts`)
+      .get(`${API_LINK_Admin}/allproducts/${pageNumber}`)
       .set('authorization', `Basic ${token}`)
       .then((res) => {
+        console.log(res.body.result);
         dispatch(getAllProducts(res.body.result));
       });
   };
 };
 
-export const allDProducts = () => {
+export const allDProducts = (pageNumber) => {
+  pageNumber = pageNumber - 1;
   return (dispatch) => {
     return superagent
-      .get(`${API_LINK_Admin}/deletedproducts`)
+      .get(`${API_LINK_Admin}/deletedproducts/${pageNumber}`)
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         dispatch(getAllDeactivatedProducts(res.body.result));
@@ -98,10 +138,11 @@ export const allDProducts = () => {
   };
 };
 
-export const allAProducts = () => {
+export const allAProducts = (pageNumber) => {
+  pageNumber = pageNumber - 1;
   return (dispatch) => {
     return superagent
-      .get(`${API_LINK_Admin}/activeproducts`)
+      .get(`${API_LINK_Admin}/activeproducts/${pageNumber}`)
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         dispatch(getAllActiveProducts(res.body.result));
@@ -109,10 +150,11 @@ export const allAProducts = () => {
   };
 };
 
-export const allBProducts = () => {
+export const allBProducts = (pageNumber) => {
+  pageNumber = pageNumber - 1;
   return (dispatch) => {
     return superagent
-      .get(`${API_LINK_Admin}/boughtproducts`)
+      .get(`${API_LINK_Admin}/boughtproducts/${pageNumber}`)
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         // console.log(res);
@@ -121,10 +163,11 @@ export const allBProducts = () => {
   };
 };
 
-export const allCProducts = () => {
+export const allCProducts = (pageNumber) => {
+  pageNumber = pageNumber - 1;
   return (dispatch) => {
     return superagent
-      .get(`${API_LINK_Admin}/incartproducts`)
+      .get(`${API_LINK_Admin}/incartproducts/${pageNumber}`)
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         // console.log(res);
@@ -133,10 +176,11 @@ export const allCProducts = () => {
   };
 };
 
-export const allFProducts = () => {
+export const allFProducts = (pageNumber) => {
+  pageNumber = pageNumber - 1;
   return (dispatch) => {
     return superagent
-      .get(`${API_LINK_Admin}/incartproducts`)
+      .get(`${API_LINK_Admin}/incartproducts/${pageNumber}`)
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         dispatch(getAllFavProducts(res.body.result));
@@ -162,7 +206,18 @@ export const numberOfUsers = () => {
       .get(`${API_LINK_Admin}/numberUsers`)
       .set('authorization', `Basic ${token}`)
       .then((res) => {
-        console.log(res.body.number);
+        return res.body.number;
+      });
+  };
+};
+
+export const numberOfProducts = () => {
+  return (dispatch) => {
+    return superagent
+      .get(`${API_LINK_Admin}/numberproducts`)
+      .set('authorization', `Basic ${token}`)
+      .then((res) => {
+        return res.body.number;
       });
   };
 };

@@ -10,6 +10,10 @@ import SignIn from './components/signin';
 import Admin from './components/admin/index';
 import SingleProduct from './components/singleProduct/single';
 import PayPal from './components/paypal/paypal';
+import Cart from './components/cart/cart';
+import Favorite from './components/favorite/favorite';
+import SingleProduct from './components/singleProduct/singleProduct';
+import Seller from './components/seller/seller';
 // Component
 
 function App() {
@@ -19,17 +23,17 @@ function App() {
         <GlobalState>
           <Header />
           <Switch>
-            <Route exact path="/" component={Products} />
-            <Route exact path="/register" component={SignIn} />
-            <Route exact path="/bidding" component={BiddingMain} />
-            <Route path="/bidding/:id" component={BiddingRoom} />
-            <Route path="/admin" component={Admin} />
-            <Route path="/product/:id" component={SingleProduct} />
-            <Route path="/paypal/:id" component={PayPal} />
-            <Route path="/circle">
-              <EachCategory />
-            </Route>
-            <Route path="/:id" component={CategoryProds} />
+            <Route path="/paypal/:id" component={PayPal} 
+            <Route path='/cart' component={Cart} />
+            <Route exact path='/' component={Products} />
+            <Route exact path='/register' component={SignIn} />
+            <Route exact path='/bidding' component={BiddingMain} />
+            <Route path='/bidding/:id' component={BiddingRoom} />
+            <Route path='/admin' component={Admin} />
+            <Route path='/category/:id' component={CategoryProds} />
+            <Route path='/favorite' component={Favorite} />
+            <Route path='/product/:id' component={SingleProduct} />
+            <Route path='/seller' component={Seller} />
           </Switch>
         </GlobalState>
       </BrowserRouter>
