@@ -97,6 +97,7 @@ function Header(props) {
 
   useEffect(() => {
     props.getRemoteData();
+    // Has to be handled to check is the user is connected or not
     // props.getCartAPI();
     // props.getFavAPI();
   }, []);
