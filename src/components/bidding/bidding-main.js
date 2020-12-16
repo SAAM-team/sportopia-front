@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { getBiddingItems } from '../../reducers/actions';
 import { StateContext } from '../../context/global-state';
 import { NavLink, Link } from 'react-router-dom';
+import cookies from 'react-cookies';
 import {
   Card,
   CardMedia,
@@ -23,7 +24,6 @@ import {
 } from '@material-ui/core';
 
 export function BiddingMain(props) {
-  console.log(props.products);
   const classes = useStyles();
 
   // Context
@@ -45,9 +45,10 @@ export function BiddingMain(props) {
   };
 
   // Save the product id in the cookies
-  const saveProductId = (p_id) => {
-    setProductIdBidding(p_id);
-  };
+  // const saveProductId = (p_id) => {
+  // cookies.save('b_id', p_id);
+  // setProductIdBidding(p_id);
+  // };
 
   return (
     <>
@@ -77,9 +78,12 @@ export function BiddingMain(props) {
                     </CardContent>
                   </CardActionArea>
                   <CardActions>
-                    <Link to={() => `/bidding/${product.id}`}>
+                    <Link
+                      to={() => `/bidding/${product.id}`}
+                      params={{ productId: product.id }}
+                    >
                       <Button
-                        onClick={() => saveProductId(2)}
+                        // onClick={() => saveProductId(product.id)}
                         size='small'
                         color='primary'
                       >
