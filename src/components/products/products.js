@@ -6,7 +6,6 @@ import {
 } from '../../reducers/product-action ';
 import { connect } from 'react-redux';
 import { StateContext } from '../../context/global-state';
-import './products.css';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import { CardHeader, Zoom, Tooltip, Badge } from '@material-ui/core';

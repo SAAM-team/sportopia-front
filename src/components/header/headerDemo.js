@@ -5,7 +5,8 @@ import {
   activeCategory,
 } from "../../reducers/categories-action";
 import { connect } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink,Redirect } from "react-router-dom";
+
 import { fade, makeStyles } from "@material-ui/core/styles";
 import {
   List,
@@ -252,13 +253,31 @@ function Header(props) {
                         Admin
                       </NavLink>
                     </Auth>
+                    <Auth role={"seller"}>
+                      <NavLink
+                        color="inherit"
+                        to="/seller"
+                        style={{ color: "white" }}
+                      >
+                        Seller
+                      </NavLink>
+                    </Auth>
+                    <Auth role={"buyer"}>
+                      <NavLink
+                        color="inherit"
+                        to="/buyer"
+                        style={{ color: "white" }}
+                      >
+                        Buyer
+                      </NavLink>
+                    </Auth>
                   </div>
                   <div>
                     <Tooltip
                       placement="top"
                       arrow
                       TransitionComponent={Zoom}
-                      title="bids list"
+                      title="Bids list"
                     >
                       <IconButton
                         aria-label="show 17 new notifications"

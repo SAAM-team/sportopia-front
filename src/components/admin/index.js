@@ -404,6 +404,7 @@ export function Admin(props) {
     );
   };
   return (
+    
     <>
       <div style={{ position: 'absolute', top: 70, right: 30 }}>
         <Tooltip title='Add Category'>
