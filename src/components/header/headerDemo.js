@@ -5,7 +5,7 @@ import {
   activeCategory,
 } from "../../reducers/categories-action";
 import { connect } from "react-redux";
-import { NavLink,Redirect } from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
 
 import { fade, makeStyles } from "@material-ui/core/styles";
 import {
@@ -62,6 +62,22 @@ import a5 from "./assets/15.gif";
 import a6 from "./assets/16.gif";
 import a7 from "./assets/17.gif";
 import a8 from "./assets/18.gif";
+import cookie from 'react-cookies';
+import jwt from 'jsonwebtoken';
+const JWT_SECRET = 'thebestsecrett';
+let token = cookie.load('token');
+
+const validateToken = (token) => {
+  try {
+    let user = jwt.verify(token, JWT_SECRET);
+    return user;
+  } catch (e) {
+    console.log('You have to register100');
+  }
+};
+// get information
+
+let user = validateToken(token);
 const avatarIcons = [a1, a2, a3, a4, a5, a6, a7, a8];
 
 function Header(props) {
@@ -78,7 +94,7 @@ function Header(props) {
     cookies.save("cId", id);
     props.activeCategory(id);
   };
-  const logoutHandler = (()=>{
+  const logoutHandler = (() => {
     console.log('removing user')
     cookies.remove('token')
   })
@@ -339,13 +355,14 @@ function Header(props) {
                       </Tooltip>
                     </NavLink>
                   </div>
-                  <div>
+                  {user ? (
+                    <div>
                       <Tooltip
                         placement="top"
                         arrow
                         TransitionComponent={Zoom}
                         title="Signout"
-                        onClick={()=> logoutHandler()}
+                        onClick={() => logoutHandler()}
                       >
                         <IconButton
                           aria-label="show 4 new mails"
@@ -359,7 +376,9 @@ function Header(props) {
                           </Badge>
                         </IconButton>
                       </Tooltip>
-                  </div>
+                    </div>
+                  ) : console.log('hi')}
+
                 </div>
               </div>
             </div>

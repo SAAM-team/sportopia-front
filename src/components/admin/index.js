@@ -77,6 +77,7 @@ let rowsB = [];
 let rowP = [];
 
 export function Admin(props) {
+  
   const [keys, setKeys] = useState([]);
   const [open, setOpen] = useState(false);
   const [openU, setOpenU] = useState(false);
@@ -405,7 +406,6 @@ export function Admin(props) {
     );
   };
     return (
-      <Auth role={'admin'}>
       <>
       <div style={{ position: 'absolute', top: 70, right: 30 }}>
         <Tooltip title='Add Category'>
@@ -719,7 +719,6 @@ export function Admin(props) {
         </Grid>
       </Grid>
     </>
-    </Auth>
     );
 }
 
