@@ -420,7 +420,7 @@ export function Admin(props) {
       </Grid>
     );
   };
-  if (!user || user.role === 'buyer') {
+  if (!user && user.role === 'buyer') {
     return (
       <>
         <div style={{ position: 'absolute', top: 70, right: 30 }}>
