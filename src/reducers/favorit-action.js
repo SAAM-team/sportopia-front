@@ -41,7 +41,6 @@ export const createFav = (product) => {
 
 // Doesn't refresh, dispatch doesn't work
 export const removeFromFav = (productID) => {
-  // return (dispatch) => {
   console.log('Removing: ', `${api}/favorite/delete/${productID}`);
   return superagent
     .patch(`${api}/favorite/delete/${productID}`)
@@ -53,7 +52,6 @@ export const removeFromFav = (productID) => {
       removeFromFavDispatch(res.body.product[0])
       // dispatch(removeFromFavDispatch(res.body.product))
     });
-  // };
 }
 
 

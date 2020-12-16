@@ -62,8 +62,8 @@ function Footer(props) {
 
     useEffect(() => {
         props.getRemoteData();
-        props.getCartAPI();
-        props.getFavAPI();
+        // props.getCartAPI();
+        // props.getFavAPI();
     }, []);
 
     const saveCategoryId = (id) => {
