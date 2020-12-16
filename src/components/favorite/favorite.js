@@ -7,7 +7,7 @@ import {
     removeFromFav
 } from '../../reducers/favorit-action';
 
-import { Container, Grid, Card, CardMedia, CardContent, CardActions, Button, Typography } from '@material-ui/core';
+import { Container, CardMedia, Grid, Card, CardContent, CardActions, Button, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 
@@ -55,12 +55,15 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const Favorite  = props => {
-console.log('favvvvvvvv', props);
+const Favorite = props => {
+    console.log('favvvvvvvv', props);
     useEffect(() => {
         props.getFavAPI();
-      }, []);
+    }, []);
 
+    const removeHandler = (p_id) => {
+        removeFromFav(p_id);
+    }
     const classes = useStyles();
     return (
         <>
@@ -68,45 +71,45 @@ console.log('favvvvvvvv', props);
                 Favorite List
       </Typography>
             {props.favoriteData.favoriteItem.map((item, idx) => {
-                console.log('props',props.favoriteData.favoriteItem[idx].is_deleted);
+                console.log('props', props.favoriteData.favoriteItem[idx].is_deleted);
                 if (props.favoriteData.favoriteItem[idx].is_deleted === false) {
-                return (
-                    <>
-                        <Container key={idx} maxWidth="md" component="main">
+                    return (
+                        <>
+                            <Container key={idx} maxWidth="md" component="main">
 
-                            <Grid className={classes.grid1} container spacing={0} direction="row" justify="center" alignItems="center">
-                                <Grid className={classes.grid2} container item xs={6} sm={6} lg={6} >
-                                    <Card key={idx} className={classes.card}>
-                                    <CardMedia
-                className={classes.media}
-                image={item.main_img}
-                title={item.id}
-              />
-                                        <CardContent >
-                                            <Typography variant="h5" color="textPrimary">
-                                                {item.name}
-                                            </Typography>
-                                            <Typography variant="p" color="textSecondary">
-                                                category: {item.category}
-                                                <br />
-                                            price:  {item.price}
-                                            </Typography>
-                                        </CardContent>
-                                        <CardActions>
-                                            <Button key={idx} style={{ fontSize: '0.9rem' }} color="secondary" onClick={() => removeFromFav(item.id)} >Remove</Button>
-                                        </CardActions>
-                                    </Card>
+                                <Grid className={classes.grid1} container spacing={0} direction="row" justify="center" alignItems="center">
+                                    <Grid className={classes.grid2} container item xs={6} sm={6} lg={6} >
+                                        <Card key={idx} className={classes.card}>
+                                            <CardContent >
+                                                <Typography variant="h5" color="textPrimary">
+                                                    {item.name}
+                                                </Typography>
+                                                <CardMedia
+                                                    className={classes.media}
+                                                    image={item.main_img}
+                                                    title={item.id}
+                                                />
+                                                <Typography variant="p" color="textSecondary">
+                                                    Category: {item.category_name}
+                                                    <br />
+                                            Price:  {item.price}
+                                                </Typography>
+                                            </CardContent>
+                                            <CardActions>
+                                                <Button key={idx} style={{ fontSize: '0.9rem' }} color="secondary" onClick={() => removeHandler(item.p_id)} >Remove</Button>
+                                            </CardActions>
+                                        </Card>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </Container>
+                            </Container>
 
-                    </>
-                )
+                        </>
+                    )
                 }
             }
 
             )}
-            
+
 
         </>
     )

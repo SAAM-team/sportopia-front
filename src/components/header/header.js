@@ -292,10 +292,19 @@ function Header(props) {
 
           {/* ................................icons on nav bar .................................... */}
           <div className={classes.sectionDesktop}>
-            <Button color='inherit'>Sell</Button>
             <Auth role={'admin'}>
               <NavLink color='inherit' to='/admin'>
                 Admin
+              </NavLink>
+            </Auth>
+            <Auth role={'seller'}>
+              <NavLink color='inherit' to='/seller'>
+                Seller
+              </NavLink>
+            </Auth>
+            <Auth role={'buyer'}>
+              <NavLink color='inherit' to='/buyer'>
+                Buyer
               </NavLink>
             </Auth>
 
@@ -476,7 +485,7 @@ const mapStateToProps = (state) => {
   return {
     categories: state.categories.results,
     cartLength: state.cartData.cartItem.length,
-    favLength: state.favoriteData.favoriteItem.length
+    favLength: state.favoriteData.count
   };
 };
 const mapDispatchToProps = {
