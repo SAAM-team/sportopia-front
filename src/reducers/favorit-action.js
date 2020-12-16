@@ -12,9 +12,7 @@ export const getFavAPI = () => {
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         console.log('Here is your favorite', res.body);
-        if (res.body) {
-          dispatch(getFav(res.body.product));
-        }
+        dispatch(getFav(res.body.product));
       });
   };
 };
@@ -42,17 +40,17 @@ export const createFav = (product) => {
 // Doesn't refresh, dispatch doesn't work
 export const removeFromFav = (productID) => {
   // return (dispatch) => {
-  console.log('Removing: ', `${api}/favorite/delete/${productID}`);
-  return superagent
-    .patch(`${api}/favorite/delete/${productID}`)
-    .set('authorization', `Basic ${token}`)
-    .set('Access-Control-Allow-Origin', '*')
-    .set('Content-Type', 'application/json; charset=utf-8')
-    .then((res) => {
-      console.log('Here is the deleted fav item: ', res.body.product[0]);
-      removeFromFavDispatch(res.body.product[0])
-      // dispatch(removeFromFavDispatch(res.body.product))
-    });
+    console.log('Removing: ', `${api}/favorite/delete/${productID}`);
+    return superagent
+      .patch(`${api}/favorite/delete/${productID}`)
+      .set('authorization', `Basic ${token}`)
+      .set('Access-Control-Allow-Origin', '*')
+      .set('Content-Type', 'application/json; charset=utf-8')
+      .then((res) => {
+        console.log('Here is the deleted fav item: ', res.body.product[0]);
+        dispatch(removeFromFavDispatch(res.body.product[0]))
+        // dispatch(removeFromFavDispatch(res.body.product))
+      });
   // };
 }
 

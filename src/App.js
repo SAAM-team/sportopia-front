@@ -1,5 +1,6 @@
 import Header from './components/header/headerDemo';
 import Products from './components/products/productsDemo';
+import { EachCategory } from './components/circle/circle';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import CategoryProds from './components/category-prods/category-prodsDemo';
 import BiddingMain from './components/bidding/bidding-main';

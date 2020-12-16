@@ -20,23 +20,6 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import './cart.css';
-import { NavLink, Redirect } from "react-router-dom";
-import cookie from 'react-cookies';
-import jwt from 'jsonwebtoken';
-const JWT_SECRET = 'thebestsecrett';
-let token = cookie.load('token');
-
-const validateToken = (token) => {
-  try {
-    let user = jwt.verify(token, JWT_SECRET);
-    return user;
-  } catch (e) {
-    console.log('You have to register100');
-  }
-};
-// get information
-
-let user = validateToken(token);
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -90,77 +73,71 @@ const Cart = (props) => {
   }, []);
 
   const classes = useStyles();
-  if (!user || user.role === 'buyer') {
-    return (
-      <>
-        <Typography style={{ padding: '10px 0px 5px 10px' }} variant='h4' noWrap>
-          Cart
+  return (
+    <>
+      <Typography style={{ padding: '10px 0px 5px 10px' }} variant='h4' noWrap>
+        Cart
       </Typography>
-        <section className='container'>
-          {props.cartData.cartItem.map((item, idx) => {
-            console.log('props', props.cartData.cartItem[idx].is_deleted);
-            if (props.cartData.cartItem[idx].is_deleted === false) {
-              return (
-                <>
-                  <Container key={idx} maxWidth='md' component='main'>
+      <section className='container'>
+        {props.cartData.cartItem.map((item, idx) => {
+          console.log('props', props.cartData.cartItem[idx].is_deleted);
+          if (props.cartData.cartItem[idx].is_deleted === false) {
+            return (
+              <>
+                <Container key={idx} maxWidth='md' component='main'>
+                  <Grid
+                    className={classes.grid1}
+                    container
+                    spacing={0}
+                    direction='row'
+                    justify='center'
+                    alignItems='center'
+                  >
                     <Grid
-                      className={classes.grid1}
+                      className={classes.grid2}
                       container
-                      spacing={0}
-                      direction='row'
-                      justify='center'
-                      alignItems='center'
+                      item
+                      xs={6}
+                      sm={6}
+                      lg={6}
                     >
-                      <Grid
-                        className={classes.grid2}
-                        container
-                        item
-                        xs={6}
-                        sm={6}
-                        lg={6}
-                      >
-                        <Card key={idx} className={classes.card}>
-                          <CardMedia
-                            className={classes.media}
-                            image={item.main_img}
-                            title={item.id}
-                          />
-                          <CardContent>
-                            <Typography variant='h5' color='textPrimary'>
-                              {item.name}
-                            </Typography>
-                            <Typography variant='p' color='textSecondary'>
-                              category: {item.category}
-                              <br />
+                      <Card key={idx} className={classes.card}>
+                        <CardMedia
+                          className={classes.media}
+                          image={item.main_img}
+                          title={item.id}
+                        />
+                        <CardContent>
+                          <Typography variant='h5' color='textPrimary'>
+                            {item.name}
+                          </Typography>
+                          <Typography variant='p' color='textSecondary'>
+                            category: {item.category}
+                            <br />
                             price: {item.price}
-                            </Typography>
-                          </CardContent>
-                          <CardActions>
-                            <Button
-                              key={idx}
-                              style={{ fontSize: '0.9rem' }}
-                              color='secondary'
-                              onClick={() => removeFromCart(item.id)}
-                            >
-                              Remove
+                          </Typography>
+                        </CardContent>
+                        <CardActions>
+                          <Button
+                            key={idx}
+                            style={{ fontSize: '0.9rem' }}
+                            color='secondary'
+                            onClick={() => removeFromCart(item.id)}
+                          >
+                            Remove
                           </Button>
-                          </CardActions>
-                        </Card>
-                      </Grid>
+                        </CardActions>
+                      </Card>
                     </Grid>
-                  </Container>
-                </>
-              );
-            }
-          })}
-        </section>
-      </>
-    );
-  }
-  else {
-    return <Redirect to={'/'} />
-
-  }
+                  </Grid>
+                </Container>
+              </>
+            );
+          }
+        })}
+      </section>
+    </>
+  );
 };
 
 // const mapStateToProps = state => ({
