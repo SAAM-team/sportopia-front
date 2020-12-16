@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { getBiddingItems } from '../../reducers/actions';
 import { StateContext } from '../../context/global-state';
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
+import cookies from 'react-cookies';
 import {
   Card,
   CardMedia,
@@ -44,73 +45,90 @@ export function BiddingMain(props) {
   };
 
   // Save the product id in the cookies
-  const saveProductId = (p_id) => {
-    setProductIdBidding(p_id);
-  };
+  // const saveProductId = (p_id) => {
+  // cookies.save('b_id', p_id);
+  // setProductIdBidding(p_id);
+  // };
 
   return (
-    <div className={classes.container}>
+    <>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <Card className={classes.root}>
-            <CardActionArea>
-              <CardMedia
-                className={classes.media}
-                image='https://cdn.shopify.com/s/files/1/0051/4802/products/Small_Octocat_500x.png?v=1571377850'
-                title='Contemplative Reptile'
-              />
-              <CardContent>
-                <Typography gutterBottom variant='h5' component='h2'>
-                  Lizard
-                </Typography>
-                <Typography variant='body2' color='textSecondary' component='p'>
-                  Lizards are a widespread group of squamate reptiles, with over
-                  6,000 species, ranging across all continents except Antarctica
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Link to={() => `/bidding/${1}`}>
-                <Button
-                  onClick={() => saveProductId(2)}
-                  size='small'
-                  color='primary'
+        <div className={classes.container}>
+          {props.products.map((product) => {
+            return (
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <Card className={classes.root}>
+                  <CardActionArea>
+                    <CardMedia
+                      className={classes.media}
+                      image={product.main_img}
+                      title='Contemplative Reptile'
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant='h5' component='h2'>
+                        {product.name}
+                      </Typography>
+                      <Typography
+                        variant='body2'
+                        color='textSecondary'
+                        component='p'
+                      >
+                        {product.description}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                  <CardActions>
+                    <Link
+                      to={() => `/bidding/${product.id}`}
+                      params={{ productId: product.id }}
+                    >
+                      <Button
+                        // onClick={() => saveProductId(product.id)}
+                        size='small'
+                        color='primary'
+                      >
+                        Enter Bidding Room
+                      </Button>
+                    </Link>
+                    <Button
+                      onClick={handleClickOpen}
+                      size='small'
+                      color='primary'
+                    >
+                      Learn More
+                    </Button>
+                  </CardActions>
+                </Card>
+                <Dialog
+                  open={open}
+                  TransitionComponent={Transition}
+                  keepMounted
+                  onClose={handleClose}
+                  aria-labelledby='alert-dialog-slide-title'
+                  aria-describedby='alert-dialog-slide-description'
                 >
-                  Enter Bidding Room
-                </Button>
-              </Link>
-              <Button onClick={handleClickOpen} size='small' color='primary'>
-                Learn More
-              </Button>
-            </CardActions>
-          </Card>
-          <Dialog
-            open={open}
-            TransitionComponent={Transition}
-            keepMounted
-            onClose={handleClose}
-            aria-labelledby='alert-dialog-slide-title'
-            aria-describedby='alert-dialog-slide-description'
-          >
-            <DialogTitle id='alert-dialog-slide-title'>
-              {"Use Google's location service?"}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText id='alert-dialog-slide-description'>
-                Let Google help apps determine location. This means sending
-                anonymous location data to Google, even when no apps are
-                running.
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose} color='primary'>
-                OK!
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </Grid>
+                  <DialogTitle id='alert-dialog-slide-title'>
+                    {"Use Google's location service?"}
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id='alert-dialog-slide-description'>
+                      Let Google help apps determine location. This means
+                      sending anonymous location data to Google, even when no
+                      apps are running.
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleClose} color='primary'>
+                      OK!
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              </Grid>
+            );
+          })}
+        </div>
       </Grid>
-    </div>
+    </>
   );
 }
 const useStyles = makeStyles((theme) => ({

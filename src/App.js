@@ -8,6 +8,8 @@ import BiddingRoom from './components/bidding/bidding-room';
 import GlobalState from './context/global-state';
 import SignIn from './components/signin';
 import Admin from './components/admin/index';
+import SingleProduct from './components/singleProduct/single';
+import PayPal from './components/paypal/paypal';
 import Cart from './components/cart/cart';
 import Favorite from './components/favorite/favorite';
 import SingleProduct from './components/singleProduct/singleProduct';
@@ -22,6 +24,7 @@ function App() {
         <GlobalState>
           <Header />
           <Switch>
+            <Route path="/paypal/:id" component={PayPal} 
             <Route path='/cart' component={Cart} />
             <Route exact path='/' component={Products} />
             <Route exact path='/register' component={SignIn} />
