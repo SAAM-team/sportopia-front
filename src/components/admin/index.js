@@ -65,15 +65,9 @@ import {
   dProducts,
   aProducts,
   bProducts,
-  cProducts,
-  gender,
-  actived,
-  users
+  cProducts
 } from '../../reducers/admin-count-actions';
 import adminCss from './admin.css';
-import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
-import ReactHighcharts from 'react-highcharts';
 
 // Table Info
 
@@ -94,10 +88,6 @@ export function Admin(props) {
   const [count, setCount] = useState(0);
   const [userId, setUserId] = useState(0);
   const [productId, setProductId] = useState(0);
-  const [showCards, setShowCards] = useState(false);
-  const [graphUser, setGraphUser] = useState([]);
-  const [graphPro, setGraphPro] = useState([]);
-  const [graphGen, setGraphGen] = useState([]);
 
   // Effect
 
@@ -106,10 +96,7 @@ export function Admin(props) {
     let products = await props.numberOfProducts();
     setUsers(number);
     setProducts(products);
-    setGraphGen(await props.gender());
-    setGraphPro(await props.actived());
-    setGraphUser(await props.users());
-  }, [props]);
+  }, []);
 
   // useEffect(async () => {
   //   let pages = await props.everythingFunc(active);
@@ -166,254 +153,6 @@ export function Admin(props) {
   }, [props.info]);
 
   const classes = useStyles();
-
-  console.log('YES I AM WORKING', graphGen);
-
-  // Charts for Admin
-
-  const usersGenderOptions = {
-    chart: {
-      plotBackgroundColor: null,
-      plotBorderWidth: true,
-      plotShadow: true,
-      type: 'pie',
-      marginTop: 0,
-      spacingLeft: 0,
-      spacingRight: 0,
-      spacingTop: 0
-    },
-    title: {
-      text: 'Gender',
-      align: 'center',
-      verticalAlign: 'middle',
-      y: -30,
-      style: {
-        fontWeight: 200
-      }
-    },
-    subtitle: {
-      text: `Total: ${
-        parseInt(graphGen.male) + parseInt(graphGen.female) + 50
-      }`,
-      align: 'center',
-      verticalAlign: 'middle',
-      y: 0
-    },
-    tooltip: {
-      enabled: true
-    },
-    plotOptions: {
-      series: {
-        states: {
-          hover: {
-            enabled: true
-          }
-        }
-      },
-      pie: {
-        allowPointSelect: true,
-        cursor: 'pointer',
-        dataLabels: {
-          enabled: false
-        },
-        point: {
-          events: {
-            legendItemClick: () => true
-          }
-        },
-        showInLegend: true,
-        borderWidth: 0,
-        colors: ['blue', 'red', 'yellow']
-      }
-    },
-    series: [
-      {
-        innerSize: '50%',
-        data: [
-          {
-            name: 'Male',
-            y: parseInt(graphGen.male)
-          },
-          {
-            name: 'Female',
-            y: parseInt(graphGen.female)
-          },
-          {
-            name: 'other',
-            y: 50
-          }
-        ]
-      }
-    ],
-    credits: {
-      enabled: true
-    },
-    legend: {
-      itemStyle: {
-        color: '#787878'
-      },
-      symbolRadius: 5
-    }
-  };
-  const userADConfig = {
-    chart: {
-      plotBackgroundColor: null,
-      plotBorderWidth: true,
-      plotShadow: true,
-      type: 'pie',
-      marginTop: 0,
-      spacingLeft: 0,
-      spacingRight: 0,
-      spacingTop: 0
-    },
-    title: {
-      text: 'Users',
-      align: 'center',
-      verticalAlign: 'middle',
-      y: -30,
-      style: {
-        fontWeight: 200
-      }
-    },
-    subtitle: {
-      text: `Total: ${
-        parseInt(graphUser.deactive) + parseInt(graphUser.active)
-      }`,
-      align: 'center',
-      verticalAlign: 'middle',
-      y: 0
-    },
-    tooltip: {
-      enabled: true
-    },
-    plotOptions: {
-      series: {
-        states: {
-          hover: {
-            enabled: true
-          }
-        }
-      },
-      pie: {
-        allowPointSelect: true,
-        cursor: 'pointer',
-        dataLabels: {
-          enabled: false
-        },
-        point: {
-          events: {
-            legendItemClick: () => true
-          }
-        },
-        showInLegend: true,
-        borderWidth: 0,
-        colors: ['blue', 'red', '00000']
-      }
-    },
-    series: [
-      {
-        innerSize: '50%',
-        data: [
-          {
-            name: 'Active',
-            y: parseInt(graphUser.active)
-          },
-          {
-            name: 'De-Active',
-            y: parseInt(graphUser.deactive)
-          }
-        ]
-      }
-    ],
-    credits: {
-      enabled: true
-    },
-    legend: {
-      itemStyle: {
-        color: '#787878'
-      },
-      symbolRadius: 5
-    }
-  };
-
-  const productADConfig = {
-    chart: {
-      plotBackgroundColor: null,
-      plotBorderWidth: true,
-      plotShadow: true,
-      type: 'pie',
-      marginTop: 0,
-      spacingLeft: 0,
-      spacingRight: 0,
-      spacingTop: 0
-    },
-    title: {
-      text: 'Products',
-      align: 'center',
-      verticalAlign: 'middle',
-      y: -30,
-      style: {
-        fontWeight: 200
-      }
-    },
-    subtitle: {
-      text: `Total: ${parseInt(graphPro.deleted) + parseInt(graphPro.active)}`,
-      align: 'center',
-      verticalAlign: 'middle',
-      y: 0
-    },
-    tooltip: {
-      enabled: true
-    },
-    plotOptions: {
-      series: {
-        states: {
-          hover: {
-            enabled: true
-          }
-        }
-      },
-      pie: {
-        allowPointSelect: true,
-        cursor: 'pointer',
-        dataLabels: {
-          enabled: false
-        },
-        point: {
-          events: {
-            legendItemClick: () => true
-          }
-        },
-        showInLegend: true,
-        borderWidth: 0,
-        colors: ['blue', 'red', '00000']
-      }
-    },
-    series: [
-      {
-        innerSize: '50%',
-        data: [
-          {
-            name: 'Active',
-            y: parseInt(graphPro.active)
-          },
-          {
-            name: 'Deleted',
-            y: parseInt(graphUser.deleted)
-          }
-        ]
-      }
-    ],
-    credits: {
-      enabled: true
-    },
-    legend: {
-      itemStyle: {
-        color: '#787878'
-      },
-      symbolRadius: 5
-    }
-  };
 
   // Functions
 
@@ -582,29 +321,29 @@ export function Admin(props) {
     props.toggleUser(userId);
   };
 
-  const handleDashBoard = () => {
-    setShowCards(!showCards);
-  };
-
   const cards = () => {
     return (
       <>
-        <Grid
-          container
-          direction='row'
-          justify='space-around'
-          alignItems='center'
-        >
-          <Grid lg={3} xs={12}>
-            <ReactHighcharts config={usersGenderOptions} />
-          </Grid>
-          <Grid lg={3} xs={12}>
-            <ReactHighcharts config={userADConfig} />
-          </Grid>
-          <Grid lg={3} xs={12}>
-            <ReactHighcharts config={productADConfig} />
-          </Grid>
-        </Grid>
+        <Card text='dark' bg='danger' style={{ width: '18rem' }}>
+          <Card.Body>
+            <Card.Title>Number Of users</Card.Title>
+            <Card.Text className='number'>{users}</Card.Text>
+          </Card.Body>
+        </Card>
+
+        <Card text='dark' bg='warning' style={{ width: '18rem' }}>
+          <Card.Body>
+            <Card.Title>Number Of Products</Card.Title>
+            <Card.Text className='number'>{products}</Card.Text>
+          </Card.Body>
+        </Card>
+
+        <Card text='dark' bg='info' style={{ width: '18rem' }}>
+          <Card.Body>
+            <Card.Title>Card Title</Card.Title>
+            <Card.Text className='number'>{users}</Card.Text>
+          </Card.Body>
+        </Card>
       </>
     );
   };
@@ -612,9 +351,9 @@ export function Admin(props) {
   const generateList = () => {
     return (
       <Grid item xs={12}>
-        <ListItem button onClick={() => handleDashBoard()}>
+        <ListItem button>
           <Avatar className={classes.purple}>A</Avatar>
-          <ListItemText primary='DashBoard' />
+          <ListItemText primary='Anthign' />
           <Divider />
         </ListItem>
         <ListItem button onClick={(e) => handleAllSellers(e)}>
@@ -769,6 +508,7 @@ export function Admin(props) {
           </Button>
         </DialogActions>
       </Dialog>
+
       <Grid
         xs={12}
         container
@@ -802,7 +542,7 @@ export function Admin(props) {
             alignItems='center'
             style={{ marginBottom: 20 }}
           >
-            {showCards ? cards() : <div></div>}
+            {cards()}
           </Grid>
 
           <Grid item xs={12} container direction='row'>
@@ -1119,10 +859,7 @@ const mapDispatchToProps = {
   dProducts,
   aProducts,
   bProducts,
-  cProducts,
-  gender,
-  actived,
-  users
+  cProducts
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Admin);

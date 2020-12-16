@@ -10,9 +10,6 @@ export const sellers = () => {
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         return res.body.number;
-      })
-      .catch((e) => {
-        console.log(e.message);
       });
   };
 };
@@ -24,9 +21,6 @@ export const dSellers = () => {
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         return res.body.number;
-      })
-      .catch((e) => {
-        console.log(e.message);
       });
   };
 };
@@ -38,9 +32,6 @@ export const aSellers = () => {
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         return res.body.number;
-      })
-      .catch((e) => {
-        console.log(e.message);
       });
   };
 };
@@ -52,9 +43,6 @@ export const buyers = () => {
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         return res.body.number;
-      })
-      .catch((e) => {
-        console.log(e.message);
       });
   };
 };
@@ -66,9 +54,6 @@ export const aBuyers = () => {
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         return res.body.number;
-      })
-      .catch((e) => {
-        console.log(e.message);
       });
   };
 };
@@ -80,9 +65,6 @@ export const dBuyers = () => {
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         return res.body.number;
-      })
-      .catch((e) => {
-        console.log(e.message);
       });
   };
 };
@@ -94,9 +76,6 @@ export const products = () => {
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         return res.body.number;
-      })
-      .catch((e) => {
-        console.log(e.message);
       });
   };
 };
@@ -108,9 +87,6 @@ export const dProducts = () => {
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         return res.body.number;
-      })
-      .catch((e) => {
-        console.log(e.message);
       });
   };
 };
@@ -122,9 +98,6 @@ export const aProducts = () => {
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         return res.body.number;
-      })
-      .catch((e) => {
-        console.log(e.message);
       });
   };
 };
@@ -136,9 +109,6 @@ export const bProducts = () => {
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         return res.body.number;
-      })
-      .catch((e) => {
-        console.log(e.message);
       });
   };
 };
@@ -150,51 +120,6 @@ export const cProducts = () => {
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         return res.body.number;
-      })
-      .catch((e) => {
-        console.log(e.message);
-      });
-  };
-};
-
-export const gender = () => {
-  return (dispatch) => {
-    return superagent
-      .get(`${API_LINK_Admin}/static/gender`)
-      .set('authorization', `Basic ${token}`)
-      .then((res) => {
-        return res.body.gender;
-      })
-      .catch((e) => {
-        console.log(e.message);
-      });
-  };
-};
-
-export const actived = () => {
-  return (dispatch) => {
-    return superagent
-      .get(`${API_LINK_Admin}/static/pro`)
-      .set('authorization', `Basic ${token}`)
-      .then((res) => {
-        return res.body.products;
-      })
-      .catch((e) => {
-        console.log(e.message);
-      });
-  };
-};
-
-export const users = () => {
-  return (dispatch) => {
-    return superagent
-      .get(`${API_LINK_Admin}/static/actived`)
-      .set('authorization', `Basic ${token}`)
-      .then((res) => {
-        return res.body.users;
-      })
-      .catch((e) => {
-        console.log(e.message);
       });
   };
 };

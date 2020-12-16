@@ -58,9 +58,6 @@ export const allActiveSellers = (pageNumber) => {
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         dispatch(getActivatedSellers(res.body.result));
-      })
-      .catch((e) => {
-        console.error(e);
       });
   };
 };
@@ -73,9 +70,6 @@ export const allDeActiveSellers = (pageNumber) => {
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         dispatch(getDeactivatedSellers(res.body.result));
-      })
-      .catch((e) => {
-        console.error(e);
       });
   };
 };
@@ -90,9 +84,6 @@ export const allBuyers = (pageNumber) => {
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         dispatch(getAllBuyers(res.body.result));
-      })
-      .catch((e) => {
-        console.error(e);
       });
   };
 };
@@ -105,9 +96,6 @@ export const allActiveBuyers = (pageNumber) => {
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         dispatch(getActivatedBuyers(res.body.result));
-      })
-      .catch((e) => {
-        console.error(e);
       });
   };
 };
@@ -120,9 +108,6 @@ export const allDeActiveBuyers = (pageNumber) => {
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         dispatch(getDeactivatedBuyers(res.body.result));
-      })
-      .catch((e) => {
-        console.error(e);
       });
   };
 };
@@ -137,9 +122,6 @@ export const allProducts = (pageNumber) => {
       .then((res) => {
         console.log(res.body.result);
         dispatch(getAllProducts(res.body.result));
-      })
-      .catch((e) => {
-        console.error(e);
       });
   };
 };
@@ -152,9 +134,6 @@ export const allDProducts = (pageNumber) => {
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         dispatch(getAllDeactivatedProducts(res.body.result));
-      })
-      .catch((e) => {
-        console.error(e);
       });
   };
 };
@@ -167,9 +146,6 @@ export const allAProducts = (pageNumber) => {
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         dispatch(getAllActiveProducts(res.body.result));
-      })
-      .catch((e) => {
-        console.error(e);
       });
   };
 };
@@ -183,9 +159,6 @@ export const allBProducts = (pageNumber) => {
       .then((res) => {
         // console.log(res);
         dispatch(getAllBoughtProducts(res.body.result));
-      })
-      .catch((e) => {
-        console.error(e);
       });
   };
 };
@@ -199,9 +172,6 @@ export const allCProducts = (pageNumber) => {
       .then((res) => {
         // console.log(res);
         dispatch(getAllCartProducts(res.body.result));
-      })
-      .catch((e) => {
-        console.error(e);
       });
   };
 };
@@ -214,9 +184,6 @@ export const allFProducts = (pageNumber) => {
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         dispatch(getAllFavProducts(res.body.result));
-      })
-      .catch((e) => {
-        console.error(e);
       });
   };
 };
@@ -229,9 +196,6 @@ export const addCategory = (category) => {
       .send({ name: category })
       .then((res) => {
         console.log(res);
-      })
-      .catch((e) => {
-        console.error(e);
       });
   };
 };
@@ -243,9 +207,6 @@ export const numberOfUsers = () => {
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         return res.body.number;
-      })
-      .catch((e) => {
-        console.error(e);
       });
   };
 };
@@ -257,9 +218,6 @@ export const numberOfProducts = () => {
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         return res.body.number;
-      })
-      .catch((e) => {
-        console.error(e);
       });
   };
 };
