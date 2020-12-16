@@ -67,8 +67,8 @@ const Favorite = props => {
     const classes = useStyles();
     return (
         <>
-            <Typography style={{ padding: '10px 0px 5px 10px' }} variant='h4' noWrap>
-                Favorite Items
+            <Typography style={{ padding: '10px 0px 5px 10px', marginTop:'50px' }} variant='h3' align='center' noWrap>
+                Favorite List
       </Typography>
             {props.favoriteData.favoriteItem.map((item, idx) => {
                 console.log('props', props.favoriteData.favoriteItem[idx].is_deleted);

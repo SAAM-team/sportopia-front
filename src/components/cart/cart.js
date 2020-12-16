@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
@@ -18,6 +19,7 @@ import {
   Typography
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import './cart.css';
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -150,7 +152,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  getCartAPI
+  getCartAPI,
+  removeFromCart
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

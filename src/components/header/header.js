@@ -51,7 +51,7 @@ import Auth from '../../auth/auth';
 import cookies from 'react-cookies';
 import { getCartAPI } from '../../reducers/cart-action';
 import { getFavAPI } from '../../reducers/favorit-action';
-
+import logo from './assets/sportopia-logo.png';
 const avatarIcons = [a1, a2, a3, a4, a5, a6, a7, a8];
 
 function ScrollTop(props) {
@@ -257,9 +257,12 @@ function Header(props) {
             <MenuIcon></MenuIcon>
           </IconButton>
           <NavLink to='/'>
-            <Typography className={classes.title} variant='h6' noWrap>
-              Sportopia
-            </Typography>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar alt='' src={logo} />
+              </ListItemAvatar>
+              <ListItemText primary='Sportopia' />
+            </ListItem>
           </NavLink>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -479,7 +482,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const mapStateToProps = (state) => {
-  // console.log('state',state.cartData.cartItem.length);
   return {
     categories: state.categories.results,
     cartLength: state.cartData.cartItem.length,

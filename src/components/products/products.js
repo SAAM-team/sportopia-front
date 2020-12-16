@@ -1,6 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useContext } from 'react';
-import { getRemoteData } from '../../reducers/product-action ';
+import {
+  getRemoteData,
+  getProductDetails,
+} from '../../reducers/product-action ';
 import { connect } from 'react-redux';
 import { StateContext } from '../../context/global-state';
 import './products.css';
@@ -16,7 +19,7 @@ import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 import Button from '@material-ui/core/Button';
 import { NavLink } from 'react-router-dom';
-import Carousel from '../carousel/carousel';
+// import Carousel from '../carousel/carousel';
 import {
   createCart,
   addToCart,
@@ -46,7 +49,8 @@ const useStyles = makeStyles((theme) => ({
 function Products(props) {
   const classes = useStyles();
   const { setSingleProductId } = useContext(StateContext);
-  const selectedProductId = (p_id) => { };
+
+  const selectedProductId = (p_id) => {};
 
   useEffect(() => {
     props.getRemoteData();
@@ -54,7 +58,7 @@ function Products(props) {
 
   return (
     <>
-      <Carousel />
+      {/* <Carousel /> */}
       {/* <Typography style={{ marginLeft: '45%', marginBottom:'20px', color:'#050505' }} variant="h3" noWrap>
               Products: 
             </Typography> */}
@@ -126,14 +130,18 @@ function Products(props) {
                     <IconButton
                       aria-label='show 4 new mails' color='inherit'
                     >
-                      <Badge badgeContent={0} color='secondary'>
-                        <ShoppingCartRoundedIcon />
-                      </Badge>
-                    </IconButton>
-                  </Tooltip>
-                  <NavLink to={() => `/product/${product.id}`}>
-                    <Button variant="contained" color="secondary">
-                      Details
+                    <Badge badgeContent={0} color='secondary'>
+                      <ShoppingCartRoundedIcon />
+                    </Badge>
+                  </IconButton>
+                </Tooltip>
+                <NavLink to={() => `/product/${product.id}`}>
+                  <Button
+                    onClick={() => props.getProductDetails(product.id)}
+                    variant="contained"
+                    color="secondary"
+                  >
+                    Details
                   </Button>
                   </NavLink>
                 </CardActions>
