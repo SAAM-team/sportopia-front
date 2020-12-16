@@ -59,7 +59,7 @@ import '../../components/signin.css'
 
 function Products(props) {
   // const classNamees = useStyles();
-  console.log('props',props);
+  console.log('props', props);
   const { setSingleProductId } = useContext(StateContext);
   const selectedProductId = (p_id) => { };
 
@@ -80,7 +80,7 @@ function Products(props) {
   };
   return (
     <>
-     {/* <section>
+      {/* <section>
             <div class="animatedBox">
                 <div id="orderForm">
                     
@@ -185,34 +185,34 @@ function Products(props) {
                     <div className="products-slick" data-nav="#slick-nav-1">
                       <Slider {...settings}>
                         {props.products.map((product) => {
-                          return(
+                          return (
 
-                          <div className="product">
-                            <div className="product-img">
-                              <img src={product.main_img} style={{height:'250px'}} alt=""></img>
-                              <div className="product-label">
-                                <span className="new">NEW</span>
+                            <div className="product">
+                              <div className="product-img">
+                                <img src={product.main_img} style={{ height: '250px' }} alt=""></img>
+                                <div className="product-label">
+                                  <span className="new">NEW</span>
+                                </div>
+                              </div>
+                              <div className="product-body">
+                                <h3 className="product-name" style={{ height: '100px' }}><a href="#">{product.name}</a></h3>
+                                <h4 className="product-price">{product.price}$ <del className="product-old-price">{product.price + 50}$</del></h4>
+                                <div className="product-rating">
+                                  <i className="fa fa-star"></i>
+                                  <i className="fa fa-star"></i>
+                                  <i className="fa fa-star"></i>
+                                  <i className="fa fa-star"></i>
+                                  <i className="fa fa-star"></i>
+                                </div>
+                                <div className="product-btns">
+                                  <button className="add-to-wishlist" ><i className="fa fa-heart-o"></i><span className="tooltipp">Add to wishlist</span></button>
+                                  <button className="quick-view"><i className="fa fa-eye"></i><span className="tooltipp">Details</span></button>
+                                </div>
+                              </div>
+                              <div className="add-to-cart">
+                                <button className="add-to-cart-btn" style={{ backgroundColor: '#157A6E', color: ' #FFF' }} onClick={() => addToCart(product.p_id)}><i className="fa fa-shopping-cart"></i> Add to cart</button>
                               </div>
                             </div>
-                            <div className="product-body">
-                              <h3 className="product-name" style={{height:'100px'}}><a href="#">{product.name}</a></h3>
-                              <h4 className="product-price">{product.price}$ <del className="product-old-price">{product.price + 50}$</del></h4>
-                              <div className="product-rating">
-                                <i className="fa fa-star"></i>
-                                <i className="fa fa-star"></i>
-                                <i className="fa fa-star"></i>
-                                <i className="fa fa-star"></i>
-                                <i className="fa fa-star"></i>
-                              </div>
-                              <div className="product-btns">
-                                <button className="add-to-wishlist"><i className="fa fa-heart-o"></i><span className="tooltipp">add to wishlist</span></button>
-                                <button className="quick-view"><i className="fa fa-eye"></i><span className="tooltipp">Details</span></button>
-                              </div>
-                            </div>
-                            <div className="add-to-cart">
-                              <button className="add-to-cart-btn" style={{backgroundColor: '#157A6E', color:' #FFF'}}><i className="fa fa-shopping-cart"></i> add to cart</button>
-                            </div>
-                          </div>
                           )
                         })}
 
