@@ -6,6 +6,7 @@ import { If, Then, Else } from '../../if/if';
 import { deepPurple } from '@material-ui/core/colors';
 import { Card, Row, Col, PageItem } from 'react-bootstrap';
 import CreateIcon from '@material-ui/icons/Create';
+import Auth from '../../auth/auth';
 import {
   Grid,
   Paper,
@@ -306,7 +307,7 @@ export function Admin(props) {
     handleStates(number, e.target.innerHTML);
   };
 
-  const handleFavProducts = () => {};
+  const handleFavProducts = () => { };
 
   const handleAddCategory = async (e, page = 1) => {
     setActive(e.target.innerHTML);
@@ -403,9 +404,9 @@ export function Admin(props) {
       </Grid>
     );
   };
-  return (
-    
-    <>
+    return (
+      <Auth role={'admin'}>
+      <>
       <div style={{ position: 'absolute', top: 70, right: 30 }}>
         <Tooltip title='Add Category'>
           <Fab color='primary' aria-label='add'>
@@ -718,7 +719,8 @@ export function Admin(props) {
         </Grid>
       </Grid>
     </>
-  );
+    </Auth>
+    );
 }
 
 const useStyles = makeStyles((theme) => ({

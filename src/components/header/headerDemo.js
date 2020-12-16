@@ -38,6 +38,7 @@ import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import PropTypes from "prop-types";
 import ShoppingCartRoundedIcon from "@material-ui/icons/ShoppingCartRounded";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import Auth from "../../auth/auth";
@@ -77,7 +78,10 @@ function Header(props) {
     cookies.save("cId", id);
     props.activeCategory(id);
   };
-
+  const logoutHandler = (()=>{
+    console.log('removing user')
+    cookies.remove('token')
+  })
   const menuId = "primary-search-account-menu";
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -334,6 +338,27 @@ function Header(props) {
                         </IconButton>
                       </Tooltip>
                     </NavLink>
+                  </div>
+                  <div>
+                      <Tooltip
+                        placement="top"
+                        arrow
+                        TransitionComponent={Zoom}
+                        title="Signout"
+                        onClick={()=> logoutHandler()}
+                      >
+                        <IconButton
+                          aria-label="show 4 new mails"
+                          color="inherit"
+                        >
+                          <Badge
+                            color="secondary"
+                            style={{ fontSize: 10 }}
+                          >
+                            <ExitToAppIcon style={{ fontSize: 25 }} />
+                          </Badge>
+                        </IconButton>
+                      </Tooltip>
                   </div>
                 </div>
               </div>
