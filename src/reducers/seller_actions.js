@@ -17,6 +17,7 @@ let user = validateToken(token);
 console.log('this is the user of seller', user);
 
 export const addProduct = (product) => {
+  console.log('product here', product);
   return (dispatch) => {
     return superagent
       .post(`${API_LINK_Seller}/add/${product.category_id}`)
@@ -56,14 +57,11 @@ export const updateProduct = (product) => {
       });
   };
 };
-export const deleteProduct = (product) => {
+export const deleteProduct = (id) => {
   return (dispatch) => {
     return superagent
-      .delete(`${API_LINK_Seller}/delete/${product.id}`)
+      .delete(`${API_LINK_Seller}/delete/${id}`)
       .set('authorization', `Basic ${token}`)
-      .send({
-        id: product.id
-      })
       .then((res) => {
         console.log(res);
       });
@@ -77,7 +75,7 @@ export const allSellerProducts = () => {
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         console.log('this is the results', res);
-        dispatch(getAllSellerProducts(res.body.result));
+        dispatch(getAllSellerProducts(res.body.products));
       });
   };
 };

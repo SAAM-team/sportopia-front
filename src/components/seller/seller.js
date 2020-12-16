@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { If, Then, Else } from '../../if/if';
 import { deepPurple } from '@material-ui/core/colors';
+import { getRemoteData } from '../../reducers/categories-action';
 import {
   Grid,
   Paper,
@@ -45,6 +46,7 @@ import {
 // Table Info
 let rowP = [];
 export function Seller(props) {
+  console.log('the props inside the seller', props);
   const [keys, setKeys] = useState([]);
   const [open, setOpen] = useState(false);
   const [product, setProduct] = useState({
@@ -55,30 +57,28 @@ export function Seller(props) {
     price: 0,
     quantity: 0,
     category_id: '',
-    id_bid: false
+    is_bid: false
   });
 
-  // Effect
-  // useEffect(() => {
-  //   rowP = [];
-  //   setKeys(Object.keys(props.products[0]));
-  //   props.products.forEach((item) => {
-  //     {
-  //       rowP.push(
-  //         createPData(
-  //           item.id,
-  //           item.name,
-  //           item.description,
-  //           item.main_img,
-  //           item.price,
-  //           item.quantity,
-  //           item.category_id,
-  //           item.id_bid
-  //         )
-  //       );
-  //     }
-  //   });
-  // }, [props.products]);
+  useEffect(() => {
+    rowP = [];
+    props.products.map((product) => setKeys(Object.keys(product)));
+    props.products.forEach((item) => {
+      {
+        rowP.push(
+          createPData(
+            item.id,
+            item.name,
+            item.main_img,
+            item.price,
+            item.quantity,
+            item.category_id,
+            item.is_bid
+          )
+        );
+      }
+    });
+  }, [props.products]);
 
   useEffect(() => {
     handleGetAllProducts();
@@ -95,15 +95,18 @@ export function Seller(props) {
   };
   const handleDeleteProduct = (id) => {
     props.deleteProduct(id);
+    props.allSellerProducts();
   };
   const handleUpdateProduct = (id) => {
-    props.updateProduct(product, id);
+    // props.updateProduct(product, id);
   };
   const handleGetAllProducts = () => {
     props.allSellerProducts();
   };
   const handleAddProduct = () => {
+    console.log(product);
     props.addProduct(product);
+    props.allSellerProducts();
   };
   const generateList = () => {
     return (
@@ -145,7 +148,7 @@ export function Seller(props) {
                   fullWidth
                   id='productName'
                   label='Product Name'
-                  onChange={(e) => product.name(e.target.value)}
+                  onChange={(e) => (product.name = e.target.value)}
                   autoFocus
                 />
               </Grid>
@@ -154,7 +157,7 @@ export function Seller(props) {
                   variant='outlined'
                   required
                   fullWidth
-                  onChange={(e) => product.description(e.target.value)}
+                  onChange={(e) => (product.description = e.target.value)}
                   id='description'
                   label='description'
                   name='description'
@@ -168,7 +171,7 @@ export function Seller(props) {
                   fullWidth
                   id='price'
                   label='Price'
-                  onChange={(e) => product.price(e.target.value)}
+                  onChange={(e) => (product.price = e.target.value)}
                   autoFocus
                 />
               </Grid>
@@ -177,7 +180,7 @@ export function Seller(props) {
                   variant='outlined'
                   required
                   fullWidth
-                  onChange={(e) => product.quantity(e.target.value)}
+                  onChange={(e) => (product.quantity = e.target.value)}
                   id='quantity'
                   label='Quantity'
                   name='quantity'
@@ -187,7 +190,7 @@ export function Seller(props) {
                 <FormControlLabel
                   control={
                     <Switch
-                      onChange={(e) => product.id_bid(e.target.checked)}
+                      onChange={(e) => (product.is_bid = e.target.checked)}
                       name='checkedA'
                     />
                   }
@@ -202,11 +205,15 @@ export function Seller(props) {
                   <Select
                     labelId='demo-simple-select-label'
                     id='demo-simple-select'
-                    onChange={(e) => product.category_id(e.target.value)}
+                    onChange={(e) => (product.category_id = e.target.value)}
                   >
-                    <MenuItem value={1}>Category1</MenuItem>
-                    <MenuItem value={2}>Category2</MenuItem>
-                    <MenuItem value={3}>Category3</MenuItem>
+                    {props.categories.map((item) => {
+                      return (
+                        <MenuItem value={item.id}>
+                          {item.category_name}
+                        </MenuItem>
+                      );
+                    })}
                   </Select>
                 </FormControl>
               </Grid>
@@ -253,17 +260,18 @@ export function Seller(props) {
                 <TableHead>
                   <TableRow>
                     {keys.map((key) => {
-                      return (
-                        <StyledTableCell align='center' key={key}>
-                          {key}
-                        </StyledTableCell>
-                      );
+                      if (key === 'description') {
+                        console.log('');
+                      } else {
+                        return (
+                          <StyledTableCell align='center' key={key}>
+                            {key}
+                          </StyledTableCell>
+                        );
+                      }
                     })}
-                    <StyledTableCell align='center' key='Update'>
-                      Update
-                    </StyledTableCell>
-                    <StyledTableCell align='center' key='Delete'>
-                      Delete
+                    <StyledTableCell colSpan={2} align='center' key='Update'>
+                      Options
                     </StyledTableCell>
                   </TableRow>
                 </TableHead>
@@ -271,16 +279,16 @@ export function Seller(props) {
                   <If condition={rowP.length}>
                     <Then>
                       {rowP.map((row) => (
-                        <StyledTableRow key={row.name}>
+                        <StyledTableRow key={row.id}>
                           <StyledTableCell
                             align='center'
                             component='th'
                             scope='row'
                           >
-                            {row.name}
+                            {row.id}
                           </StyledTableCell>
                           <StyledTableCell align='center'>
-                            {row.description}
+                            {row.name}
                           </StyledTableCell>
                           <StyledTableCell align='center'>
                             <Avatar
@@ -293,10 +301,13 @@ export function Seller(props) {
                             {row.price} $
                           </StyledTableCell>
                           <StyledTableCell align='center'>
+                            {row.quantity}
+                          </StyledTableCell>
+                          <StyledTableCell align='center'>
                             {row.category_id}
                           </StyledTableCell>
                           <StyledTableCell align='center'>
-                            {row.company_name}
+                            {row.is_bid ? 'Under Bidding' : 'Not Under Bidding'}
                           </StyledTableCell>
                           <StyledTableCell align='center'>
                             <Button
@@ -361,23 +372,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 // Table Functions
-function createPData(
-  name,
-  description,
-  main_img,
-  price,
-  category_id,
-  quantity,
-  id_bid
-) {
+function createPData(id, name, main_img, price, quantity, category_id, is_bid) {
   return {
+    id,
     name,
-    description,
     main_img,
     price,
-    category_id,
     quantity,
-    id_bid
+    category_id,
+    is_bid
   };
 }
 const StyledTableCell = withStyles((theme) => ({
@@ -398,15 +401,16 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 const mapStateToProps = (state) => {
-  console.log('state in the seller', state);
   return {
-    products: state.seller.sellersProducts
+    products: state.seller.sellersProducts,
+    categories: state.categories.results
   };
 };
 const mapDispatchToProps = {
   addProduct,
   deleteProduct,
   updateProduct,
-  allSellerProducts
+  allSellerProducts,
+  getRemoteData
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Seller);
