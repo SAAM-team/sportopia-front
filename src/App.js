@@ -13,6 +13,7 @@ import Cart from './components/cart/cart';
 import Favorite from './components/favorite/favorite';
 import Seller from './components/seller/seller';
 import Footer from './components/footer/footer';
+import Auth from './auth/auth'
 // Component
 
 function App() {
@@ -29,7 +30,9 @@ function App() {
             <Route exact path='/register' component={SignIn} />
             <Route exact path='/bidding' component={BiddingMain} />
             <Route path='/bidding/:id' component={BiddingRoom} />
+            <Auth role={'admin'}>
             <Route path='/admin' component={Admin} />
+            </Auth>
             <Route path='/category/:id' component={CategoryProds} />
             <Route path='/favorite' component={Favorite} />
             <Route path='/product/:id' component={SingleProduct} />

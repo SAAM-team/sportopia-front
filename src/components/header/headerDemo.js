@@ -2,11 +2,11 @@
 import React, { useEffect } from 'react';
 import {
   getRemoteData,
-  activeCategory
-} from '../../reducers/categories-action';
-import { connect } from 'react-redux';
-import { NavLink, Redirect } from 'react-router-dom';
-import { fade, makeStyles } from '@material-ui/core/styles';
+  activeCategory,
+} from "../../reducers/categories-action";
+import { connect } from "react-redux";
+import { NavLink, Redirect } from "react-router-dom";
+import { fade, makeStyles } from "@material-ui/core/styles";
 import {
   List,
   Divider,
@@ -24,42 +24,59 @@ import {
   Toolbar,
   Typography,
   IconButton,
-  Button
-} from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
-import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
-import GavelRoundedIcon from '@material-ui/icons/GavelRounded';
-import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import PropTypes from 'prop-types';
-import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
-import Auth from '../../auth/auth';
-import cookies from 'react-cookies';
+  Button,
+} from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
+import SearchIcon from "@material-ui/icons/Search";
+import PersonRoundedIcon from "@material-ui/icons/PersonRounded";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import MoreIcon from "@material-ui/icons/MoreVert";
+import FavoriteRoundedIcon from "@material-ui/icons/FavoriteRounded";
+import GavelRoundedIcon from "@material-ui/icons/GavelRounded";
+import useScrollTrigger from "@material-ui/core/useScrollTrigger";
+import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import PropTypes from "prop-types";
+import ShoppingCartRoundedIcon from "@material-ui/icons/ShoppingCartRounded";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Avatar from "@material-ui/core/Avatar";
+import Auth from "../../auth/auth";
+import cookies from "react-cookies";
 
 import { getCartAPI } from '../../reducers/cart-action';
 import { getFavAPI } from '../../reducers/favorit-action';
 
-import logo from './assets/sportopia-logo.png';
-import './css/style.css';
-import './css/bootstrap.min.css';
-import './css/font-awesome.min.css';
-import './css/nouislider.min.css';
-import './css/nouislider.min.css';
-import './css/slick.css';
-import a1 from './assets/11.gif';
-import a2 from './assets/12.gif';
-import a3 from './assets/13.gif';
-import a4 from './assets/14.gif';
-import a5 from './assets/15.gif';
-import a6 from './assets/16.gif';
-import a7 from './assets/17.gif';
-import a8 from './assets/18.gif';
+import logo from "./assets/sportopia-logo.png";
+import "./css/style.css";
+import "./css/bootstrap.min.css";
+import "./css/font-awesome.min.css";
+import "./css/nouislider.min.css";
+import "./css/nouislider.min.css";
+import "./css/slick.css";
+import a1 from "./assets/11.gif";
+import a2 from "./assets/12.gif";
+import a3 from "./assets/13.gif";
+import a4 from "./assets/14.gif";
+import a5 from "./assets/15.gif";
+import a6 from "./assets/16.gif";
+import a7 from "./assets/17.gif";
+import a8 from "./assets/18.gif";
+import cookie from 'react-cookies';
+import jwt from 'jsonwebtoken';
+const JWT_SECRET = 'thebestsecrett';
+let token = cookie.load('token');
+
+const validateToken = (token) => {
+  try {
+    let user = jwt.verify(token, JWT_SECRET);
+    return user;
+  } catch (e) {
+    console.log('You have to register100');
+  }
+};
+// get information
+
+let user = validateToken(token);
 const avatarIcons = [a1, a2, a3, a4, a5, a6, a7, a8];
 
 function Header(props) {
@@ -76,8 +93,11 @@ function Header(props) {
     cookies.save('cId', id);
     props.activeCategory(id);
   };
-
-  const menuId = 'primary-search-account-menu';
+  const logoutHandler = (() => {
+    console.log('removing user')
+    cookies.remove('token')
+  })
+  const menuId = "primary-search-account-menu";
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event.type === 'keydown' &&
@@ -334,6 +354,30 @@ function Header(props) {
                       </Tooltip>
                     </NavLink>
                   </div>
+                  {user ? (
+                    <div>
+                      <Tooltip
+                        placement="top"
+                        arrow
+                        TransitionComponent={Zoom}
+                        title="Signout"
+                        onClick={() => logoutHandler()}
+                      >
+                        <IconButton
+                          aria-label="show 4 new mails"
+                          color="inherit"
+                        >
+                          <Badge
+                            color="secondary"
+                            style={{ fontSize: 10 }}
+                          >
+                            <ExitToAppIcon style={{ fontSize: 25 }} />
+                          </Badge>
+                        </IconButton>
+                      </Tooltip>
+                    </div>
+                  ) : console.log('hi')}
+
                 </div>
               </div>
             </div>
