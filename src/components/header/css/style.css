@@ -18,6 +18,18 @@
   background-color: #1E1F29;
 
 }
+.form{
+  display: grid ;
+  grid-template-columns: auto auto ;
+  align-items: center;
+  justify-content: space-between;    
+  gap:2px;
+  background-color: #1E1F29;
+}
+.centering{
+  margin: 0 auto;
+  padding: 50px;
+}
 /*
 Template Name: Electro - HTML Ecommerce Template
 Author: yaminncco

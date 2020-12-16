@@ -4,7 +4,6 @@ import axios from 'axios';
 let api = 'https://sportopiav1.herokuapp.com';
 let token = cookie.load('token');
 
-
 export const getFavAPI = () => {
   return (dispatch) => {
     return superagent
@@ -30,9 +29,8 @@ export const createFav = (product) => {
       .then((res) => {
         console.log('Here is the new fav item: ', res.body);
         if (res.body.product) {
-          dispatch(addToFav(res.body.product))
-        }
-        else {
+          dispatch(addToFav(res.body.product));
+        } else {
           alert('You already have this');
         }
       });
@@ -41,7 +39,6 @@ export const createFav = (product) => {
 
 // Doesn't refresh, dispatch doesn't work
 export const removeFromFav = (productID) => {
-  // return (dispatch) => {
   console.log('Removing: ', `${api}/favorite/delete/${productID}`);
   return superagent
     .patch(`${api}/favorite/delete/${productID}`)
@@ -50,29 +47,26 @@ export const removeFromFav = (productID) => {
     .set('Content-Type', 'application/json; charset=utf-8')
     .then((res) => {
       console.log('Here is the deleted fav item: ', res.body.product[0]);
-      removeFromFavDispatch(res.body.product[0])
-      // dispatch(removeFromFavDispatch(res.body.product))
+      removeFromFavDispatch(res.body.product[0]);
     });
-  // };
-}
-
+};
 
 export const getFav = (items) => {
   return {
     type: 'GET-FAV',
     payload: items
-  }
-}
+  };
+};
 export const addToFav = (AddedItem) => {
   return {
     type: 'ADD-FAV',
     payload: AddedItem
-  }
-}
+  };
+};
 
 export const removeFromFavDispatch = (removedItem) => {
   return {
     type: 'REMOVE-FAV',
     payload: removedItem
-  }
-}
+  };
+};
