@@ -113,7 +113,8 @@ hii
                   placement="top"
                   arrow
                   TransitionComponent={Zoom}
-                  title="add to cart"
+                  title="Add to cart"
+                  onClick={() => addToCart(product.p_id)}
                 >
                   <IconButton aria-label="show 4 new mails" color="inherit">
                     <Badge badgeContent={0} color="secondary">
