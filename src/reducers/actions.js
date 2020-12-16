@@ -31,13 +31,12 @@ export const getBiddingItems = () => {
 };
 
 export const getInsideBid = (product_id) => {
-  console.log(product_id);
   return (dispatch) => {
     return superagent
       .get(`${API_LINK_Bidding}/product/${product_id}`)
       .then((res) => {
         console.log('here my fried', res);
-        dispatch(enterRoom(res.body.product));
+        dispatch(enterRoom([res.body.product]));
       });
   };
 };
@@ -52,6 +51,20 @@ export const getBid = (payload) => {
 export const enterRoom = (payload) => {
   return {
     type: 'ENTER_ROOM',
+    payload: payload
+  };
+};
+
+export const addMessage = (payload) => {
+  return {
+    type: 'MESSAGE',
+    payload: payload
+  };
+};
+
+export const typing = (payload) => {
+  return {
+    type: 'TYPING',
     payload: payload
   };
 };
