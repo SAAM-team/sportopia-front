@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+
 import { useHistory } from 'react-router-dom';
 import {
   Avatar,
@@ -25,10 +26,26 @@ import { makeStyles } from '@material-ui/core/styles';
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
 import { StateContext } from '../context/global-state';
+import { NavLink,Redirect } from "react-router-dom";
+import cookie from 'react-cookies';
+import jwt from 'jsonwebtoken';
+const JWT_SECRET = 'thebestsecrett';
+let token = cookie.load('token');
 
+const validateToken = (token) => {
+  try {
+    let user = jwt.verify(token, JWT_SECRET);
+    return user;
+  } catch (e) {
+    console.log('You have to register100');
+  }
+};
+// get information
+
+let user = validateToken(token);
 export default function SignIn() {
   // ContextState
-
+  console.log(user);
   const stateContext = useContext(StateContext);
   const history = useHistory();
 
@@ -85,410 +102,418 @@ export default function SignIn() {
     };
     stateContext.register(objBody);
   }
+  if (!user) {
 
-  return (
-    <>
-      <Container component='main' maxWidth='xs'>
-        {register ? (
-          <Card>
-            <CardContent>
-              <CssBaseline />
-              <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                  <LockOutlinedIcon />
-                </Avatar>
-                <Typography component='h1' variant='h4'>
-                  Sign Up
+    return (
+      <>
+        <Container style={{ marginTop: '50px' }} component='main' maxWidth='xs'>
+          {register ? (
+            <Card>
+              <CardContent>
+                <CssBaseline />
+                <div className={classes.paper}>
+                  <Avatar className={classes.avatar}>
+                    <LockOutlinedIcon />
+                  </Avatar>
+                  <Typography component='h1' variant='h4'>
+                    Sign Up
                 </Typography>
-                <Link
-                  component='button'
-                  onClick={() => {
-                    setRegister(!register);
-                  }}
-                  style={{ marginBottom: '0%', marginTop: '5%' }}
-                >
-                  Existing User? Sign In here!
-                </Link>
-
-                <form className={classes.form}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                      <Button
-                        style={{ minHeight: 50 }}
-                        type='button'
-                        fullWidth
-                        variant='contained'
-                        color='secondary'
-                        className={classes.submit}
-                        onClick={() => {
-                          setRegisterBuyer(true);
-                          handleClickOpen();
-                        }}
-                      >
-                        Buyer
-                      </Button>
-                    </Grid>
-                    <Dialog
-                      open={open}
-                      onClose={handleClose}
-                      aria-labelledby='form-dialog-title'
-                    >
-                      <DialogTitle id='form-dialog-title'>
-                        {registerBuyer
-                          ? 'Sign Up as a Buyer'
-                          : 'Sign Up as a Seller'}
-                      </DialogTitle>
-                      <DialogContent>
-                        {registerBuyer ? (
-                          <form className={classes.form}>
-                            <Grid
-                              container
-                              spacing={1}
-                              style={{
-                                marginBottom: 20
-                              }}
-                            >
-                              <Grid item xs={2} sm={2.7}></Grid>
-                              <Grid item xs={1} sm={5}>
-                                <GoogleLogin
-                                  clientId='1017961095121-u3na2ktuf9i8m0s7ndq0l9ishqpsbfst.apps.googleusercontent.com'
-                                  buttonText='Signup'
-                                  onSuccess={responseGoogle}
-                                  onFailure={responseGoogle}
-                                  cookiePolicy={'single_host_origin'}
-                                  style={{
-                                    borderRightWidth: 1,
-                                    borderRightColor: 'black'
-                                  }}
-                                />
-                              </Grid>
-                              <Grid item xs={1} sm={4}>
-                                <FacebookLogin
-                                  appId='562118384400275'
-                                  fields='name,username,picture'
-                                  scope='public_profile,user_friends'
-                                  callback={responseFacebook}
-                                  icon='fa-facebook'
-                                  textButton='SignUp'
-                                  size='small'
-                                />
-                              </Grid>
-                            </Grid>
-                            <Grid container spacing={2}>
-                              <Grid item xs={12} sm={6}>
-                                <TextField
-                                  name='userName'
-                                  variant='outlined'
-                                  required
-                                  fullWidth
-                                  id='userName'
-                                  label='User Name'
-                                  onChange={(e) => setUsername(e.target.value)}
-                                  autoFocus
-                                />
-                              </Grid>
-                              <Grid item xs={12} sm={6}>
-                                <TextField
-                                  type='password'
-                                  variant='outlined'
-                                  required
-                                  fullWidth
-                                  onChange={(e) => setPassword(e.target.value)}
-                                  id='password'
-                                  label='Password'
-                                  name='password'
-                                />
-                              </Grid>
-                              <Grid item xs={12} sm={6}>
-                                <TextField
-                                  name='firstName'
-                                  variant='outlined'
-                                  required
-                                  fullWidth
-                                  id='firstName'
-                                  label='First Name'
-                                  onChange={(e) => setFirstName(e.target.value)}
-                                  autoFocus
-                                />
-                              </Grid>
-                              <Grid item xs={2} sm={6}>
-                                <TextField
-                                  variant='outlined'
-                                  required
-                                  fullWidth
-                                  onChange={(e) => setLastName(e.target.value)}
-                                  id='lastName'
-                                  label='Last Name'
-                                  name='lastName'
-                                />
-                              </Grid>
-                              <Grid item xs={2} sm={12}>
-                                <TextField
-                                  variant='outlined'
-                                  required
-                                  fullWidth
-                                  onChange={(e) => setAddress(e.target.value)}
-                                  id='address'
-                                  label='Address'
-                                  name='address'
-                                />
-                              </Grid>
-                              <Grid item xs={2} sm={8}>
-                                <RadioGroup
-                                  row
-                                  aria-label='gender'
-                                  name='gender1'
-                                  value={gender}
-                                  onChange={(e) => setGender(e.target.value)}
-                                >
-                                  <FormControlLabel
-                                    value='female'
-                                    control={<Radio />}
-                                    label='Female'
-                                  />
-                                  <FormControlLabel
-                                    value='male'
-                                    control={<Radio />}
-                                    label='Male'
-                                  />
-                                  <FormControlLabel
-                                    value='other'
-                                    control={<Radio />}
-                                    label='Other'
-                                  />
-                                </RadioGroup>
-                              </Grid>
-                              <Grid item xs={2} sm={4}>
-                                <TextField
-                                  variant='outlined'
-                                  required
-                                  fullWidth
-                                  onChange={(e) => setTelephone(e.target.value)}
-                                  id='telephone'
-                                  label='Telephone'
-                                  name='telephone'
-                                />
-                              </Grid>
-                            </Grid>
-                            <Button
-                              type='submit'
-                              fullWidth
-                              variant='contained'
-                              color='primary'
-                              className={classes.submit}
-                              onClick={(event) => handleSignUp(event, 'buyer')}
-                            >
-                              Sign Up
-                            </Button>
-                            <Typography
-                              style={{ fontSize: 15 }}
-                              component='h5'
-                              variant='h5'
-                            >
-                              {stateContext.success
-                                ? stateContext.success
-                                : stateContext.error}
-                            </Typography>
-                          </form>
-                        ) : (
-                          <form className={classes.form}>
-                            <Grid container spacing={2}>
-                              <Grid item xs={12} sm={6}>
-                                <TextField
-                                  name='userName'
-                                  variant='outlined'
-                                  required
-                                  fullWidth
-                                  id='userName'
-                                  label='User Name'
-                                  onChange={(e) => setUsername(e.target.value)}
-                                  autoFocus
-                                />
-                              </Grid>
-                              <Grid item xs={12} sm={6}>
-                                <TextField
-                                  type='password'
-                                  variant='outlined'
-                                  required
-                                  fullWidth
-                                  onChange={(e) => setPassword(e.target.value)}
-                                  id='password'
-                                  label='Password'
-                                  name='password'
-                                />
-                              </Grid>
-                              <Grid item xs={12} sm={6}>
-                                <TextField
-                                  name='companyName'
-                                  variant='outlined'
-                                  required
-                                  fullWidth
-                                  id='companyName'
-                                  label='Company Name'
-                                  onChange={(e) =>
-                                    setComapnyName(e.target.value)
-                                  }
-                                  autoFocus
-                                />
-                              </Grid>
-                              <Grid item xs={2} sm={6}>
-                                <TextField
-                                  variant='outlined'
-                                  required
-                                  fullWidth
-                                  onChange={(e) => setTelephone(e.target.value)}
-                                  id='telephone'
-                                  label='Telephone'
-                                  name='telephone'
-                                />
-                              </Grid>
-                              <Grid item xs={2} sm={12}>
-                                <TextField
-                                  variant='outlined'
-                                  required
-                                  fullWidth
-                                  onChange={(e) => setAddress(e.target.value)}
-                                  id='address'
-                                  label='Address'
-                                  name='address'
-                                />
-                              </Grid>
-                            </Grid>
-                            <Button
-                              type='submit'
-                              fullWidth
-                              variant='contained'
-                              color='primary'
-                              className={classes.submit}
-                              onClick={(event) => handleSignUp(event, 'seller')}
-                            >
-                              Sign Up
-                            </Button>
-                          </form>
-                        )}
-                      </DialogContent>
-                    </Dialog>
-                    <Grid item xs={12} sm={6}>
-                      <Button
-                        style={{ minHeight: 50 }}
-                        type='button'
-                        fullWidth
-                        variant='contained'
-                        color='secondary'
-                        className={classes.submit}
-                        onClick={() => {
-                          setRegisterBuyer(false);
-                          handleClickOpen();
-                        }}
-                      >
-                        Seller
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </form>
-              </div>
-              <Box mt={5}></Box>
-            </CardContent>
-          </Card>
-        ) : (
-          <Card>
-            <CardContent>
-              <CssBaseline />
-              <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                  <LockOpenOutlinedIcon />
-                </Avatar>
-                <Typography component='h1' variant='h4'>
-                  Sign In
-                </Typography>
-                <Link
-                  component='button'
-                  onClick={() => {
-                    setRegister(true);
-                  }}
-                  style={{ marginBottom: '10%', marginTop: '5%' }}
-                >
-                  New User? Sign up here!
-                </Link>
-                <Grid container spacing={1}>
-                  <Grid item xs={2} sm={2.7}></Grid>
-                  <Grid item xs={1} sm={5}>
-                    <GoogleLogin
-                      clientId='1017961095121-u3na2ktuf9i8m0s7ndq0l9ishqpsbfst.apps.googleusercontent.com'
-                      buttonText='Login'
-                      onSuccess={responseGoogle}
-                      onFailure={responseGoogle}
-                      cookiePolicy={'single_host_origin'}
-                    />
-                  </Grid>
-                  <Grid item xs={1} sm={4}>
-                    <FacebookLogin
-                      appId='562118384400275'
-                      fields='name,username,picture'
-                      scope='public_profile,user_friends'
-                      callback={responseFacebook}
-                      icon='fa-facebook'
-                      textButton='Login'
-                      size='small'
-                    />
-                  </Grid>
-                </Grid>
-                <Typography component='h1' variant='h5'>
-                  Or
-                </Typography>
-                <form className={classes.form}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        name='userName'
-                        variant='outlined'
-                        required
-                        fullWidth
-                        id='userName'
-                        label='User Name'
-                        onChange={(e) => setUsername(e.target.value)}
-                        autoFocus
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        type='password'
-                        variant='outlined'
-                        required
-                        fullWidth
-                        onChange={(e) => setPassword(e.target.value)}
-                        id='password'
-                        label='Password'
-                        name='password'
-                      />
-                    </Grid>
-                  </Grid>
-                  <Button
-                    type='submit'
-                    fullWidth
-                    variant='contained'
-                    color='primary'
-                    className={classes.submit}
-                    onClick={(event) => handleSignIn(event)}
+                  <Link
+                    component='button'
+                    onClick={() => {
+                      setRegister(!register);
+                    }}
+                    style={{ marginBottom: '0%', marginTop: '5%' }}
                   >
-                    Sign In
-                  </Button>
-                </form>
-                <Typography
-                  style={{ color: 'red', fontSize: 15 }}
-                  component='h5'
-                  variant='h5'
-                >
-                  {stateContext.error}
+                    Existing User? Sign In here!
+                </Link>
+
+                  <form className={classes.form}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} sm={6}>
+                        <Button
+                          style={{ minHeight: 50 }}
+                          type='button'
+                          fullWidth
+                          variant='contained'
+                          color='#157A6E'
+                          className={classes.submit}
+                          onClick={() => {
+                            setRegisterBuyer(true);
+                            handleClickOpen();
+                          }}
+                        >
+                          Buyer
+                      </Button>
+                      </Grid>
+                      <Dialog
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby='form-dialog-title'
+                      >
+                        <DialogTitle id='form-dialog-title'>
+                          {registerBuyer
+                            ? 'Sign Up as a Buyer'
+                            : 'Sign Up as a Seller'}
+                        </DialogTitle>
+                        <DialogContent>
+                          {registerBuyer ? (
+                            <form className={classes.form}>
+                              <Grid
+                                container
+                                spacing={1}
+                                style={{
+                                  marginBottom: 20
+                                }}
+                              >
+                                <Grid item xs={2} sm={2.7}></Grid>
+                                <Grid item xs={1} sm={5}>
+                                  <GoogleLogin
+                                    clientId='1017961095121-u3na2ktuf9i8m0s7ndq0l9ishqpsbfst.apps.googleusercontent.com'
+                                    buttonText='Signup'
+                                    onSuccess={responseGoogle}
+                                    onFailure={responseGoogle}
+                                    cookiePolicy={'single_host_origin'}
+                                    style={{
+                                      borderRightWidth: 1,
+                                      borderRightColor: 'black'
+                                    }}
+                                  />
+                                </Grid>
+                                <Grid item xs={1} sm={4}>
+                                  <FacebookLogin
+                                    appId='562118384400275'
+                                    fields='name,username,picture'
+                                    scope='public_profile,user_friends'
+                                    callback={responseFacebook}
+                                    icon='fa-facebook'
+                                    textButton='SignUp'
+                                    size='small'
+                                  />
+                                </Grid>
+                              </Grid>
+                              <Grid container spacing={2}>
+                                <Grid item xs={12} sm={6}>
+                                  <TextField
+                                    name='userName'
+                                    variant='outlined'
+                                    required
+                                    fullWidth
+                                    id='userName'
+                                    label='User Name'
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    autoFocus
+                                  />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                  <TextField
+                                    type='password'
+                                    variant='outlined'
+                                    required
+                                    fullWidth
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    id='password'
+                                    label='Password'
+                                    name='password'
+                                  />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                  <TextField
+                                    name='firstName'
+                                    variant='outlined'
+                                    required
+                                    fullWidth
+                                    id='firstName'
+                                    label='First Name'
+                                    onChange={(e) => setFirstName(e.target.value)}
+                                    autoFocus
+                                  />
+                                </Grid>
+                                <Grid item xs={2} sm={6}>
+                                  <TextField
+                                    variant='outlined'
+                                    required
+                                    fullWidth
+                                    onChange={(e) => setLastName(e.target.value)}
+                                    id='lastName'
+                                    label='Last Name'
+                                    name='lastName'
+                                  />
+                                </Grid>
+                                <Grid item xs={2} sm={12}>
+                                  <TextField
+                                    variant='outlined'
+                                    required
+                                    fullWidth
+                                    onChange={(e) => setAddress(e.target.value)}
+                                    id='address'
+                                    label='Address'
+                                    name='address'
+                                  />
+                                </Grid>
+                                <Grid item xs={2} sm={8}>
+                                  <RadioGroup
+                                    row
+                                    aria-label='gender'
+                                    name='gender1'
+                                    value={gender}
+                                    onChange={(e) => setGender(e.target.value)}
+                                  >
+                                    <FormControlLabel
+                                      value='female'
+                                      control={<Radio />}
+                                      label='Female'
+                                    />
+                                    <FormControlLabel
+                                      value='male'
+                                      control={<Radio />}
+                                      label='Male'
+                                    />
+                                    <FormControlLabel
+                                      value='other'
+                                      control={<Radio />}
+                                      label='Other'
+                                    />
+                                  </RadioGroup>
+                                </Grid>
+                                <Grid item xs={2} sm={4}>
+                                  <TextField
+                                    variant='outlined'
+                                    required
+                                    fullWidth
+                                    onChange={(e) => setTelephone(e.target.value)}
+                                    id='telephone'
+                                    label='Telephone'
+                                    name='telephone'
+                                  />
+                                </Grid>
+                              </Grid>
+                              <Button
+                                type='submit'
+                                fullWidth
+                                variant='contained'
+                                color='primary'
+                                className={classes.submit}
+                                onClick={(event) => handleSignUp(event, 'buyer')}
+                              >
+                                Sign Up
+                            </Button>
+                              <Typography
+                                style={{ fontSize: 15 }}
+                                component='h5'
+                                variant='h5'
+                              >
+                                {stateContext.success
+                                  ? stateContext.success
+                                  : stateContext.error}
+                              </Typography>
+                            </form>
+                          ) : (
+                              <form className={classes.form}>
+                                <Grid container spacing={2}>
+                                  <Grid item xs={12} sm={6}>
+                                    <TextField
+                                      name='userName'
+                                      variant='outlined'
+                                      required
+                                      fullWidth
+                                      id='userName'
+                                      label='User Name'
+                                      onChange={(e) => setUsername(e.target.value)}
+                                      autoFocus
+                                    />
+                                  </Grid>
+                                  <Grid item xs={12} sm={6}>
+                                    <TextField
+                                      type='password'
+                                      variant='outlined'
+                                      required
+                                      fullWidth
+                                      onChange={(e) => setPassword(e.target.value)}
+                                      id='password'
+                                      label='Password'
+                                      name='password'
+                                    />
+                                  </Grid>
+                                  <Grid item xs={12} sm={6}>
+                                    <TextField
+                                      name='companyName'
+                                      variant='outlined'
+                                      required
+                                      fullWidth
+                                      id='companyName'
+                                      label='Company Name'
+                                      onChange={(e) =>
+                                        setComapnyName(e.target.value)
+                                      }
+                                      autoFocus
+                                    />
+                                  </Grid>
+                                  <Grid item xs={2} sm={6}>
+                                    <TextField
+                                      variant='outlined'
+                                      required
+                                      fullWidth
+                                      onChange={(e) => setTelephone(e.target.value)}
+                                      id='telephone'
+                                      label='Telephone'
+                                      name='telephone'
+                                    />
+                                  </Grid>
+                                  <Grid item xs={2} sm={12}>
+                                    <TextField
+                                      variant='outlined'
+                                      required
+                                      fullWidth
+                                      onChange={(e) => setAddress(e.target.value)}
+                                      id='address'
+                                      label='Address'
+                                      name='address'
+                                    />
+                                  </Grid>
+                                </Grid>
+                                <Button
+                                  type='submit'
+                                  fullWidth
+                                  variant='contained'
+                                  color='primary'
+                                  className={classes.submit}
+                                  onClick={(event) => handleSignUp(event, 'seller')}
+                                >
+                                  Sign Up
+                            </Button>
+                              </form>
+                            )}
+                        </DialogContent>
+                      </Dialog>
+                      <Grid item xs={12} sm={6}>
+                        <Button
+                          style={{ minHeight: 50 }}
+                          type='button'
+                          fullWidth
+                          variant='contained'
+                          color='#157A6E'
+                          className={classes.submit}
+                          onClick={() => {
+                            setRegisterBuyer(false);
+                            handleClickOpen();
+                          }}
+                        >
+                          Seller
+                      </Button>
+                      </Grid>
+                    </Grid>
+                  </form>
+                </div>
+                <Box mt={5}></Box>
+              </CardContent>
+            </Card>
+          ) : (
+              <Card>
+                <CardContent>
+                  <CssBaseline />
+                  <div className={classes.paper}>
+                    <Avatar className={classes.avatar}>
+                      <LockOpenOutlinedIcon />
+                    </Avatar>
+                    <Typography component='h1' variant='h4'>
+                      Sign In
                 </Typography>
-              </div>
-              <Box mt={5}></Box>
-            </CardContent>
-          </Card>
-        )}
-      </Container>
-    </>
-  );
+
+                    <Link
+                      component='button'
+                      onClick={() => {
+                        setRegister(true);
+                      }}
+                      style={{ marginBottom: '10%', marginTop: '5%' }}
+                    >
+                      New User? Sign up here!
+                </Link>
+                    <Grid container spacing={1}>
+                      <Grid item xs={2} sm={2.7}></Grid>
+                      <Grid item xs={1} sm={5}>
+                        <GoogleLogin
+                          clientId='1017961095121-u3na2ktuf9i8m0s7ndq0l9ishqpsbfst.apps.googleusercontent.com'
+                          buttonText='Login'
+                          onSuccess={responseGoogle}
+                          onFailure={responseGoogle}
+                          cookiePolicy={'single_host_origin'}
+                        />
+                      </Grid>
+                      <Grid item xs={1} sm={4}>
+                        <FacebookLogin
+                          appId='562118384400275'
+                          fields='name,username,picture'
+                          scope='public_profile,user_friends'
+                          callback={responseFacebook}
+                          icon='fa-facebook'
+                          textButton='Login'
+                          size='small'
+                        />
+                      </Grid>
+                    </Grid>
+                    <Typography component='h1' variant='h5'>
+                      Or
+                </Typography>
+                    <form className={classes.form}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6}>
+                          <TextField
+                            name='userName'
+                            variant='outlined'
+                            required
+                            fullWidth
+                            id='userName'
+                            label='User Name'
+                            onChange={(e) => setUsername(e.target.value)}
+                            autoFocus
+                          />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <TextField
+                            type='password'
+                            variant='outlined'
+                            required
+                            fullWidth
+                            onChange={(e) => setPassword(e.target.value)}
+                            id='password'
+                            label='Password'
+                            name='password'
+                          />
+                        </Grid>
+                      </Grid>
+                      <Button
+                        type='submit'
+                        fullWidth
+                        variant='contained'
+                        color='primary'
+                        className={classes.submit}
+                        onClick={(event) => handleSignIn(event)}
+                      >
+                        Sign In
+                  </Button>
+                    </form>
+                    <Typography
+                      style={{ color: 'red', fontSize: 15 }}
+                      component='h5'
+                      variant='h5'
+                    >
+                      {stateContext.error}
+                    </Typography>
+                  </div>
+                  <Box mt={5}></Box>
+                </CardContent>
+              </Card>
+            )}
+        </Container>
+
+
+      </>
+    );
+  }
+  else{
+    return <Redirect to={'/'} />
+  }
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -500,7 +525,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: '#157A6E'
   },
   form: {
     width: '100%', // Fix IE 11 issue.

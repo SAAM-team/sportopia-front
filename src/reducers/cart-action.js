@@ -10,7 +10,9 @@ export const getCartAPI = () => {
       .get(`${api}/cart/getcart`)
       .set('authorization', `Basic ${token}`)
       .then((res) => {
-        dispatch(getCart(res.body.cart));
+        if (res.body){
+          dispatch(getCart(res.body.cart));
+        }
       });
   };
 };
