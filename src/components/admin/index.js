@@ -68,6 +68,8 @@ import {
   cProducts
 } from '../../reducers/admin-count-actions';
 import adminCss from './admin.css';
+import Highcharts from 'highcharts/highmaps';
+import HighchartsReact from 'highcharts-react-official';
 
 // Table Info
 
@@ -155,6 +157,64 @@ export function Admin(props) {
   const classes = useStyles();
 
   // Functions
+
+  const options = {
+    title: {
+      text: 'Browser market shares in January, 2018'
+    },
+    tooltip: {
+      pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+      point: {
+        valueSuffix: '%'
+      }
+    },
+    plotOptions: {
+      pie: {
+        allowPointSelect: true,
+        cursor: 'pointer',
+        dataLabels: {
+          enabled: false
+        },
+        showInLegend: true
+      }
+    },
+    series: [
+      {
+        name: 'Brands',
+        colorByPoint: true,
+        data: [
+          {
+            name: 'Chrome',
+            y: 61.41,
+            sliced: true,
+            selected: true
+          },
+          {
+            name: 'Internet Explorer',
+            y: 11.84
+          },
+          {
+            name: 'Firefox',
+            y: 10.85
+          },
+          {
+            name: 'Edge',
+            y: 4.67
+          },
+          {
+            name: 'Safari',
+            y: 4.18
+          },
+          {
+            name: 'Other',
+            y: 7.05
+          }
+        ]
+      }
+    ]
+  };
 
   const handleChange = (event, value) => {
     setPage(value);
@@ -508,7 +568,13 @@ export function Admin(props) {
           </Button>
         </DialogActions>
       </Dialog>
-
+      <div>
+        <HighchartsReact
+          highcharts={Highcharts}
+          constructorType={'stockChart'}
+          options={options}
+        />
+      </div>
       <Grid
         xs={12}
         container
