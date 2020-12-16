@@ -10,7 +10,7 @@ export const getFavAPI = () => {
       .get(`${api}/favorite/get`)
       .set('authorization', `Basic ${token}`)
       .then((res) => {
-        console.log('res.body.cart',res.body);
+        console.log('Here is your favorite', res.body);
         dispatch(getFav(res.body.product));
       });
   };
@@ -18,17 +18,47 @@ export const getFavAPI = () => {
 
 export const createFav = (product) => {
   return (dispatch) => {
-    // console.log('yallaaa 3aaad');
+    console.log('Adding', `${api}/favorite/add/${product.id}`);
+
     return superagent
       .post(`${api}/favorite/add/${product.id}`)
       .set('authorization', `Basic ${token}`)
       .send({ name: product })
       .then((res) => {
-        console.log(res);
+        console.log('Here is the new fav item: ', res.body);
+        dispatch(addToFav(res.body.product))
       });
   };
 };
 
+export const removeFromFav = (productID) => {
+  console.log('Removing: ', `${api}/favorite/delete/${productID}`);
+  return (dispatch) => {
+    return superagent
+      .patch(`${api}/favorite/delete/${productID}`)
+      .send({ name: productID })
+      .then((res) => {
+        console.log('Here is the deleted fav item: ', res.body);
+        dispatch(removeFromFavDispatch(res.body.product))
+
+      });
+  };
+  // const requestOptions = {
+  //   method: 'PATCH',
+  //   headers: { 'Content-Type': 'application/json', 'authorization': `Basic ${token}` },
+  //   body: JSON.stringify({ productID: productID })
+  // };
+  // return (dispatch) => {
+
+  //   fetch(`${api}/favorite/delete/${productID}`, requestOptions)
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       console.log('Here is the deleted fav item: ', data.body);
+  //       dispatch(removeFromFavDispatch(data.body.product))
+  //     }
+  //     );
+  // }
+};
 
 
 export const getFav = (items) => {
@@ -44,15 +74,9 @@ export const addToFav = (AddedItem) => {
   }
 }
 
-export const removeFromFav = (productID) => {
-  console.log('inside the fav',productID);
-  return (dispatch) => {
-    console.log('yallaaa 3aaad');
-    return superagent
-      .delete(`${api}/favorite/delete/${productID}`)
-      .set('authorization', `Basic ${token}`)
-      .then((res) => {
-        console.log(res);
-      });
-  };
-};
+export const removeFromFavDispatch = (removedItem) => {
+  return {
+    type: 'REMOVE-FAV',
+    payload: removedItem
+  }
+}

@@ -295,6 +295,16 @@ function Header(props) {
                 Admin
               </NavLink>
             </Auth>
+            <Auth role={'seller'}>
+              <NavLink color='inherit' to='/seller'>
+                Seller
+              </NavLink>
+            </Auth>
+            <Auth role={'buyer'}>
+              <NavLink color='inherit' to='/buyer'>
+                Buyer
+              </NavLink>
+            </Auth>
 
             <Tooltip
               placement='top'
@@ -474,7 +484,7 @@ const mapStateToProps = (state) => {
   return {
     categories: state.categories.results,
     cartLength: state.cartData.cartItem.length,
-    favLength: state.favoriteData.favoriteItem.length
+    favLength: state.favoriteData.count
   };
 };
 const mapDispatchToProps = {

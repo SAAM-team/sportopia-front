@@ -8,29 +8,22 @@ export default (state = initialState, action) => {
 
     switch (type) {
         case 'GET-FAV':
-
-            // console.log('payloaaaad--GET cart', payload)
-            // payload.forEach(element => {
-                // console.log('element >',element);
-                // if(state.favoriteItem.length < 3){
-                // state.favoriteItem.push(element)
-                // }
-            //   });
             return {
                 favoriteItem: payload,
-                count: 0
+                count: payload.length,
             }
 
         case 'ADD-FAV':
 
          state.favoriteItem.push(payload);
+         state.payload ++;
             return { ...state };
 
         case 'REMOVE-FAV':
-            state.favoriteItem.splice(payload, 1);
+            let filtered = state.favoriteItem.filter(product => product !== payload);
             return {
-                favoriteItem: payload,
-                count: 0
+                favoriteItem: filtered,
+                count: state.count--
             };
 
         default:
