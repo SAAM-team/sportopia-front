@@ -45,7 +45,6 @@ import {
 // Table Info
 let rowP = [];
 export function Seller(props) {
-  console.log('first Line');
   const [keys, setKeys] = useState([]);
   const [open, setOpen] = useState(false);
   const [product, setProduct] = useState({
@@ -60,26 +59,26 @@ export function Seller(props) {
   });
 
   // Effect
-  useEffect(() => {
-    rowP = [];
-    setKeys(Object.keys(props.products[0]));
-    props.products.forEach((item) => {
-      {
-        rowP.push(
-          createPData(
-            item.id,
-            item.name,
-            item.description,
-            item.main_img,
-            item.price,
-            item.quantity,
-            item.category_id,
-            item.id_bid
-          )
-        );
-      }
-    });
-  }, [props.products]);
+  // useEffect(() => {
+  //   rowP = [];
+  //   setKeys(Object.keys(props.products[0]));
+  //   props.products.forEach((item) => {
+  //     {
+  //       rowP.push(
+  //         createPData(
+  //           item.id,
+  //           item.name,
+  //           item.description,
+  //           item.main_img,
+  //           item.price,
+  //           item.quantity,
+  //           item.category_id,
+  //           item.id_bid
+  //         )
+  //       );
+  //     }
+  //   });
+  // }, [props.products]);
 
   useEffect(() => {
     handleGetAllProducts();

@@ -14,6 +14,7 @@ const validateToken = (token) => {
   }
 };
 let user = validateToken(token);
+console.log('this is the user of seller', user);
 
 export const addProduct = (product) => {
   return (dispatch) => {
@@ -69,9 +70,10 @@ export const deleteProduct = (product) => {
   };
 };
 export const allSellerProducts = () => {
+  console.log('this is the token', token);
   return (dispatch) => {
     return superagent
-      .get(`${API_LINK_Seller}/sellerproducts/${user.user_.id}`)
+      .get(`${API_LINK_Seller}/sellerproduct/${user.user_id}`)
       .set('authorization', `Basic ${token}`)
       .then((res) => {
         console.log('this is the results', res);
