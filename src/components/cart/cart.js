@@ -10,6 +10,7 @@ import {
 
 import { CardMedia, Container, Grid, Card, CardContent, CardActions, Button, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import './cart.css';
 
 
 
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
             listStyle: 'none',
         },
     },
-    
+
     appBar: {
         borderBottom: `1px solid ${theme.palette.divider}`,
     },
@@ -43,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     media: {
         height: 0,
         paddingTop: '100%' // 16:9
-      },
+    },
     grid2: {
         height: '100%',
         display: 'flex',
@@ -70,52 +71,52 @@ const Cart = props => {
     const classes = useStyles();
     return (
         <>
-            <Typography style={{ padding: '10px 0px 5px 10px' }} variant='h4' noWrap>
+            <Typography style={{ padding: '10px 0px 5px 10px', marginTop: '50px' }} variant='h3' align='center' noWrap>
                 Cart
       </Typography>
-      <section className='container'>
+            <section className='containing'>
 
-            {props.cartData.cartItem.map((item, idx) => {
-                console.log('props', props.cartData.cartItem[idx].is_deleted);
-                if (props.cartData.cartItem[idx].is_deleted === false) {
-                    return (
-                        <>
-                            <Container key={idx} maxWidth="md" component="main">
+                {props.cartData.cartItem.map((item, idx) => {
+                    console.log('props', props.cartData.cartItem[idx].is_deleted);
+                    if (props.cartData.cartItem[idx].is_deleted === false) {
+                        return (
+                            <>
+                                <Container key={idx} maxWidth="md" component="main">
 
-                                <Grid className={classes.grid1} container spacing={0} direction="row" justify="center" alignItems="center">
-                                    <Grid className={classes.grid2} container item xs={6} sm={6} lg={6} >
-                                        <Card key={idx} className={classes.card}>
-                                            <CardMedia
-                                                className={classes.media}
-                                                image={item.main_img}
-                                                title={item.id}
-                                            />
-                                            <CardContent >
-                                                <Typography variant="h5" color="textPrimary">
-                                                    {item.name}
-                                                </Typography>
-                                                <Typography variant="p" color="textSecondary">
-                                                    category: {item.category}
-                                                    <br />
+                                    <Grid className={classes.grid1} container spacing={0} direction="row" justify="center" alignItems="center">
+                                        <Grid className={classes.grid2} container item xs={6} sm={6} lg={6} >
+                                            <Card key={idx} className={classes.card}>
+                                                <CardMedia
+                                                    className={classes.media}
+                                                    image={item.main_img}
+                                                    title={item.id}
+                                                />
+                                                <CardContent >
+                                                    <Typography variant="h5" color="textPrimary">
+                                                        {item.name}
+                                                    </Typography>
+                                                    <Typography variant="p" color="textSecondary">
+                                                        category: {item.category}
+                                                        <br />
                                             price:  {item.price}
-                                                </Typography>
-                                            </CardContent>
-                                            <CardActions>
-                                                <Button key={idx} style={{ fontSize: '0.9rem' }} color="secondary" onClick={() => removeFromCart(item.id)} >Remove</Button>
-                                            </CardActions>
-                                        </Card>
+                                                    </Typography>
+                                                </CardContent>
+                                                <CardActions>
+                                                    <Button key={idx} style={{ fontSize: '0.9rem' }} color="secondary" onClick={() => removeFromCart(item.id)} >Remove</Button>
+                                                </CardActions>
+                                            </Card>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
-                            </Container>
+                                </Container>
 
-                        </>
-                    )
+                            </>
+                        )
+                    }
                 }
-            }
 
-            )}
+                )}
 
-</section>
+            </section>
         </>
     )
 }

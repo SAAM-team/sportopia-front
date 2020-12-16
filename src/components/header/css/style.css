@@ -314,6 +314,7 @@ textarea.input {
 .section {
   padding-top: 30px;
   padding-bottom: 30px;
+  margin-top: 40px;
 }
 
 .section-title {
@@ -432,7 +433,7 @@ textarea.input {
 
 #top-header {
   padding-top: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 0px;
   background-color: #1E1F29;
 }
 
@@ -1061,13 +1062,13 @@ textarea.input {
   border: 2px solid transparent;
   height: 40px;
   padding: 0 30px;
-  background-color: #157A6E;
   color: #FFF;
   text-transform: uppercase;
   font-weight: 700;
   border-radius: 40px;
   -webkit-transition: 0.2s all;
   transition: 0.2s all;
+  background-color: #157A6E;
 }
 
 .product .add-to-cart .add-to-cart-btn>i {

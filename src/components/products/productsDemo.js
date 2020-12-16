@@ -39,7 +39,7 @@ import './css/slick-theme.css';
 
 import cookies from 'react-cookies';
 import Slider from "react-slick";
-
+import '../../components/signin.css'
 
 // const useStyles = makeStyles((theme) => ({
 //   root: {
@@ -81,6 +81,22 @@ function Products(props) {
   };
   return (
     <>
+     {/* <section>
+            <div class="animatedBox">
+                <div id="orderForm">
+                    
+                    
+                   
+                    <a href="#">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <p>helloo</p>
+                    </a>
+                </div>
+            </div>
+        </section> */}
       <div className="section">
 
         <div className="container">
@@ -195,7 +211,7 @@ function Products(props) {
                               </div>
                             </div>
                             <div className="add-to-cart">
-                              <button className="add-to-cart-btn"><i className="fa fa-shopping-cart"></i> add to cart</button>
+                              <button className="add-to-cart-btn" style={{backgroundColor: '#157A6E', color:' #FFF'}}><i className="fa fa-shopping-cart"></i> add to cart</button>
                             </div>
                           </div>
                           )
