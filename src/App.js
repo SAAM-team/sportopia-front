@@ -1,6 +1,5 @@
 import Header from './components/header/headerDemo';
 import Products from './components/products/productsDemo';
-import { EachCategory } from './components/circle/circle';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import CategoryProds from './components/category-prods/category-prodsDemo';
 import BiddingMain from './components/bidding/bidding-main';
@@ -10,7 +9,7 @@ import SignIn from './components/signin';
 import Admin from './components/admin/index';
 import SingleProduct from './components/singleProduct/single';
 import PayPal from './components/paypal/paypal';
-import Cart from './components/cart/cart';
+import Cart from './components/cart/cartDemo';
 import Favorite from './components/favorite/favorite';
 import Seller from './components/seller/seller';
 import Footer from './components/footer/footer';

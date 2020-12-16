@@ -47,7 +47,7 @@ export function ProductDetails(props) {
 
   // Functions
 let releated =[];
-console.log(props.selectedProduct,'props.selectedProduct');
+// console.log(props.selectedProduct,'props.selectedProduct');
  props.allProducts.map((product)=>{
   if(props.selectedProduct[0].category_id === product.category_id){
 releated.push(product)

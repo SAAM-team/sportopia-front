@@ -13,10 +13,23 @@
   display: grid ;
   grid-template-columns: auto auto ;
   align-items: center;
+  /* justify-content: ;     */
+  gap:0px;
+  background-color: #1E1F29;
+
+}
+.form{
+  display: grid ;
+  grid-template-columns: auto auto ;
+  align-items: center;
   justify-content: space-between;    
   gap:2px;
   background-color: #1E1F29;
 
+}
+.centering{
+  margin: 0 auto;
+  padding: 50px;
 }
 /*
 Template Name: Electro - HTML Ecommerce Template
@@ -76,7 +89,7 @@ Table OF Contents
 \*----------------------------*/
 
 body {
-  font-family: 'Montserrat', sans-serif;
+  /* font-family: 'Montserrat', sans-serif; */
   font-weight: 400;
   color: #333;
 }
@@ -314,7 +327,6 @@ textarea.input {
 .section {
   padding-top: 30px;
   padding-bottom: 30px;
-  margin-top: 40px;
 }
 
 .section-title {
@@ -483,7 +495,7 @@ textarea.input {
 \*----------------------------*/
 
 .header-search {
-  padding: 15px 0px;
+  padding: 2px 0px;
 }
 
 .header-search form {
@@ -2120,11 +2132,13 @@ textarea.input {
 }
 
 .slick-prev {
-  left: -20px;
+  left: 20px;
+  margin-left: 20px;
 }
 
 .slick-next {
-  right: -20px;
+  right: 20px;
+  margin-right: 20px;
 }
 
 /*----------------------------*\

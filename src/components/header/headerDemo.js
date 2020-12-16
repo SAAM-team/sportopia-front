@@ -215,7 +215,7 @@ function Header(props) {
                       <ListItemAvatar>
                         <Avatar
                           alt=""
-                          style={{ width: "70px", height: "70px" }}
+                          style={{ width: "50px", height: "50px" }}
                           src={logo}
                         />
                       </ListItemAvatar>
@@ -232,15 +232,18 @@ function Header(props) {
                   <form>
                     <input
                       className="input"
-                      style={{ borderRadius: "40px 0px 0px 40px" }}
+                      style={{ display: 'inline', marginRight: '4px', borderRadius: "40px 40px 40px 40px" }}
                       placeholder="Search here"
                     ></input>
-                    <button className="search-btn">Search</button>
+                    <button
+                      style={{height:'42px', borderRadius: "40px 40px 40px 40px" }}
+
+                      className="search-btn">Search</button>
                   </form>
                 </div>
               </div>
               {/* ................................icons........................................ */}
-              <div className="col-md-3 ">
+              <div className="col-md-3 "style={{marginTop:'10px'}}>
                 <div className=" headerGrid">
                   <div>
                     <Auth role={"admin"}>
@@ -253,24 +256,26 @@ function Header(props) {
                       </NavLink>
                     </Auth>
                   </div>
-                  <div>
-                    <Tooltip
-                      placement="top"
-                      arrow
-                      TransitionComponent={Zoom}
-                      title="bids list"
-                    >
-                      <IconButton
-                        aria-label="show 17 new notifications"
-                        color="inherit"
-                        style={{ color: "white" }}
+                  <NavLink to={"/bidding"} style={{ color: "white" }}>
+                    <div>
+                      <Tooltip
+                        placement="top"
+                        arrow
+                        TransitionComponent={Zoom}
+                        title="bids list"
                       >
-                        <Badge badgeContent={17} color="secondary">
-                          <GavelRoundedIcon style={{ fontSize: 25 }} />
-                        </Badge>
-                      </IconButton>
-                    </Tooltip>
-                  </div>
+                        <IconButton
+                          aria-label="show 17 new notifications"
+                          color="inherit"
+                          style={{ color: "white" }}
+                        >
+                          <Badge badgeContent={17} color="secondary">
+                            <GavelRoundedIcon style={{ fontSize: 25 }} />
+                          </Badge>
+                        </IconButton>
+                      </Tooltip>
+                    </div>
+                  </NavLink>
                   <div>
                     <NavLink to={"/favorite"} style={{ color: "white" }}>
                       <Tooltip

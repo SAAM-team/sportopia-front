@@ -1,5 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import background from "./header/assets/onlineShopping.png";
+
 import {
   Avatar,
   Card,
@@ -88,9 +90,11 @@ export default function SignIn() {
 
   return (
     <>
-      <Container style={{marginTop:'50px'}} component='main' maxWidth='xs'>
+    <div style={{ backgroundImage: `url(${background})` }}>
+    <div style={{padding:'50px'}}>
+      <Container component='main' maxWidth='xs'>
         {register ? (
-          <Card>
+          <Card style={{backgroundColor:'#1e1f2941'}}>
             <CardContent>
               <CssBaseline />
               <div className={classes.paper}>
@@ -391,7 +395,7 @@ export default function SignIn() {
             </CardContent>
           </Card>
         ) : (
-          <Card>
+          <Card style={{backgroundColor:'#1e1f2941'}}>
             <CardContent>
               <CssBaseline />
               <div className={classes.paper}>
@@ -488,8 +492,8 @@ export default function SignIn() {
           </Card>
         )}
       </Container>
-
-     
+      </div>
+      </div>
     </>
   );
 }
