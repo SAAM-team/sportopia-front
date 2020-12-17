@@ -7,6 +7,7 @@ export default (state = initState, action) => {
   const { type, payload } = action;
   switch (type) {
     case 'GET_SELLERS_PRODUCT':
+      console.log('this is the payload', payload);
       return {
         sellersProducts: payload
       };

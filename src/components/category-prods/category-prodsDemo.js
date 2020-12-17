@@ -16,6 +16,14 @@ import "./category-prods.css";
 import React, { useEffect } from "react";
 import { activeCategory } from "../../reducers/categories-action";
 import { getRemoteData } from "../../reducers/product-action ";
+import {
+  createCart,
+  addToCart,
+} from '../../reducers/cart-action';
+import {
+  createFav,
+  addToFav,
+} from '../../reducers/favorit-action';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -83,6 +91,7 @@ const Products = (props) => {
                 {props.products.map((product) => {
                   return (
                     <div class="col-md-4 col-xs-6 centering">
+
                       <div class="product">
                         <div class="product-img">
                           <img src={product.main_img} alt=""></img>
@@ -135,6 +144,7 @@ const Products = (props) => {
                         <div class="add-to-cart">
                           <button class="add-to-cart-btn">
                             <i class="fa fa-shopping-cart"></i> add to cart
+
                       </button>
                         </div>
                       </div>

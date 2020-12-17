@@ -16,6 +16,7 @@ import "./category-prods.css";
 import React, { useEffect } from "react";
 import { activeCategory } from "../../reducers/categories-action";
 import { getRemoteData } from "../../reducers/product-action ";
+import {createFav} from '../../reducers/favorit-action'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,7 +99,8 @@ hii
                   placement="top"
                   arrow
                   TransitionComponent={Zoom}
-                  title="add to favorite"
+                  title='Add to favorite'
+                  onClick={()=>props.createFav(product)}
                 >
                   <IconButton aria-label="show 4 new mails" color="inherit">
                     <Badge badgeContent={0} color="secondary">
@@ -111,7 +113,8 @@ hii
                   placement="top"
                   arrow
                   TransitionComponent={Zoom}
-                  title="add to cart"
+                  title="Add to cart"
+                  onClick={() => addToCart(product.p_id)}
                 >
                   <IconButton aria-label="show 4 new mails" color="inherit">
                     <Badge badgeContent={0} color="secondary">
@@ -137,6 +140,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = { activeCategory, getRemoteData };
+const mapDispatchToProps = { activeCategory, getRemoteData,createFav};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Products);

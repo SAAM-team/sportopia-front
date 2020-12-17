@@ -16,18 +16,9 @@ import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 import Button from '@material-ui/core/Button';
 import { NavLink } from 'react-router-dom';
 // import Carousel from '../carousel/carousel';
-import {
-  createCart,
-  addToCart,
-} from '../../reducers/cart-action';
-import {
-
-  activeCategory
-} from '../../reducers/categories-action';
-import {
-  createFav,
-  addToFav,
-} from '../../reducers/favorit-action';
+import { createCart, addToCart } from '../../reducers/cart-action';
+import { activeCategory } from '../../reducers/categories-action';
+import { createFav, addToFav } from '../../reducers/favorit-action';
 import './css/style.css';
 import './css/bootstrap.min.css';
 import './css/font-awesome.min.css';
@@ -37,8 +28,8 @@ import './css/slick.css';
 // import './css/slick-theme.css';
 
 import cookies from 'react-cookies';
-import Slider from "react-slick";
-import '../../components/signin.css'
+import Slider from 'react-slick';
+import '../../components/signin.css';
 
 // const useStyles = makeStyles((theme) => ({
 //   root: {
@@ -61,15 +52,15 @@ function Products(props) {
   // const classNamees = useStyles();
   console.log('props', props);
   const { setSingleProductId } = useContext(StateContext);
-  const selectedProductId = (p_id) => { };
+  const selectedProductId = (p_id) => {};
 
   useEffect(() => {
-    props.getRemoteData();
+    // props.getRemoteData();
   }, []);
   const saveCategoryId = (id) => {
     cookies.save('cId', id);
     props.activeCategory(id);
-  }
+  };
   var settings = {
     // dots: true,
     infinite: true,
@@ -90,83 +81,101 @@ function Products(props) {
               <div className="shop">
                 <div className="shop-img">
                   <img src="https://www.thedailymba.com/wp-content/uploads/2020/11/pexels-photo-1061640.jpeg" alt=""></img>
+
                 </div>
-                <NavLink color='inherit' to={`/category/2`}
+                <NavLink
+                  color='inherit'
+                  to={`/category/2`}
                   onClick={() => {
                     saveCategoryId(props.categories.id);
                     // props.getRemoteData()
-                  }}>
-                  <div className="shop-body">
-                    <h3>Camping<br></br>Collection</h3>
-                    <a href="#" className="cta-btn">Shop now <i className="fa fa-arrow-circle-right"></i></a>
+                  }}
+                >
+                  <div className='shop-body'>
+                    <h3>
+                      Camping<br></br>Collection
+                    </h3>
+                    <a href='#' className='cta-btn'>
+                      Shop now <i className='fa fa-arrow-circle-right'></i>
+                    </a>
                   </div>
                 </NavLink>
               </div>
             </div>
 
-
-
-            <div className="col-md-4 col-xs-6">
-              <div className="shop">
-                <div className="shop-img">
-                  <img src="https://www.vmcdn.ca/f/files/halifaxtoday/images/outdoors/060420-cottage-dock-fishing-fish-sportfishing-adobestock_242597321.jpeg;w=960" alt=""></img>
+            <div className='col-md-4 col-xs-6'>
+              <div className='shop'>
+                <div className='shop-img'>
+                  <img
+                    src='https://www.vmcdn.ca/f/files/halifaxtoday/images/outdoors/060420-cottage-dock-fishing-fish-sportfishing-adobestock_242597321.jpeg;w=960'
+                    alt=''
+                  ></img>
                 </div>
-                <NavLink color='inherit' to={`/category/8`}
+                <NavLink
+                  color='inherit'
+                  to={`/category/8`}
                   onClick={() => {
                     saveCategoryId(props.categories.id);
                     // props.getRemoteData()
-                  }}>
-
-                  <div className="shop-body">
-                    <h3>Fishing<br></br>Collection</h3>
-                    <a href="#" className="cta-btn">Shop now <i className="fa fa-arrow-circle-right"></i></a>
+                  }}
+                >
+                  <div className='shop-body'>
+                    <h3>
+                      Fishing<br></br>Collection
+                    </h3>
+                    <a href='#' className='cta-btn'>
+                      Shop now <i className='fa fa-arrow-circle-right'></i>
+                    </a>
                   </div>
                 </NavLink>
               </div>
             </div>
 
-
-
-            <div className="col-md-4 col-xs-6">
-              <div className="shop">
-                <div className="shop-img">
-                  <img src="https://i2.wp.com/ihearthorses.com/wp-content/uploads/2016/07/Canva-Portrait-of-Female-jockey-and-girl-sitting-horseback-riding-scaled.jpg" alt=""></img>
+            <div className='col-md-4 col-xs-6'>
+              <div className='shop'>
+                <div className='shop-img'>
+                  <img
+                    src='https://i2.wp.com/ihearthorses.com/wp-content/uploads/2016/07/Canva-Portrait-of-Female-jockey-and-girl-sitting-horseback-riding-scaled.jpg'
+                    alt=''
+                  ></img>
                 </div>
-                <NavLink color='inherit' to={`/category/6`}
+                <NavLink
+                  color='inherit'
+                  to={`/category/6`}
                   onClick={() => {
                     saveCategoryId(props.categories.id);
                     // props.getRemoteData()
-                  }}>
-                  <div className="shop-body">
-                    <h3>Horse Riding<br></br>Collection</h3>
-                    <a href="#" className="cta-btn">Shop now <i className="fa fa-arrow-circle-right"></i></a>
+                  }}
+                >
+                  <div className='shop-body'>
+                    <h3>
+                      Horse Riding<br></br>Collection
+                    </h3>
+                    <a href='#' className='cta-btn'>
+                      Shop now <i className='fa fa-arrow-circle-right'></i>
+                    </a>
                   </div>
                 </NavLink>
               </div>
             </div>
-
           </div>
-
         </div>
-
       </div>
       {/* ....................................................... new products ............................................................. */}
-      <div className="section">
-        <div className="container">
-          <div className="row">
-
-            <div className="col-md-12">
-              <div className="section-title">
-                <h3 className="title">New Products</h3>
-
+      <div className='section'>
+        <div className='container'>
+          <div className='row'>
+            <div className='col-md-12'>
+              <div className='section-title'>
+                <h3 className='title'>New Products</h3>
               </div>
             </div>
 
-            <div className="col-md-12">
-              <div className="row">
-                <div className="products-tabs">
-                  <div id="tab1" className="tab-pane active">
-                    <div className="products-slick" data-nav="#slick-nav-1">
+            <div className='col-md-12'>
+              <div className='row'>
+                <div className='products-tabs'>
+                  <div id='tab1' className='tab-pane active'>
+                    <div className='products-slick' data-nav='#slick-nav-1'>
                       <Slider {...settings}>
                         {props.products.map((product) => {
                           return (
@@ -222,11 +231,11 @@ function Products(props) {
                               </div>
                             </div>
                           )
-                        })}
 
+                        })}
                       </Slider>
                     </div>
-                    <div id="slick-nav-1" className="products-slick-nav"></div>
+                    <div id='slick-nav-1' className='products-slick-nav'></div>
                   </div>
                 </div>
               </div>
