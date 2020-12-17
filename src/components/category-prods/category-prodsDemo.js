@@ -90,7 +90,8 @@ const Products = (props) => {
               <div class="row">
                 {props.products.map((product) => {
                   return (
-                    <div class="col-md-4 col-xs-6">
+                    <div class="col-md-4 col-xs-6 centering">
+
                       <div class="product">
                         <div class="product-img">
                           <img src={product.main_img} alt=""></img>
@@ -141,9 +142,9 @@ const Products = (props) => {
                           </div>
                         </div>
                         <div class="add-to-cart">
-                          <button class="add-to-cart-btn" onClick={() => addToCart(product.p_id)}
-                          >
-                            <i class="fa fa-shopping-cart"></i> Add to cart
+                          <button class="add-to-cart-btn">
+                            <i class="fa fa-shopping-cart"></i> add to cart
+
                       </button>
                         </div>
                       </div>

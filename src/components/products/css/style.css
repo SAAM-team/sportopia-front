@@ -2109,11 +2109,11 @@ textarea.input {
 }
 
 .slick-prev {
-  left: -20px;
+  left: 20px;
 }
 
 .slick-next {
-  right: -20px;
+  right: 20px;
 }
 
 /*----------------------------*\

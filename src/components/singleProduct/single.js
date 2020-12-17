@@ -47,7 +47,7 @@ export function ProductDetails(props) {
 
   // Functions
 let releated =[];
-console.log(props.selectedProduct,'props.selectedProduct');
+// console.log(props.selectedProduct,'props.selectedProduct');
  props.allProducts.map((product)=>{
   if(props.selectedProduct[0].category_id === product.category_id){
 releated.push(product)
@@ -249,7 +249,7 @@ console.log(releated);
                     <div id="product-tab">
                       <ul className="tab-nav">
                         <li className="active">
-                          <a data-toggle="tab" href="#tab1">
+                          <a data-toggle="tab" >
                             Description
                           </a>
                         </li>
@@ -269,7 +269,7 @@ console.log(releated);
                         <div id="tab1" className="tab-pane fade in active">
                           <div className="row">
                             <div className="col-md-12">
-                              <p>
+                              <p style={{color:"black"}}>
                               {product.description}
                                 Lorem ipsum dolor sit amet, consectetur
                                 adipisicing elit, sed do eiusmod tempor
@@ -285,8 +285,8 @@ console.log(releated);
                             </div>
                           </div>
                         </div>
-
-                        <div id="tab2" className="tab-pane fade in">
+                        
+                        {/* <div id="tab2" className="tab-pane fade in">
                           <div className="row">
                             <div className="col-md-12">
                               <p>
@@ -303,8 +303,8 @@ console.log(releated);
                                 qui officia deserunt mollit anim id est laborum.
                               </p>
                             </div>
-                          </div>
-                        </div>
+                          </div> */}
+                        {/* </div> */}
 
                         <div id="tab3" className="tab-pane fade in">
                           <div className="row">
