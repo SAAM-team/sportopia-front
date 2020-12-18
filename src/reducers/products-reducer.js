@@ -1,12 +1,10 @@
-import cookies from 'react-cookies';
-
 let initialState = {
   results: [],
+  selectedProduct: [],
   activeProducts: [],
-  selectedProduct: []
+  buyProduct: [],
+  redirectURL: {},
 };
-let cId = cookies.load('cId');
-
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state = initialState, action) => {
   const { type, payload } = action;
@@ -15,8 +13,19 @@ export default (state = initialState, action) => {
     case 'GET_P':
       return {
         results: payload,
+        activeProducts: state.activeProducts,
         selectedProduct: state.selectedProduct,
-        activeProducts: payload
+        buyProduct: state.buyProduct,
+        redirectURL: state.redirectURL,
+      };
+    case 'GetSingleProductID':
+      console.log('pay load in the reducer for single product', payload);
+      return {
+        results: state.results,
+        selectedProduct: payload,
+        activeProducts: state.activeProducts,
+        buyProduct: state.buyProduct,
+        redirectURL: state.redirectURL,
       };
     case 'ACTIVE':
       let filterdProducts = state.results.filter(
@@ -24,8 +33,18 @@ export default (state = initialState, action) => {
       );
       return {
         results: state.results,
+        selectedProduct: state.selectedProduct,
         activeProducts: filterdProducts,
-        selectedProduct: state.selectedProduct
+        buyProduct: state.buyProduct,
+        redirectURL: state.redirectURL,
+      };
+    case 'buyingProduct':
+      return {
+        results: state.results,
+        selectedProduct: state.selectedProduct,
+        activeProducts: state.activeProducts,
+        buyProduct: state.buyProduct,
+        redirectURL: payload,
       };
     case 'DEC-Stock':
       state.results.forEach((item) => {
@@ -39,18 +58,13 @@ export default (state = initialState, action) => {
         if (item.name === payload.name) item.inStock++;
       });
       return { ...state };
-    case 'GetSingleProductID':
-      return {
-        results: state.results,
-        selectedProduct: payload,
-        activeProducts: state.activeProducts
-      };
-
     default:
       return {
         results: state.results,
         selectedProduct: state.selectedProduct,
-        activeProducts: state.activeProducts
+        activeProducts: state.activeProducts,
+        buyProduct: state.buyProduct,
+        redirectURL: state.redirectURL,
       };
   }
 };
